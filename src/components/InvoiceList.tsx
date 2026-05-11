@@ -10,7 +10,7 @@ export default function InvoiceList() {
             <div className="flex gap-[44px] l">
                 <button className="text-[#0C0E16] text-[15px] font-bold">
                     Filter by Status 
-                    <i class="fa-solid fa-angle-down text-[#7C5DFA] ml-[10px] "></i>  
+                    <i className="fa-solid fa-angle-down text-[#7C5DFA] ml-[10px] "></i>  
                 </button>
                 <button className="bg-[#7C5DFA] text-[15px] font-bold text-white px-[8px] py-[10px] rounded-[20px] ">
                     <span className="text-[#7C5DFA] bg-white px-[9px] py-[4px] font-bold text-[18px] rounded-[50%] mr-[11px] ">+</span>

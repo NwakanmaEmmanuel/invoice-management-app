@@ -9,7 +9,7 @@ function Sidebar() {
         {/* <div className='h-2 w-3 bg-red-400'></div> */}
         {/* <i className="fa-regular fa-moon h-8 w-7"></i> */}
         
-        <i class="fa-solid fa-moon text-[#7E88C3] text-lg cursor-pointer"></i>
+        <i className="fa-solid fa-moon text-[#7E88C3] text-lg cursor-pointer"></i>
         <p className='h-[1px] bg-[#494E6E] w-[103px]'></p>
         <img className=' ' src={profile} alt="" />
       </div>
