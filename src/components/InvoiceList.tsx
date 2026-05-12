@@ -1,6 +1,7 @@
 import invoices from "../data/invoice";
 import { formatDate } from "../utils/helpers";
-import emailIcon from "../assets/Email campaign_Flatline.png"
+import emailIcon from "../assets/Email campaign_Flatline.png";
+import { Link } from "react-router-dom";
 
 
 export default function InvoiceList() {
@@ -37,7 +38,10 @@ export default function InvoiceList() {
             <div className="mt-12 flex flex-col   gap-7">
 
                 {invoices.map((invoice) => 
-                <div className=" grid grid-cols-[150px_1fr_1fr_150px_100px_40px] shadow-[0px_10px_10px_-10px_#48549F1A]  items-center  bg-[#FFFFFF] rounded-lg px-[32px] py-[15px] ">
+
+                <Link
+                to={`invoice/${invoice.id}`}
+                className=" grid grid-cols-[150px_1fr_1fr_150px_100px_40px] shadow-[0px_10px_10px_-10px_#48549F1A] cursor-pointer  items-center  bg-[#FFFFFF] rounded-lg px-[32px] py-[15px] ">
                     <h1 className="text-[15px] font-bold">
                         <span className="text-[#7E88C3]">#</span>
                         {invoice.id}</h1>
@@ -49,7 +53,7 @@ export default function InvoiceList() {
                             <span className=" h-[8px] bg-current w-[8px] rounded-md inline-block border-solid border mr-1.5"></span>{invoice.status}
                         </button>
                         <i className="fa-solid fa-angle-right  flex justify-center items-center"></i>
-                </div>
+                </Link>
                 )}
             </div>
 
