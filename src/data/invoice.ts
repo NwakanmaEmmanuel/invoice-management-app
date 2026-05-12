@@ -2,7 +2,7 @@ import { Invoice } from "../types/invoice";
 
 const invoices: Invoice[] = [
   {
-    id: '#RT3080',
+    id: 'RT3080',
     createdAt: '2021-08-18',
     paymentDue: '2021-08-19',
     description: 'Re-branding',
@@ -18,7 +18,7 @@ const invoices: Invoice[] = [
     total:  1800.90,
   },
   {
-    id: '#XM9141',
+    id: 'XM9141',
     createdAt: '2021-08-21',
     paymentDue: '2021-09-20',
     description: 'Graphic Design',
@@ -35,7 +35,7 @@ const invoices: Invoice[] = [
     total: 556.00,
   },
   {
-    id: '#RG0314',
+    id: 'RG0314',
     createdAt: '2021-09-01',
     paymentDue: '2021-10-01',
     description: 'Website Redesign',
@@ -51,7 +51,7 @@ const invoices: Invoice[] = [
     total: 14002.33,
   },
   {
-    id: '#RT2080',
+    id: 'RT2080',
     createdAt: '2021-09-12',
     paymentDue: '2021-10-12',
     description: 'Logo Concept',
@@ -67,7 +67,7 @@ const invoices: Invoice[] = [
     total: 102.04,
   },
   {
-    id: '#AA1449',
+    id: 'AA1449',
     createdAt: '2021-09-14',
     paymentDue: '2021-10-14',
     description: 'Re-branding',
@@ -84,7 +84,7 @@ const invoices: Invoice[] = [
     total: 4032.33,
   },
   {
-    id: '#TY9141',
+    id: 'TY9141',
     createdAt: '2021-10-01',
     paymentDue: '2021-10-31',
     description: 'Landing Page Design',
@@ -100,7 +100,7 @@ const invoices: Invoice[] = [
     total: 6155.91,
   },
   {
-    id: '#FV2353',
+    id: 'FV2353',
     createdAt: '2021-11-12',
     paymentDue: '2021-12-12',
     description: 'Logo Re-design',
