@@ -2,6 +2,7 @@ import React from 'react'
 import { useParams } from 'react-router-dom';
 import invoices from '../data/invoice';
 import { formatDate } from '../utils/helpers';
+import { useNavigate } from 'react-router-dom';
 
 function InvoiceDetails() {
 
@@ -16,25 +17,27 @@ function InvoiceDetails() {
     Draft: "bg-[#373B53]/10 text-[#373B53]",
     }
 
+  const navigate = useNavigate()
+
   return (
     <div className='mt-12 '>
-      <div className='flex items-center gap-3'>
+      <div className='flex items-center gap-3 cursor-pointer' onClick={ () => navigate(-1)}>
         <i className="fa-solid fa-angle-left font-extrabold  text-[#7C5DFA]"></i>
         <h1 className='text-[15px] text-[#0C0E16] font-bold'>Go Back</h1>
       </div>
 
-      <div className='bg-[#FFFFFF] shadow-[0px_10px_10px_-10px_#48549F1A] flex items-center justify-center gap-[220px] rounded-lg px-7 py-7 mt-10'>
+      <div className='bg-[#FFFFFF] shadow-[0px_10px_10px_-10px_#48549F1A] flex items-center justify-between rounded-lg px-7 py-7 mt-10'>
         <div className="flex items-center gap-5">
           <p className='text-[#858BB2] font-medium'>Status</p>
           <button className={`${statusStyles[invoice.status]}   text-[15px] font-bold px-2 py-2 rounded-md `}>
-            <span className=" h-[8px] bg-current w-[8px] rounded-md inline-block border-solid border mr-1.5"></span>{invoice.status}
+            <span className=" h-[8px] bg-current w-[8px] rounded-full inline-block border-solid border mr-1.5"></span>{invoice.status}
           </button>
         </div>
 
         <div className='flex gap-2'>
-          <button className='bg-[#7E88C3]/10 font-bold text-[15px] rounded-3xl px-5 py-3 text-[#7E88C3]'>Edit</button>
+          <button className='bg-[#7E88C3]/10 font-bold text-[15px] rounded-3xl px-5 py-3 text-[#7E88C3] hover:bg-[#DFE3FA]'>Edit</button>
           <button className='bg-[#EC5757] text-[15px] font-bold px-7 py-3.5 rounded-3xl text-white hover:bg-[#FF9797] '>Delete</button>
-          <button className='bg-[#7C5DFA] text-[15px] font-bold px-7 py-3.5 text-white rounded-3xl'>Mark as Paid</button>
+          <button className='bg-[#7C5DFA] text-[15px] font-bold px-7 py-3.5 text-white rounded-3xl hover:bg-[#9277FF]'>Mark as Paid</button>
         </div>
       </div>
 
@@ -75,6 +78,48 @@ function InvoiceDetails() {
             <p className='text-[13px] font-medium text-[#7E88C3] mb-[2px]'>{invoice.senderAddress.city}</p>
             <p className='text-[13px] font-medium text-[#7E88C3] mb-[2px]'>{invoice.senderAddress.postCode}</p>
             <p className='text-[13px] font-medium text-[#7E88C3] mb-[2px]'>{invoice.senderAddress.country}</p>
+          </div>
+        </div>
+
+        <div className='bg-[#F9FAFE] mt-12 rounded-tl-[8px] rounded-tr-[8px] pt-10'>   
+          <div className='grid grid-cols-4 px-6 mb-8'>
+            <p className='text-[13px] font-medium text-[#7E88C3]'>Item Name</p>
+            <p className='text-[13px] font-medium text-[#7E88C3]'>QTY.</p>
+            <p className='text-[13px] font-medium text-[#7E88C3]'>Price</p>
+            <p className='text-[13px] font-medium text-[#7E88C3]'>Total</p>
+          </div>
+
+          {invoice.items.map((item, index) => (
+            <div
+              key={index}
+              className='grid grid-cols-4 px-6 items-center mb-8'
+            >
+              <h1 className='text-[15px] font-bold text-[#0C0E16]'>
+                {item.name}
+              </h1>
+
+              <p className='text-[15px] font-bold text-[#7E88C3]'>
+                {item.quantity}
+              </p>
+
+              <p className='text-[15px] font-bold text-[#7E88C3]'>
+                £ {item.price}
+              </p>
+
+              <p className='text-[15px] font-bold text-[#0C0E16]'>
+                £ {item.total}
+              </p>
+            </div>
+          ))}
+
+          <div className='bg-[#373B53] rounded-br-lg rounded-bl-lg flex items-center px-6 py-8 justify-between'>
+            <p className='text-[13px] font-medium text-white'>
+              Amount Due
+            </p>
+
+            <h1 className='text-[24px] font-bold text-white'>
+              £ {invoice.total}
+            </h1>
           </div>
         </div>
       </div>
