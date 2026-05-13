@@ -1,6 +1,7 @@
 import React from 'react'
 import { useParams } from 'react-router-dom';
 import invoices from '../data/invoice';
+import { formatDate } from '../utils/helpers';
 
 function InvoiceDetails() {
 
@@ -16,13 +17,13 @@ function InvoiceDetails() {
     }
 
   return (
-    <div className='mt-12'>
+    <div className='mt-12 '>
       <div className='flex items-center gap-3'>
         <i className="fa-solid fa-angle-left font-extrabold  text-[#7C5DFA]"></i>
         <h1 className='text-[15px] text-[#0C0E16] font-bold'>Go Back</h1>
       </div>
 
-      <div className='bg-[#FFFFFF] flex items-center justify-center gap-[220px] rounded-lg px-7 py-7 mt-10'>
+      <div className='bg-[#FFFFFF] shadow-[0px_10px_10px_-10px_#48549F1A] flex items-center justify-center gap-[220px] rounded-lg px-7 py-7 mt-10'>
         <div className="flex items-center gap-5">
           <p className='text-[#858BB2] font-medium'>Status</p>
           <button className={`${statusStyles[invoice.status]}   text-[15px] font-bold px-2 py-2 rounded-md `}>
@@ -34,6 +35,47 @@ function InvoiceDetails() {
           <button className='bg-[#7E88C3]/10 font-bold text-[15px] rounded-3xl px-5 py-3 text-[#7E88C3]'>Edit</button>
           <button className='bg-[#EC5757] text-[15px] font-bold px-7 py-3.5 rounded-3xl text-white hover:bg-[#FF9797] '>Delete</button>
           <button className='bg-[#7C5DFA] text-[15px] font-bold px-7 py-3.5 text-white rounded-3xl'>Mark as Paid</button>
+        </div>
+      </div>
+
+      <div className='bg-white mt-6 rounded-lg  px-12 py-14'>
+        <div className='grid grid-cols-4'>
+
+          <div className='flex flex-col gap-9'>
+            <div className='flex flex-col gap-2 mb-8 '>
+              <h1 className='text-[15px] font-bold text-[#0C0E16] '>
+                <span className='text-[#888EB0]'>#</span>
+                {invoice.id}</h1>
+              <p className='text-[13px] font-medium text-[#7E88C3] '>{invoice.description}</p>
+            </div>
+            <div className=''>
+              <p className='text-[13px] font-medium text-[#7E88C3] mb-2'>Invoice Date</p>
+              <h1 className='text-[15px] font-bold text-[#0C0E16] '>{formatDate(invoice.createdAt)}</h1>
+            </div>
+            <div className=''>
+              <p className='text-[13px] font-medium text-[#7E88C3] mb-2'>Payment Due</p>
+              <h1 className='text-[15px] font-bold text-[#0C0E16] '>{formatDate(invoice.paymentDue)}</h1>
+            </div>
+          </div>
+
+          <div className='mr-24 flex flex-col justify-end'>
+            <p className='text-[13px] font-medium text-[#7E88C3] mb-3'>Bill To</p>
+            <h1 className='text-[15px] font-bold text-[#0C0E16] mb-2.5 '>{invoice.clientName}</h1>
+            <p className='text-[13px] font-medium text-[#7E88C3] mb-[2px]'>{invoice.clientAddress.street}</p>
+            <p className='text-[13px] font-medium text-[#7E88C3] mb-[2px]'>{invoice.clientAddress.city}</p>
+            <p className='text-[13px] font-medium text-[#7E88C3] mb-[2px]'>{invoice.clientAddress.postCode}</p>
+            <p className='text-[13px] font-medium text-[#7E88C3]'>{invoice.clientAddress.country}</p>
+          </div>
+          <div className=' flex flex-col justify-center'>
+            <p className='text-[13px] font-medium text-[#7E88C3] mb-3'>Sent to</p>
+            <h1  className='text-[15px] font-bold text-[#0C0E16] '>{invoice.clientEmail}</h1>
+          </div>
+          <div>
+            <p className='text-[13px] font-medium text-[#7E88C3] mb-[2px]'>{invoice.senderAddress.street}</p>
+            <p className='text-[13px] font-medium text-[#7E88C3] mb-[2px]'>{invoice.senderAddress.city}</p>
+            <p className='text-[13px] font-medium text-[#7E88C3] mb-[2px]'>{invoice.senderAddress.postCode}</p>
+            <p className='text-[13px] font-medium text-[#7E88C3] mb-[2px]'>{invoice.senderAddress.country}</p>
+          </div>
         </div>
       </div>
     </div>
