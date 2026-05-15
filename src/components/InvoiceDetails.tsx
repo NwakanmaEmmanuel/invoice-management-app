@@ -1,10 +1,21 @@
-import React from 'react'
 import { useParams } from 'react-router-dom';
 import invoices from '../data/invoice';
 import { formatDate } from '../utils/helpers';
 import { useNavigate } from 'react-router-dom';
+import InvoiceForm from './InvoiceForm';
+import { Invoice } from '../types/invoice';
 
-function InvoiceDetails() {
+
+type InvoiceDetailsProps = {
+  showForm: boolean;
+  setShowForm: React.Dispatch<React.SetStateAction<boolean>>;
+  selectedInvoice: Invoice | null;
+  setSelectedInvoice: React.Dispatch<
+    React.SetStateAction<Invoice | null>
+  >;
+};
+
+function InvoiceDetails( {showForm , setShowForm, selectedInvoice, setSelectedInvoice}: InvoiceDetailsProps) {
 
   const {id} = useParams()
  const invoice = invoices.find((inv) => inv.id === id);
@@ -20,7 +31,8 @@ function InvoiceDetails() {
   const navigate = useNavigate()
 
   return (
-    <div className='mt-12 '>
+    <div>
+    <div className='mt-12  relative'>
       <div className='flex items-center gap-3 cursor-pointer' onClick={ () => navigate(-1)}>
         <i className="fa-solid fa-angle-left font-extrabold  text-[#7C5DFA]"></i>
         <h1 className='text-[15px] text-[#0C0E16] font-bold'>Go Back</h1>
@@ -35,7 +47,12 @@ function InvoiceDetails() {
         </div>
 
         <div className='flex gap-2'>
-          <button className='bg-[#7E88C3]/10 font-bold text-[15px] rounded-3xl px-5 py-3 text-[#7E88C3] hover:bg-[#DFE3FA]'>Edit</button>
+          <button 
+          onClick={() => {
+            setShowForm(true);
+            setSelectedInvoice(invoice);
+          }}
+          className='bg-[#7E88C3]/10 font-bold text-[15px] rounded-3xl px-5 py-3 text-[#7E88C3] hover:bg-[#DFE3FA]'>Edit</button>
           <button className='bg-[#EC5757] text-[15px] font-bold px-7 py-3.5 rounded-3xl text-white hover:bg-[#FF9797] '>Delete</button>
           <button className='bg-[#7C5DFA] text-[15px] font-bold px-7 py-3.5 text-white rounded-3xl hover:bg-[#9277FF]'>Mark as Paid</button>
         </div>
@@ -123,6 +140,9 @@ function InvoiceDetails() {
           </div>
         </div>
       </div>
+    </div>
+          {showForm && <InvoiceForm  invoice={selectedInvoice} setShowForm={setShowForm}/> }
+
     </div>
 
   )

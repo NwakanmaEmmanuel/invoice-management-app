@@ -3,7 +3,7 @@ import profile from '../assets/Profile.png'
 
 function Sidebar() {
   return (
-    <div className="bg-[#373B53] flex flex-col justify-between fixed h-screen w-[103px] left-0 rounded-tr-[20px] rounded-br-[20px]">
+    <div className="bg-[#373B53] z-[999] flex flex-col justify-between fixed h-screen w-[103px] left-0 rounded-tr-[20px] rounded-br-[20px]">
       <img src={header} alt="" />
       <div className='flex flex-col items-center mb-3 gap-[32px]'>
         {/* <div className='h-2 w-3 bg-red-400'></div> */}
