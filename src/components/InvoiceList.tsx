@@ -2,9 +2,7 @@ import invoices from "../data/invoice";
 import { formatDate } from "../utils/helpers";
 import EmptyInvoice from "./EmptyInvoice"
 import { Link } from "react-router-dom";
-import { Invoice
-
- } from "../types/invoice";
+import { Invoice } from "../types/invoice";
 import InvoiceForm from "./InvoiceForm";
 import invoice from "../data/invoice";
 
@@ -15,9 +13,10 @@ type InvoiceListProps = {
   setSelectedInvoice: React.Dispatch<
     React.SetStateAction<Invoice | null>
   >;
+  invoiceData: Invoice[];
 };
 
-export default function InvoiceList( {showForm , setShowForm, selectedInvoice, setSelectedInvoice}: InvoiceListProps ) {
+export default function InvoiceList( {showForm ,invoiceData, setShowForm, selectedInvoice, setSelectedInvoice}: InvoiceListProps ) {
 
     const statusStyles = {
     Paid: "bg-[#33D69F]/10 text-[#33D69F]",
@@ -51,11 +50,11 @@ export default function InvoiceList( {showForm , setShowForm, selectedInvoice, s
         </div>
         {showForm && <InvoiceForm   setShowForm={setShowForm} invoice={selectedInvoice} />}
 
-        {invoices.length > 0  ? (
+        {invoiceData.length > 0  ? (
 
             <div className="mt-12 flex flex-col   gap-7">
 
-                {invoices.map((invoice) => 
+                {invoiceData.map((invoice) => 
 
                 <Link
                 to={`invoice/${invoice.id}`}
