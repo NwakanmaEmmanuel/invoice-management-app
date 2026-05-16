@@ -10,6 +10,15 @@ type InvoiceFormProps = {
 function InvoiceForm({invoice, setShowForm}: InvoiceFormProps) {
 
   const isEditing = !!invoice
+
+  const items = invoice?.items || [
+  {
+    name: "",
+    quantity: "",
+    price: "",
+    total: "",
+  },
+];
   
   return (
     <div className='fixed bottom-0 left-[1px] right-0 top-0 bg-black/50 z-50' onClick={() => setShowForm(false)}>
@@ -23,9 +32,16 @@ function InvoiceForm({invoice, setShowForm}: InvoiceFormProps) {
         </div>
 
         <div>
-          <p className='text-[#7C5DFA] text-[15px] font-bold mb-6 ' >Bill From</p>
-          <p className='text-[13px] text-[#7E88C3] mb-4 font-medium' >Street Address</p>
-          <input type="text" className='w-full outline-none mb-6 border-[#DFE3FA] border-solid border-2 rounded-[1px] font-bold text-[15px] px-4 py-2' defaultValue={invoice?.senderAddress.street}   />
+          <p className='text-[#7C5DFA] text-[15px] font-bold mb-6 ' >
+            Bill From
+          </p>
+          <p className='text-[13px] text-[#7E88C3] mb-4 font-medium' >
+            Street Address
+          </p>
+          <input type="text" 
+            className='w-full outline-none mb-6 border-[#DFE3FA] border-solid border-2 rounded-[1px] font-bold text-[15px] px-4 py-2' 
+            defaultValue={invoice?.senderAddress.street}  
+            placeholder='19 Union Terrace' />
 
           <div className='grid grid-cols-3 gap-4 mb-[-1px]'>
             <p className='text-[13px] text-[#7E88C3] mb-4 font-medium' >City</p>
@@ -34,46 +50,95 @@ function InvoiceForm({invoice, setShowForm}: InvoiceFormProps) {
           </div>
 
           <div className='grid grid-cols-3 gap-4 mb-8'>
-            <input type="text" className='w-full outline-none mb-6 font-bold text-[#0C0E16] border-[#DFE3FA] border-solid border-2 rounded-[1px]  text-[15px] px-4 py-2' defaultValue={invoice?.senderAddress.city} />
-            <input type="text" className='w-full outline-none mb-6 font-bold text-[#0C0E16] border-[#DFE3FA] border-solid border-2 rounded-[1px]  text-[15px] px-4 py-2' defaultValue={invoice?.senderAddress.country} />
-            <input type="text" className='w-full outline-none mb-6 font-bold text-[#0C0E16] border-[#DFE3FA] border-solid border-2 rounded-[1px]  text-[15px] px-4 py-2' defaultValue={invoice?.senderAddress.postCode} />
+            <input type="text" 
+              className='w-full outline-none mb-6 font-bold text-[#0C0E16] border-[#DFE3FA] border-solid border-2 rounded-[1px]  text-[15px] px-4 py-2' 
+              defaultValue={invoice?.senderAddress.city}
+              placeholder='London' />
+
+            <input type="text" 
+              className='w-full outline-none mb-6 font-bold text-[#0C0E16] border-[#DFE3FA] border-solid border-2 rounded-[1px]  text-[15px] px-4 py-2' 
+              defaultValue={invoice?.senderAddress.country}
+              placeholder='United Kingdom' />
+
+            <input type="text" 
+              className='w-full outline-none mb-6 font-bold text-[#0C0E16] border-[#DFE3FA] border-solid border-2 rounded-[1px]  text-[15px] px-4 py-2' 
+              defaultValue={invoice?.senderAddress.postCode}
+              placeholder='E1 3EZ' />
           </div>
         </div>
 
         <div>
           <h1 className='text-[#7C5DFA] text-[15px] font-bold mb-6 '>Bill To</h1>
-          <label  className='text-[13px] text-[#7E88C3] mb-4 font-medium'>Client's Name</label>
-          <input className='w-full outline-none mb-6 font-bold text-[#0C0E16] border-[#DFE3FA] border-solid border-2 rounded-[1px]  text-[15px] px-4 py-2'  type="text" defaultValue={invoice?.clientName} />
-          <label className='text-[13px] text-[#7E88C3] mb-4 font-medium'>Client's Email</label>
-          <input className='w-full outline-none mb-6 font-bold text-[#0C0E16] border-[#DFE3FA] border-solid border-2 rounded-[1px]  text-[15px] px-4 py-2' type="email" defaultValue={invoice?.clientEmail} />
-          <label  className='text-[13px] text-[#7E88C3] mb-4 font-medium'>Street Address</label>
-          <input className='w-full outline-none mb-6 font-bold text-[#0C0E16] border-[#DFE3FA] border-solid border-2 rounded-[1px]  text-[15px] px-4 py-2' type='text' defaultValue={invoice?.clientAddress.street} />
+
+          <label  className='text-[13px] text-[#7E88C3] mb-4 font-medium'>
+            Client's Name
+          </label>
+          <input type="text"
+            className='w-full outline-none mb-6 font-bold text-[#0C0E16] border-[#DFE3FA] border-solid border-2 rounded-[1px]  text-[15px] px-4 py-2'   
+            defaultValue={invoice?.clientName}
+            placeholder='Alex Grim' />
+
+          <label className='text-[13px] text-[#7E88C3] mb-4 font-medium'>
+            Client's Email
+          </label>
+          <input type="email" 
+            className='w-full outline-none mb-6 font-bold text-[#0C0E16] border-[#DFE3FA] border-solid border-2 rounded-[1px]  text-[15px] px-4 py-2' 
+            defaultValue={invoice?.clientEmail}
+            placeholder='alexgrim@mail.com' />
+
+          <label  className='text-[13px] text-[#7E88C3] mb-4 font-medium'>
+            Street Address
+          </label>
+          <input type='text' 
+            className='w-full outline-none mb-6 font-bold text-[#0C0E16] border-[#DFE3FA] border-solid border-2 rounded-[1px]  text-[15px] px-4 py-2' 
+            defaultValue={invoice?.clientAddress.street}
+            placeholder='84 Church Way' />
         </div>
 
         <div>
            <div className='grid grid-cols-3 gap-4 mb-[-1px]'>
-            <p className='text-[13px] text-[#7E88C3] mb-4 font-medium' >City</p>
-            <p className='text-[13px] text-[#7E88C3] mb-4 font-medium' >Post Code</p>
-            <p className='text-[13px] text-[#7E88C3] mb-4 font-medium' >Country</p>
+              <p className='text-[13px] text-[#7E88C3] mb-4 font-medium' >City</p>
+              <p className='text-[13px] text-[#7E88C3] mb-4 font-medium' >Post Code</p>
+              <p className='text-[13px] text-[#7E88C3] mb-4 font-medium' >Country</p>
           </div>
 
           <div className='grid grid-cols-3 gap-4 mb-8'>
-            <input type="text" className='w-full outline-none mb-6 font-bold text-[#0C0E16] border-[#DFE3FA] border-solid border-2 rounded-[1px]  text-[15px] px-4 py-2' defaultValue={invoice?.clientAddress.city || ''} />
-            <input type="text" className='w-full outline-none mb-6 font-bold text-[#0C0E16] border-[#DFE3FA] border-solid border-2 rounded-[1px]  text-[15px] px-4 py-2' defaultValue={invoice?.clientAddress.country || ''} />
-            <input type="text" className='w-full outline-none mb-6 font-bold text-[#0C0E16] border-[#DFE3FA] border-solid border-2 rounded-[1px]  text-[15px] px-4 py-2' defaultValue={invoice?.clientAddress.postCode || ''} />
+            <input type="text" 
+              className='w-full outline-none mb-6 font-bold text-[#0C0E16] border-[#DFE3FA] border-solid border-2 rounded-[1px]  text-[15px] px-4 py-2' 
+              defaultValue={invoice?.clientAddress.city || ''}
+              placeholder='BradFord' />
+
+            <input type="text" 
+              className='w-full outline-none mb-6 font-bold text-[#0C0E16] border-[#DFE3FA] border-solid border-2 rounded-[1px]  text-[15px] px-4 py-2' 
+              defaultValue={invoice?.clientAddress.country || ''}
+              placeholder='United Kingdom' />
+
+            <input type="text" 
+              className='w-full outline-none mb-6 font-bold text-[#0C0E16] border-[#DFE3FA] border-solid border-2 rounded-[1px]  text-[15px] px-4 py-2' 
+              defaultValue={invoice?.clientAddress.postCode || ''}
+              placeholder='BD1 9PB' />
           </div>
            
            <div className='flex gap-4 '>
+
             <div className='flex flex-col  gap-4 border w-[100%] opacity-50'>
-              <p className='text-[13px] font-medium text-[#7E88C3] '>Invoice Date</p>
-              <button className='border border-[#DFE3FA] rounded-[4px]  outline-none border-solid flex text-[15px] font-bold text-[#0C0E16] justify-between px-5 py-2 items-center  '>
-                {formatDate(invoice?.createdAt || '')}
+              <p className='text-[13px] font-medium text-[#7E88C3] '>
+                Invoice Date
+              </p>
+
+              <button aria-placeholder='jnjn'
+                className='border border-[#DFE3FA] rounded-[4px]  outline-none border-solid flex text-[15px] font-bold text-[#0C0E16] justify-between px-5 py-2 items-center  '>
+                  {formatDate(invoice?.createdAt || '')}
                 <i className="fa-solid fa-calendar text-[#7C5DFA]"></i>
               </button>
             </div>
+
             <div className='flex flex-col  gap-4  border w-[100%]'>
-              <p className='text-[13px] font-medium text-[#7E88C3]'>Payment Terms</p>
-              <button className='border border-[#DFE3FA] rounded-[4px] border-solid flex text-[15px] font-bold text-[#0C0E16] justify-between px-5 py-2 items-center  '>
+              <p className='text-[13px] font-medium text-[#7E88C3]'>
+                Payment Terms
+              </p>
+              <button 
+                className='border border-[#DFE3FA] rounded-[4px] border-solid flex text-[15px] font-bold text-[#0C0E16] justify-between px-5 py-2 items-center  '>
                 Net {invoice?.paymentTerms || ''} Days
               <i className="fa-solid fa-angle-down text-[17px] text-[#7C5DFA]"></i>
               </button>
@@ -81,8 +146,13 @@ function InvoiceForm({invoice, setShowForm}: InvoiceFormProps) {
           </div>
 
           <div className='mt-8'>
-            <p  className='text-[13px] text-[#7E88C3] mb-3 font-medium'>Project Description</p>
-            <input className='w-full outline-none mb-6 font-bold text-[#0C0E16] border-[#DFE3FA] border-solid border-2 rounded-[1px]  text-[15px] px-4 py-2' type='text' defaultValue={invoice?.description || ''} />
+            <p  className='text-[13px] text-[#7E88C3] mb-3 font-medium'>
+              Project Description
+            </p>
+            <input type='text'
+              className='w-full outline-none mb-6 font-bold text-[#0C0E16] border-[#DFE3FA] border-solid border-2 rounded-[1px]  text-[15px] px-4 py-2'  
+              defaultValue={invoice?.description || ''} 
+              placeholder='Graphic Design' />
           </div>
 
           <div className='mb-6'>
@@ -94,12 +164,23 @@ function InvoiceForm({invoice, setShowForm}: InvoiceFormProps) {
               <p className='text-[13px] font-medium text-[#7E88C3]'>Total</p>
          </div>
 
-         {invoice?.items?.map((item) => (
+         {items?.map((item) => (
           <div key={item.name} className='grid grid-cols-[200px_50px_100px_80px_10px] gap-5 mb-5 items-center'>
-              <input className='w-full outline-none  font-bold text-[#0C0E16] border-[#DFE3FA] border-solid border-2 rounded-[1px]  text-[15px] px-4 py-2' type='text' defaultValue={item.name} />
-              <input className='w-full outline-none  font-bold text-[#0C0E16] border-[#DFE3FA] border-solid border-2 rounded-[1px]  text-[15px] px-4 py-2' type='text' defaultValue={item.quantity} />
-              <input className='w-full outline-none  font-bold text-[#0C0E16] border-[#DFE3FA] border-solid border-2 rounded-[1px]  text-[15px] px-4 py-2' type='text' defaultValue={item.price} />
-              <p className='font-bold text-[15px] text-[#888EB0]'>{item.total}</p>
+              <input type='text' 
+                className='w-full outline-none  font-bold text-[#0C0E16] border-[#DFE3FA] border-solid border-2 rounded-[1px]  text-[15px] px-4 py-2'  
+                defaultValue={item.name}
+                placeholder='Banner Design' />
+              
+              <input type='text' 
+                className='w-full outline-none  font-bold text-[#0C0E16] border-[#DFE3FA] border-solid border-2 rounded-[1px]  text-[15px] px-4 py-2'  
+                defaultValue={item.quantity}
+                placeholder='1' />
+
+              <input type='text' 
+                className='w-full outline-none  font-bold text-[#0C0E16] border-[#DFE3FA] border-solid border-2 rounded-[1px]  text-[15px] px-4 py-2'  
+                defaultValue={item.price} 
+                placeholder='156.00' />
+              <p className='font-bold text-[15px] text-[#888EB0]'>{item.total || '156.000'}</p>
               <i className="fa-solid fa-trash text-[#888EB0] "></i>
             </div>
          ))}
