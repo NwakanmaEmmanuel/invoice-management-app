@@ -16,7 +16,7 @@ export default function App() {
       <Sidebar/>
 
       <Routes>
-        <Route path='/' element={<InvoiceList/>} />
+        <Route path='/' element={<InvoiceList showForm={showForm} setShowForm={setShowForm} selectedInvoice={selectedInvoice} setSelectedInvoice={setSelectedInvoice}/>} />
         <Route path='invoice/:id' element={<InvoiceDetails showForm={showForm} setShowForm={setShowForm} selectedInvoice={selectedInvoice} setSelectedInvoice={setSelectedInvoice}  />} />
       </Routes>
     </div>

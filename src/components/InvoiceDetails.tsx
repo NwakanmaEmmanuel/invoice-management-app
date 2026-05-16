@@ -52,7 +52,7 @@ function InvoiceDetails( {showForm , setShowForm, selectedInvoice, setSelectedIn
             setShowForm(true);
             setSelectedInvoice(invoice);
           }}
-          className='bg-[#7E88C3]/10 font-bold text-[15px] rounded-3xl px-5 py-3 text-[#7E88C3] hover:bg-[#DFE3FA]'>Edit</button>
+          className='bg-[#7E88C3]/10 font-bold text-[15px] rounded-3xl px-5 py-3 text-[#7E88C3] hover:bg-[#DFE3FA] '>Edit</button>
           <button className='bg-[#EC5757] text-[15px] font-bold px-7 py-3.5 rounded-3xl text-white hover:bg-[#FF9797] '>Delete</button>
           <button className='bg-[#7C5DFA] text-[15px] font-bold px-7 py-3.5 text-white rounded-3xl hover:bg-[#9277FF]'>Mark as Paid</button>
         </div>
