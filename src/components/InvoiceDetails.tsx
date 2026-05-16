@@ -2,7 +2,7 @@ import { useParams } from 'react-router-dom';
 import invoices from '../data/invoice';
 import { formatDate } from '../utils/helpers';
 import { useNavigate } from 'react-router-dom';
-import InvoiceForm from './InvoiceForm';
+import InvoiceForm from './InvoiceForm.tsx';
 import { Invoice } from '../types/invoice';
 
 

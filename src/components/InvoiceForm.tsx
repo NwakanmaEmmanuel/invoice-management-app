@@ -1,11 +1,18 @@
-import invoices from '../data/invoice';
+import { formatDate } from '../utils/helpers';
+import { Invoice } from '../types/invoice';
 
 
+type InvoiceFormProps = {
+  setShowForm: React.Dispatch<React.SetStateAction<boolean>>;
+  invoice: Invoice | null;
+};
 
-function InvoiceForm({invoice, setShowForm}) {
+function InvoiceForm({invoice, setShowForm}: InvoiceFormProps) {
+  if (!invoice) return null;
+  
   return (
     <div className='fixed bottom-0 left-[1px] right-0 top-0 bg-black/50 z-50' onClick={() => setShowForm(false)}>
-      <div className='bg-[#FFFFFF] absolute top-0 left-[6.4rem] h-screen rounded-tr-[20px] rounded-br-[20px] w-[30rem] z-10 p-11 overflow-y-scroll text-black '   
+      <div className='bg-[#FFFFFF] absolute top-0 left-[6.4rem] h-screen rounded-tr-[20px] rounded-br-[20px] w-[40rem] z-10 p-11 overflow-y-scroll text-black '   
       onClick={(e) => e.stopPropagation()} >
         <div className='flex gap-2 mb-11'>
           <h1 className='text-2xl font-bold text-[#0C0E16]' >Edit </h1>
@@ -55,21 +62,57 @@ function InvoiceForm({invoice, setShowForm}) {
           </div>
            
            <div className='flex gap-4 '>
-            <div className='flex flex-col gap-4 border w-[100%]'>
+            <div className='flex flex-col  gap-4 border w-[100%] opacity-50'>
               <p className='text-[13px] font-medium text-[#7E88C3] '>Invoice Date</p>
-              <button className='border rounded-[4px]   border-solid flex text-[15px] font-bold text-[#0C0E16] justify-between px-5 py-2 items-center  '>
-                {invoice.createdAt}
-                <i className="fa-solid fa-calendar"></i>
+              <button className='border border-[#DFE3FA] rounded-[4px]   border-solid flex text-[15px] font-bold text-[#0C0E16] justify-between px-5 py-2 items-center  '>
+                {formatDate(invoice.createdAt)}
+                <i className="fa-solid fa-calendar text-[#7C5DFA]"></i>
               </button>
             </div>
-            <div className='flex flex-col gap-4  border w-[100%]'>
+            <div className='flex flex-col  gap-4  border w-[100%]'>
               <p className='text-[13px] font-medium text-[#7E88C3]'>Payment Terms</p>
-              <button className='border rounded-[4px] border-solid flex text-[15px] font-bold text-[#0C0E16] justify-between px-5 py-2 items-center  '>
+              <button className='border border-[#DFE3FA] rounded-[4px] border-solid flex text-[15px] font-bold text-[#0C0E16] justify-between px-5 py-2 items-center  '>
                 {invoice.paymentTerms}
-              <i className="fa-solid fa-angle-down text-[#7C5DFA]"></i>
+              <i className="fa-solid fa-angle-down text-[17px] text-[#7C5DFA]"></i>
               </button>
             </div>
-           </div>
+          </div>
+
+          <div className='mt-8'>
+            <p  className='text-[13px] text-[#7E88C3] mb-3 font-medium'>Project Description</p>
+            <input className='w-full outline-none mb-6 font-bold text-[#0C0E16] border-[#DFE3FA] border-solid border-2 rounded-[1px]  text-[15px] px-4 py-2' type='text' />
+          </div>
+
+          <div className='mb-6'>
+            <h1 className='text-[18px] font-bold mb-4 text-[#777F98]'>Item List</h1>
+            <div className='grid grid-cols-[200px_50px_100px_80px_10px] mb-4 gap-5'>
+              <p className='text-[13px] font-medium text-[#7E88C3]'>Item Name</p>
+              <p className='text-[13px] font-medium text-[#7E88C3]'>Qty.</p>
+              <p className='text-[13px] font-medium text-[#7E88C3]'>Price</p>
+              <p className='text-[13px] font-medium text-[#7E88C3]'>Total</p>
+         </div>
+
+         {invoice.items.map((item) => (
+          <div className='grid grid-cols-[200px_50px_100px_80px_10px] gap-5 mb-5 items-center'>
+              <input className='w-full outline-none  font-bold text-[#0C0E16] border-[#DFE3FA] border-solid border-2 rounded-[1px]  text-[15px] px-4 py-2' type='text' />
+              <input className='w-full outline-none  font-bold text-[#0C0E16] border-[#DFE3FA] border-solid border-2 rounded-[1px]  text-[15px] px-4 py-2' type='text' />
+              <input className='w-full outline-none  font-bold text-[#0C0E16] border-[#DFE3FA] border-solid border-2 rounded-[1px]  text-[15px] px-4 py-2' type='text' />
+              <p className='font-bold text-[15px] text-[#888EB0]'>{item.total}</p>
+              <i className="fa-solid fa-trash text-[#888EB0] "></i>
+            </div>
+         ))}
+
+         <div className='mb-10'>
+          <button className='bg-[#F9FAFE] text-[#7E88C3] rounded-3xl w-full text-[15px] font-bold py-3 '>+ Add New Item</button>
+         </div>
+
+         <div className='flex justify-end gap-3'>
+          <button className='text-[15px] bg-[#F9FAFE] text-[#7E88C3] rounded-3xl py-3 px-5 font-bold'>Cancel</button>
+          <button className='text-[15px] text-[#F9FAFE] bg-[#7E88C3] rounded-3xl py-3 px-5 font-bold'>Save Changes</button>
+         </div>
+
+            
+          </div>
         </div>
 
 
