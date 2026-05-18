@@ -45,12 +45,14 @@ function InvoiceDetails( {showForm ,invoiceData, setInvoiceData, setShowForm, se
       <div className='mt-12  relative'>
       {showDeleteModal && (
         <div className='fixed inset-0 bg-black/50 z-[999] flex items-center justify-center' onClick={() => setShowDeleteModal(false)}>
-          <div className='bg-[#ffff] p-4 rounded-lg ' onClick={(e) => e.stopPropagation()}>
-            <h1 className='text-[#0C0E16] text-[24px] font-bold'>Confirm Deletion</h1>
-            <p className='text-[#888EB0] text-[13px] font-medium'>Are you sure you want to delete invoice {invoice.id}? This action cannot be <br/> undone.</p>
-            <div className='flex gap-4'>
+          <div className='bg-[#ffff] py-10 px-8 rounded-lg ' onClick={(e) => e.stopPropagation()}>
+            <h1 className='text-[#0C0E16] text-[24px] font-bold mb-6'>Confirm Deletion</h1>
+            <p className='text-[#888EB0] text-[13px] font-medium mb-7 leading-6'>Are you sure you want to delete invoice {invoice.id}? This action cannot be <br/> undone.</p>
+            <div className='flex gap-4 justify-end'>
               <button className='bg-[#7E88C3]/10 font-bold text-[15px] rounded-3xl px-5 py-3 text-[#7E88C3] hover:bg-[#DFE3FA] '>Cancel</button>
-              <button className='bg-[#EC5757] text-[15px] font-bold px-7 py-3.5 rounded-3xl text-white hover:bg-[#FF9797] '>Delete</button>
+              <button 
+                onClick={() => {setInvoiceData(filteredInvoices); navigate('/')}}
+                className='bg-[#EC5757] text-[15px] font-bold px-7 py-3.5 rounded-3xl text-white hover:bg-[#FF9797] ' >Delete</button>
             </div>
           </div>
         </div>
