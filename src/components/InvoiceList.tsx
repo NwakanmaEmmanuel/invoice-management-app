@@ -5,6 +5,7 @@ import { Link } from "react-router-dom";
 import { Invoice } from "../types/invoice";
 import InvoiceForm from "./InvoiceForm";
 import invoice from "../data/invoice";
+import { useState } from "react";
 
 type InvoiceListProps = {
   showForm: boolean;
@@ -21,33 +22,83 @@ export default function InvoiceList( {showForm ,invoiceData, setShowForm, select
     const statusStyles = {
     Paid: "bg-[#33D69F]/10 text-[#33D69F]",
     Pending: "bg-[#FF8F00]/10 text-[#FF8F00]",
-    Draft: "bg-[#373B53]/10 text-[#373B53]",
+    Draft: "bg-[#373B53]/10 dark:bg-[#DFE3FA]/10 dark:text-[#DFE3FA] text-[#373B53]",
     }
+
+    const [showStatus, setShowStatus] = useState(false)
     
 
-
-
   return (
-    <div className="px-[10rem] py-[4rem]">
+    <div className="px-[10rem] py-[4rem] ">
         <div className="flex justify-between items-center gap-[20rem]">
+
             <div>
-                <h1 className="text-[#0C0E16] text-[38px] leading-[100%] font-bold">Invoices</h1>
-                <p className="text-[#888EB0] text-[13px]">There are 7 total invoices</p>
+
+                <h1 className="text-[#0C0E16] dark:text-[white] text-[38px] leading-[100%] mb-3 font-bold">
+                    Invoices
+                </h1>
+
+                {invoiceData.length > 0 ? (
+                    <p className="text-[#888EB0] font-medium dark:text-[#DFE3FA] text-[13px]">
+                        There are {invoiceData.length} total invoices
+                    </p>
+                    ) : (
+                    <p className="text-[#888EB0] font-medium dark:text-[#DFE3FA] text-[13px]">
+                        No Invoices
+                    </p>
+                )}
+
             </div>
-            <div className="flex gap-[44px] l">
-                <button className="text-[#0C0E16] text-[15px] font-bold">
-                    Filter by Status 
-                    <i className="fa-solid fa-angle-down text-[#7C5DFA] ml-[10px] "></i>  
-                </button>
+
+            <div className="flex gap-[44px] relative">
                 <button 
-                    onClick={() => {setShowForm(true)  
-                        setSelectedInvoice(null)} }
+                    // onClick={() => setShowStatus(true)}
+                    onMouseOver={() => setShowStatus(true)}
+                    className="text-[#0C0E16] dark:text-[white] text-[15px] font-bold"
+                >
+                    Filter by Status 
+                    <i className="fa-solid fa-angle-down text-[#7C5DFA] dark:text-[#7C5DFA] ml-[10px] "></i>  
+                </button>
+
+                {showStatus && (
+                    <div 
+                        className='absolute   z-[999] flex items-center justify-center ' 
+                        onClick={() => setShowStatus(false)}
+                    >
+                        <div 
+                          className='bg-[#ffff] dark:bg-[#1E2139] flex flex-col gap-2 py-5 px-4 pr-20 rounded-lg ' 
+                          onClick={(e) => e.stopPropagation()}
+                        >
+                            <label className="cursor-pointer">
+                                <input type="checkbox" name="check" id="" className="mr-3"   />
+                                Draft
+                            </label>
+                            <label className="cursor-pointer">
+                                <input type="checkbox" name="check" id="" className="mr-3"  />
+                                Pending
+                            </label>
+                            <label className="cursor-pointer">
+                                <input type="checkbox" name="check" id="" className="mr-3"  />
+                                Paid
+                            </label>
+                        </div>
+                    </div>
+                )}
+
+                <button 
+                    onClick={() => {
+                        setShowForm(true)  
+                        setSelectedInvoice(null)
+                    }}
                     className="bg-[#7C5DFA] hover:bg-[#9277FF] text-[15px] font-bold text-white px-[15px] py-[10px] rounded-[50px] ">
-                    <span className="text-[#7C5DFA] bg-white px-[9px] py-[2px] font-bold text-[18px] rounded-[50%] inline-flex items-center mr-[11px] ">+</span>
+                    <span className="text-[#7C5DFA] bg-white px-[9px] py-[2px] font-extrabold text-[20px] rounded-[50%] inline-flex items-center mr-[11px] ">
+                        +
+                    </span>
                     New Invoice
                 </button>
             </div>
         </div>
+
         {showForm && <InvoiceForm   setShowForm={setShowForm} invoice={selectedInvoice} />}
 
         {invoiceData.length > 0  ? (
@@ -57,20 +108,32 @@ export default function InvoiceList( {showForm ,invoiceData, setShowForm, select
                 {invoiceData.map((invoice) => 
 
                 <Link
-                to={`invoice/${invoice.id}`}
-                key={invoice.id}
-                className=" grid grid-cols-[150px_1fr_1fr_150px_100px_40px] shadow-[0px_10px_10px_-10px_#48549F1A] cursor-pointer  items-center  bg-[#FFFFFF] rounded-lg px-[32px] py-[15px] ">
-                    <h1 className="text-[15px] font-bold">
+                    to={`invoice/${invoice.id}`}
+                    key={invoice.id}
+                    className=" grid grid-cols-[150px_1fr_1fr_150px_100px_40px] shadow-[0px_10px_10px_-10px_#48549F1A] cursor-pointer  items-center  bg-[#FFFFFF] dark:bg-[#1E2139] rounded-lg px-[32px] py-[15px] ">
+                    
+                    <h1 className="text-[15px] dark:text-white font-bold">
                         <span className="text-[#7E88C3]">#</span>
-                        {invoice.id}</h1>
+                        {invoice.id}
+                    </h1>
 
-                        <p className="text-[13px] text-[#888EB0] font-medium">Due {formatDate(invoice.paymentDue)}</p>
-                        <p className="text-[#858BB2] font-medium text-[13px]">{invoice.clientName}</p>
-                        <h1 className="text-[#0C0E16] text-[15px] font-bold">£ {invoice.total}</h1>
-                        <button className={`${statusStyles[invoice.status]} outline-none  text-[15px] font-bold px-2 py-2 rounded-md `}>
-                            <span className=" h-[8px] bg-current w-[8px] rounded-md inline-block border-solid border mr-1.5"></span>{invoice.status}
-                        </button>
-                        <i className="fa-solid fa-angle-right  flex justify-center items-center"></i>
+                    <p className="text-[13px] text-[#888EB0] dark:text-[#DFE3FA] font-medium">
+                        Due {formatDate(invoice.paymentDue)}
+                    </p>
+
+                    <p className="text-[#858BB2] dark:text-white font-medium text-[13px]">
+                        {invoice.clientName}
+                    </p>
+
+                    <h1 className="text-[#0C0E16] dark:text-white text-[15px] font-bold">
+                        £ {invoice.total}
+                    </h1>
+
+                    <button className={`${statusStyles[invoice.status]} outline-none  text-[15px] font-bold px-2 py-2 rounded-md `}>
+                        <span className=" h-[8px] bg-current w-[8px] rounded-md inline-block border-solid border mr-1.5"></span>{invoice.status}
+                    </button>
+
+                    <i className="fa-solid fa-angle-right text-[#7C5DFA] text-lg flex justify-center items-center"></i>
                 </Link>
                 )}
             </div>
