@@ -19,8 +19,7 @@ type InvoiceListProps = {
 export default function InvoiceList( {showForm ,invoiceData, setShowForm, selectedInvoice, setSelectedInvoice}: InvoiceListProps ) {
     
     const [showStatus, setShowStatus] = useState(false)
-    // const [selectedStatus, setSelectedStatus] = useState<string[]>([]);   
-    const [selectedStatus, setSelectedStatus] = useState<string | null>(null) 
+    const [selectedStatus, setSelectedStatus] = useState<string[]>([]);    
 
 
     const statusStyles = {
@@ -30,8 +29,11 @@ export default function InvoiceList( {showForm ,invoiceData, setShowForm, select
     }
 
     const handleCheckbox = (status: string) => {
-    setSelectedStatus((prev) => (prev === status ? null : status))
-    
+    setSelectedStatus((prev) =>
+    prev.includes(status)
+      ? prev.filter((item) => item !== status)
+      : [...prev, status]
+    );
     };
 
   return (
@@ -79,74 +81,78 @@ export default function InvoiceList( {showForm ,invoiceData, setShowForm, select
                         className='bg-white shadow-[0px_10px_20px_0px_#48549F40] dark:bg-[#1E2139] flex flex-col gap-3 py-5 px-4 pr-14 rounded-lg' 
                         onClick={(e) => e.stopPropagation()}
                         >
-                        {/* --- DRAFT --- */}
+                        {/* --- DRAFT CHECKBOX --- */}
                         <label className="flex items-center cursor-pointer select-none group">
                             <input 
                             type="checkbox" 
                             className="absolute opacity-0 cursor-pointer h-0 w-0"
-                            checked={selectedStatus === "Draft"}
+                            checked={selectedStatus.includes("Draft")}
                             onChange={() => handleCheckbox("Draft")}  
                             />
+                            {/* Custom Visual Box */}
                             <div className={`w-4 h-4 rounded mr-3 flex items-center justify-center transition-all duration-200 border-2 ${
-                            selectedStatus === "Draft"
+                            selectedStatus.includes("Draft")
                                 ? "bg-[#7C5DFA] border-[#7C5DFA]"
                                 : "bg-[#DFE3FA] dark:bg-[#252945] border-transparent group-hover:border-[#7C5DFA]"
                             }`}>
-                            {selectedStatus === "Draft" && (
+                            {selectedStatus.includes("Draft") && (
                                 <svg width="9" height="9" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
                                 <path d="M2.5 6L5 8.5L9.5 3.5" stroke="white" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"/>
                                 </svg>
                             )}
                             </div>
-                            <span className="text-[#0C0E16] dark:text-white font-bold text-[13px]">Draft</span>
+                            <span className="text-[#0C0E16] dark:text-white font-bold text-[15px]">Draft</span>
                         </label>
 
-                        {/* --- PENDING --- */}
+                        {/* --- PENDING CHECKBOX --- */}
                         <label className="flex items-center cursor-pointer select-none group">
                             <input 
                             type="checkbox" 
                             className="absolute opacity-0 cursor-pointer h-0 w-0"
-                            checked={selectedStatus === "Pending"}
+                            checked={selectedStatus.includes("Pending")}
                             onChange={() => handleCheckbox("Pending")}  
                             />
+                            {/* Custom Visual Box */}
                             <div className={`w-4 h-4 rounded mr-3 flex items-center justify-center transition-all duration-200 border-2 ${
-                            selectedStatus === "Pending"
+                            selectedStatus.includes("Pending")
                                 ? "bg-[#7C5DFA] border-[#7C5DFA]"
                                 : "bg-[#DFE3FA] dark:bg-[#252945] border-transparent group-hover:border-[#7C5DFA]"
                             }`}>
-                            {selectedStatus === "Pending" && (
+                            {selectedStatus.includes("Pending") && (
                                 <svg width="9" height="9" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
                                 <path d="M2.5 6L5 8.5L9.5 3.5" stroke="white" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"/>
                                 </svg>
                             )}
                             </div>
-                            <span className="text-[#0C0E16] dark:text-white font-bold text-[13px]">Pending</span>
+                            <span className="text-[#0C0E16] dark:text-white font-bold text-[15px]">Pending</span>
                         </label>
 
-                        {/* --- PAID --- */}
+                        {/* --- PAID CHECKBOX --- */}
                         <label className="flex items-center cursor-pointer select-none group">
                             <input 
                             type="checkbox" 
                             className="absolute opacity-0 cursor-pointer h-0 w-0"
-                            checked={selectedStatus === "Paid"}
+                            checked={selectedStatus.includes("Paid")}
                             onChange={() => handleCheckbox("Paid")}  
                             />
+                            {/* Custom Visual Box */}
                             <div className={`w-4 h-4 rounded mr-3 flex items-center justify-center transition-all duration-200 border-2 ${
-                            selectedStatus === "Paid"
+                            selectedStatus.includes("Paid")
                                 ? "bg-[#7C5DFA] border-[#7C5DFA]"
                                 : "bg-[#DFE3FA] dark:bg-[#252945] border-transparent group-hover:border-[#7C5DFA]"
                             }`}>
-                            {selectedStatus === "Paid" && (
+                            {selectedStatus.includes("Paid") && (
                                 <svg width="9" height="9" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
                                 <path d="M2.5 6L5 8.5L9.5 3.5" stroke="white" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"/>
                                 </svg>
                             )}
                             </div>
-                            <span className="text-[#0C0E16] dark:text-white font-bold text-[13px]">Paid</span>
+                            <span className="text-[#0C0E16] dark:text-white font-bold text-[15px]">Paid</span>
                         </label>
                         </div>
                     </div>
                     )}
+
                 <button 
                     onClick={() => {
                         setShowForm(true)  
