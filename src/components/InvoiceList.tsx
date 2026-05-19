@@ -90,10 +90,10 @@ export default function InvoiceList( {showForm ,invoiceData, setShowForm, select
                             onChange={() => handleCheckbox("Draft")}  
                             />
                             {/* Custom Visual Box */}
-                            <div className={`w-4 h-4 rounded mr-3 flex items-center justify-center transition-all duration-200 border-2 ${
+                            <div className={`w-4 h-4 rounded mr-3 flex items-center justify-center transition-all duration-200  border-solid border-2 ${
                             selectedStatus.includes("Draft")
                                 ? "bg-[#7C5DFA] border-[#7C5DFA]"
-                                : "bg-[#DFE3FA] dark:bg-[#252945] border-transparent group-hover:border-[#7C5DFA]"
+                                : "bg-[#DFE3FA] dark:bg-[#252945] border-transparent group-hover:border-[#7C5DFA] group-hover:bg-[#F1EDFF] "
                             }`}>
                             {selectedStatus.includes("Draft") && (
                                 <svg width="9" height="9" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -113,10 +113,10 @@ export default function InvoiceList( {showForm ,invoiceData, setShowForm, select
                             onChange={() => handleCheckbox("Pending")}  
                             />
                             {/* Custom Visual Box */}
-                            <div className={`w-4 h-4 rounded mr-3 flex items-center justify-center transition-all duration-200 border-2 ${
+                            <div className={`w-4 h-4 rounded mr-3 flex items-center justify-center transition-all duration-200 border-solid border-2 ${
                             selectedStatus.includes("Pending")
                                 ? "bg-[#7C5DFA] border-[#7C5DFA]"
-                                : "bg-[#DFE3FA] dark:bg-[#252945] border-transparent group-hover:border-[#7C5DFA]"
+                                : "bg-[#DFE3FA] dark:bg-[#252945] border-transparent group-hover:border-[#7C5DFA] group-hover:bg-[#F1EDFF] "
                             }`}>
                             {selectedStatus.includes("Pending") && (
                                 <svg width="9" height="9" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -136,10 +136,10 @@ export default function InvoiceList( {showForm ,invoiceData, setShowForm, select
                             onChange={() => handleCheckbox("Paid")}  
                             />
                             {/* Custom Visual Box */}
-                            <div className={`w-4 h-4 rounded mr-3 flex items-center justify-center transition-all duration-200 border-2 ${
+                            <div className={`w-4 h-4 rounded mr-3 flex items-center justify-center transition-all duration-200 border-solid border-2 ${
                             selectedStatus.includes("Paid")
                                 ? "bg-[#7C5DFA] border-[#7C5DFA]"
-                                : "bg-[#DFE3FA] dark:bg-[#252945] border-transparent group-hover:border-[#7C5DFA]"
+                                : "bg-[#DFE3FA] dark:bg-[#252945] border-transparent group-hover:border-[#7C5DFA] group-hover:bg-[#F1EDFF] "
                             }`}>
                             {selectedStatus.includes("Paid") && (
                                 <svg width="9" height="9" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
