@@ -4,7 +4,6 @@ import EmptyInvoice from "./EmptyInvoice"
 import { Link } from "react-router-dom";
 import { Invoice } from "../types/invoice";
 import InvoiceForm from "./InvoiceForm";
-import invoice from "../data/invoice";
 import { useState } from "react";
 
 type InvoiceListProps = {
@@ -18,6 +17,11 @@ type InvoiceListProps = {
 };
 
 export default function InvoiceList( {showForm ,invoiceData, setShowForm, selectedInvoice, setSelectedInvoice}: InvoiceListProps ) {
+    
+    const [showStatus, setShowStatus] = useState(false)
+    // const [selectedStatus, setSelectedStatus] = useState<string[]>([]);   
+    const [selectedStatus, setSelectedStatus] = useState<string | null>(null) 
+
 
     const statusStyles = {
     Paid: "bg-[#33D69F]/10 text-[#33D69F]",
@@ -25,8 +29,10 @@ export default function InvoiceList( {showForm ,invoiceData, setShowForm, select
     Draft: "bg-[#373B53]/10 dark:bg-[#DFE3FA]/10 dark:text-[#DFE3FA] text-[#373B53]",
     }
 
-    const [showStatus, setShowStatus] = useState(false)
+    const handleCheckbox = (status: string) => {
+    setSelectedStatus((prev) => (prev === status ? null : status))
     
+    };
 
   return (
     <div className="px-[10rem] py-[4rem] ">
@@ -52,39 +58,95 @@ export default function InvoiceList( {showForm ,invoiceData, setShowForm, select
 
             <div className="flex gap-[44px] relative">
                 <button 
-                    // onClick={() => setShowStatus(true)}
-                    onMouseOver={() => setShowStatus(true)}
-                    className="text-[#0C0E16] dark:text-[white] text-[15px] font-bold"
+                    onClick={() => setShowStatus(!showStatus)}
+                    // onMouseOver={() => setShowStatus(true)}
+                    className="text-[#0C0E16] dark:text-[white]  text-[15px] font-bold"
                 >
                     Filter by Status 
-                    <i className="fa-solid fa-angle-down text-[#7C5DFA] dark:text-[#7C5DFA] ml-[10px] "></i>  
+                    {showStatus ? (
+                        <i className="fa-solid fa-angle-up text-[#7C5DFA] dark:text-[#7C5DFA] ml-[10px] "></i>  
+                    ) : (
+                        <i className="fa-solid fa-angle-down text-[#7C5DFA] dark:text-[#7C5DFA] ml-[10px] "></i>  
+                    )}
                 </button>
 
                 {showStatus && (
                     <div 
-                        className='absolute   z-[999] flex items-center justify-center ' 
+                        className='absolute top-12 left-0 z-[999] flex items-center justify-center' 
                         onClick={() => setShowStatus(false)}
                     >
                         <div 
-                          className='bg-[#ffff] dark:bg-[#1E2139] flex flex-col gap-2 py-5 px-4 pr-20 rounded-lg ' 
-                          onClick={(e) => e.stopPropagation()}
+                        className='bg-white shadow-[0px_10px_20px_0px_#48549F40] dark:bg-[#1E2139] flex flex-col gap-3 py-5 px-4 pr-14 rounded-lg' 
+                        onClick={(e) => e.stopPropagation()}
                         >
-                            <label className="cursor-pointer">
-                                <input type="checkbox" name="check" id="" className="mr-3"   />
-                                Draft
-                            </label>
-                            <label className="cursor-pointer">
-                                <input type="checkbox" name="check" id="" className="mr-3"  />
-                                Pending
-                            </label>
-                            <label className="cursor-pointer">
-                                <input type="checkbox" name="check" id="" className="mr-3"  />
-                                Paid
-                            </label>
+                        {/* --- DRAFT --- */}
+                        <label className="flex items-center cursor-pointer select-none group">
+                            <input 
+                            type="checkbox" 
+                            className="absolute opacity-0 cursor-pointer h-0 w-0"
+                            checked={selectedStatus === "Draft"}
+                            onChange={() => handleCheckbox("Draft")}  
+                            />
+                            <div className={`w-4 h-4 rounded mr-3 flex items-center justify-center transition-all duration-200 border-2 ${
+                            selectedStatus === "Draft"
+                                ? "bg-[#7C5DFA] border-[#7C5DFA]"
+                                : "bg-[#DFE3FA] dark:bg-[#252945] border-transparent group-hover:border-[#7C5DFA]"
+                            }`}>
+                            {selectedStatus === "Draft" && (
+                                <svg width="9" height="9" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M2.5 6L5 8.5L9.5 3.5" stroke="white" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"/>
+                                </svg>
+                            )}
+                            </div>
+                            <span className="text-[#0C0E16] dark:text-white font-bold text-[13px]">Draft</span>
+                        </label>
+
+                        {/* --- PENDING --- */}
+                        <label className="flex items-center cursor-pointer select-none group">
+                            <input 
+                            type="checkbox" 
+                            className="absolute opacity-0 cursor-pointer h-0 w-0"
+                            checked={selectedStatus === "Pending"}
+                            onChange={() => handleCheckbox("Pending")}  
+                            />
+                            <div className={`w-4 h-4 rounded mr-3 flex items-center justify-center transition-all duration-200 border-2 ${
+                            selectedStatus === "Pending"
+                                ? "bg-[#7C5DFA] border-[#7C5DFA]"
+                                : "bg-[#DFE3FA] dark:bg-[#252945] border-transparent group-hover:border-[#7C5DFA]"
+                            }`}>
+                            {selectedStatus === "Pending" && (
+                                <svg width="9" height="9" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M2.5 6L5 8.5L9.5 3.5" stroke="white" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"/>
+                                </svg>
+                            )}
+                            </div>
+                            <span className="text-[#0C0E16] dark:text-white font-bold text-[13px]">Pending</span>
+                        </label>
+
+                        {/* --- PAID --- */}
+                        <label className="flex items-center cursor-pointer select-none group">
+                            <input 
+                            type="checkbox" 
+                            className="absolute opacity-0 cursor-pointer h-0 w-0"
+                            checked={selectedStatus === "Paid"}
+                            onChange={() => handleCheckbox("Paid")}  
+                            />
+                            <div className={`w-4 h-4 rounded mr-3 flex items-center justify-center transition-all duration-200 border-2 ${
+                            selectedStatus === "Paid"
+                                ? "bg-[#7C5DFA] border-[#7C5DFA]"
+                                : "bg-[#DFE3FA] dark:bg-[#252945] border-transparent group-hover:border-[#7C5DFA]"
+                            }`}>
+                            {selectedStatus === "Paid" && (
+                                <svg width="9" height="9" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M2.5 6L5 8.5L9.5 3.5" stroke="white" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"/>
+                                </svg>
+                            )}
+                            </div>
+                            <span className="text-[#0C0E16] dark:text-white font-bold text-[13px]">Paid</span>
+                        </label>
                         </div>
                     </div>
-                )}
-
+                    )}
                 <button 
                     onClick={() => {
                         setShowForm(true)  
