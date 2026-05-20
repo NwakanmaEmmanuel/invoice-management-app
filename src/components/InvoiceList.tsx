@@ -36,6 +36,10 @@ export default function InvoiceList( {showForm ,invoiceData, setShowForm, select
     );
     };
 
+    const filteredInvoices = selectedStatus.length > 0
+    ? invoiceData.filter((invoice) => selectedStatus.includes(invoice.status))
+    : invoiceData;
+
   return (
     <div className="px-[10rem] py-[4rem] ">
         <div className="flex justify-between items-center gap-[20rem]">
@@ -81,6 +85,7 @@ export default function InvoiceList( {showForm ,invoiceData, setShowForm, select
                         className='bg-white shadow-[0px_10px_20px_0px_#48549F40] dark:bg-[#1E2139] flex flex-col gap-3 py-5 px-4 pr-14 rounded-lg' 
                         onClick={(e) => e.stopPropagation()}
                         >
+
                         {/* --- DRAFT CHECKBOX --- */}
                         <label className="flex items-center cursor-pointer select-none group">
                             <input 
@@ -104,6 +109,7 @@ export default function InvoiceList( {showForm ,invoiceData, setShowForm, select
                             <span className="text-[#0C0E16] dark:text-white font-bold text-[15px]">Draft</span>
                         </label>
 
+
                         {/* --- PENDING CHECKBOX --- */}
                         <label className="flex items-center cursor-pointer select-none group">
                             <input 
@@ -126,6 +132,7 @@ export default function InvoiceList( {showForm ,invoiceData, setShowForm, select
                             </div>
                             <span className="text-[#0C0E16] dark:text-white font-bold text-[15px]">Pending</span>
                         </label>
+
 
                         {/* --- PAID CHECKBOX --- */}
                         <label className="flex items-center cursor-pointer select-none group">
@@ -173,7 +180,7 @@ export default function InvoiceList( {showForm ,invoiceData, setShowForm, select
 
             <div className="mt-12 flex flex-col   gap-7">
 
-                {invoiceData.map((invoice) => 
+                {filteredInvoices.map((invoice) => 
 
                 <Link
                     to={`invoice/${invoice.id}`}
