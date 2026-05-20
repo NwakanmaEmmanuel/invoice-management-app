@@ -22,7 +22,7 @@ function InvoiceForm({invoice, setShowForm}: InvoiceFormProps) {
   
   return (
     <div className='fixed bottom-0 left-[1px] right-0 top-0 bg-black/50 z-50' onClick={() => setShowForm(false)}>
-      <div className='bg-[#FFFFFF] dark:bg-[#141625] absolute top-0 left-[6.4rem] h-screen rounded-tr-[20px] rounded-br-[20px] w-[40rem] z-10 p-11 overflow-y-scroll text-black '   
+      <div className='bg-[#FFFFFF] custom-scrollbar dark:bg-[#141625] absolute top-0 left-[6.4rem] h-screen rounded-tr-[20px] rounded-br-[20px] w-[40rem] z-10 p-11 overflow-y-auto text-black '   
       onClick={(e) => e.stopPropagation()} >
         <div className='flex gap-2 mb-11'>
 
@@ -162,14 +162,14 @@ function InvoiceForm({invoice, setShowForm}: InvoiceFormProps) {
               placeholder='Graphic Design' />
           </div>
 
-          <div className='mb-6'>
+          <div className='mb-6 relative'>
             <h1 className='text-[18px] font-bold mb-4 text-[#777F98]'>Item List</h1>
             <div className='grid grid-cols-[200px_50px_100px_80px_10px] mb-4 gap-5'>
               <p className='text-[13px] font-medium text-[#7E88C3] dark:text-[#DFE3FA]'>Item Name</p>
               <p className='text-[13px] font-medium text-[#7E88C3] dark:text-[#DFE3FA]'>Qty.</p>
               <p className='text-[13px] font-medium text-[#7E88C3] dark:text-[#DFE3FA]'>Price</p>
               <p className='text-[13px] font-medium text-[#7E88C3] dark:text-[#DFE3FA]'>Total</p>
-         </div>
+            </div>
 
          {items?.map((item) => (
           <div key={item.name} className='grid grid-cols-[200px_50px_100px_80px_10px] gap-5 mb-5 items-center'>
@@ -200,17 +200,17 @@ function InvoiceForm({invoice, setShowForm}: InvoiceFormProps) {
          </div>
 
           {isEditing ? ( 
-            <div className='flex justify-end gap-3'>
+            <div className='flex justify-end  bg-white  gap-3'>
               <button className='text-[15px] bg-[#F9FAFE] text-[#7E88C3] dark:text-[#DFE3FA] dark:bg-[#252945] rounded-3xl py-3 px-5 font-bold'>Cancel</button>
               <button className='text-[15px] text-[#F9FAFE] bg-[#7E88C3] dark:bg-[#7C5DFA] dark:text-white rounded-3xl py-3 px-5 font-bold'>Save Changes</button>
             </div>
             ) : (
-              <div className='flex justify-between gap-3'>
-              <button className='text-[15px] bg-[#F9FAFE] text-[#7E88C3] dark:bg-[#F9FAFE] dark:text-[#7E88C3] rounded-3xl py-3 px-5 font-bold'>Discard</button>
-              <div>
-                <button className='bg-[#373B53] dark:bg-[#373B53] dark:text-[#DFE3FA] rounded-3xl py-3 px-5 font-bold text-[15px] text-[#888EB0]'>Save as Draft</button>
-                <button className='text-[15px] text-[#F9FAFE] bg-[#7E88C3] dark:bg-[#7C5DFA] dark:text-white rounded-3xl py-3 px-5 font-bold ml-[10px]'>Save and Send</button>
-              </div>
+              <div className='flex justify-between bg-white  gap-3'>
+                <button className='text-[15px] bg-[#F9FAFE] text-[#7E88C3] dark:bg-[#F9FAFE] dark:text-[#7E88C3] rounded-3xl py-3 px-5 font-bold'>Discard</button>
+                <div>
+                  <button className='bg-[#373B53] dark:bg-[#373B53] dark:text-[#DFE3FA] rounded-3xl py-3 px-5 font-bold text-[15px] text-[#888EB0]'>Save as Draft</button>
+                  <button className='text-[15px] text-[#F9FAFE] bg-[#7E88C3] dark:bg-[#7C5DFA] dark:text-white rounded-3xl py-3 px-5 font-bold ml-[10px]'>Save and Send</button>
+                </div>
             </div>
             )
         }

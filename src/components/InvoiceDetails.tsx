@@ -77,8 +77,8 @@ function InvoiceDetails( {showForm ,invoiceData, setInvoiceData, setShowForm, se
         <div className='flex items-center gap-3 cursor-pointer ' 
           onClick={ () => navigate(-1)}
         >
-          <i className="fa-solid fa-angle-left font-extrabold  text-[#7C5DFA]"></i>
-          <h1 className='text-[15px] text-[#0C0E16]  dark:text-white font-bold'>Go back</h1>
+          <i className="fa-solid fa-angle-left font-extrabold  text-[#7C5DFA] hover:text-[#9277FF] "></i>
+          <h1 className='text-[15px] text-[#0C0E16] hover:text-[#7E88C3] dark:text-white font-bold'>Go back</h1>
         </div>
 
         <div className='bg-[#FFFFFF] shadow-[0px_10px_10px_-10px_#48549F1A] dark:bg-[#1E2139] flex items-center justify-between rounded-lg px-7 py-7 mt-10'>
