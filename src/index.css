@@ -25,3 +25,13 @@
 .custom-scrollbar::-webkit-scrollbar-thumb:hover {
   background-color: #C5CAE3;
 }
+
+.dark .custom-scrollbar::-webkit-scrollbar-thumb {
+  background: #252945;
+  background-clip: content-box;
+}
+
+.dark .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: #373b53;
+  background-clip: content-box;
+}
