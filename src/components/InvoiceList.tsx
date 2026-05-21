@@ -185,7 +185,7 @@ export default function InvoiceList( {showForm ,invoiceData, setShowForm, select
                 <Link
                     to={`invoice/${invoice.id}`}
                     key={invoice.id}
-                    className=" grid grid-cols-[150px_1fr_1fr_150px_100px_40px] shadow-[0px_10px_10px_-10px_#48549F1A] cursor-pointer  items-center  bg-[#FFFFFF] dark:bg-[#1E2139] rounded-lg px-[32px] py-[15px] ">
+                    className=" grid grid-cols-[150px_1fr_1fr_150px_100px_40px] shadow-[0px_10px_10px_-10px_#48549F1A] cursor-pointer  items-center  bg-[#FFFFFF] hover:border-[#7C5DFA] border border-transparent border-solid hover:border-solid dark:bg-[#1E2139] rounded-lg px-[32px] py-[15px] ">
                     
                     <h1 className="text-[15px] dark:text-white font-bold">
                         <span className="text-[#7E88C3]">#</span>

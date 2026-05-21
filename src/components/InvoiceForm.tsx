@@ -11,14 +11,8 @@ function InvoiceForm({invoice, setShowForm}: InvoiceFormProps) {
 
   const isEditing = !!invoice
 
-  const items = invoice?.items || [
-  {
-    name: "",
-    quantity: "",
-    price: "",
-    total: "",
-  },
-];
+  const items = invoice?.items 
+  
   
   return (
     <div className='fixed bottom-0 left-[1px] right-0 top-0 bg-black/50 z-50' onClick={() => setShowForm(false)}>
@@ -47,7 +41,7 @@ function InvoiceForm({invoice, setShowForm}: InvoiceFormProps) {
           <input type="text" 
             className='w-full outline-none mb-6  dark:bg-[#1E2139] dark:text-white border-[#DFE3FA] border-solid border-2 dark:border-none   rounded-[1px] font-bold text-[15px] px-4 py-2' 
             defaultValue={invoice?.senderAddress.street}  
-            placeholder='19 Union Terrace' 
+
           />
 
           <div className='grid grid-cols-3 gap-4 mb-[-1px]'>
@@ -60,17 +54,17 @@ function InvoiceForm({invoice, setShowForm}: InvoiceFormProps) {
             <input type="text" 
               className='w-full outline-none mb-6 font-bold text-[#0C0E16] dark:bg-[#1E2139] dark:text-white border-[#DFE3FA] border-solid border-2 dark:border-none   rounded-[1px]  text-[15px] px-4 py-2' 
               defaultValue={invoice?.senderAddress.city}
-              placeholder='London' />
-
-            <input type="text" 
-              className='w-full outline-none mb-6 font-bold text-[#0C0E16] border-[#DFE3FA] border-solid border-2 dark:border-none dark:bg-[#1E2139] dark:text-white  rounded-[1px]  text-[15px] px-4 py-2' 
-              defaultValue={invoice?.senderAddress.country}
-              placeholder='United Kingdom' />
+               />
 
             <input type="text" 
               className='w-full outline-none mb-6 font-bold text-[#0C0E16] border-[#DFE3FA] border-solid border-2 dark:border-none dark:bg-[#1E2139] dark:text-white  rounded-[1px]  text-[15px] px-4 py-2' 
               defaultValue={invoice?.senderAddress.postCode}
-              placeholder='E1 3EZ' />
+               />
+
+            <input type="text" 
+              className='w-full outline-none mb-6 font-bold text-[#0C0E16] border-[#DFE3FA] border-solid border-2 dark:border-none dark:bg-[#1E2139] dark:text-white  rounded-[1px]  text-[15px] px-4 py-2' 
+              defaultValue={invoice?.senderAddress.country}
+              />
           </div>
         </div>
 
@@ -83,15 +77,16 @@ function InvoiceForm({invoice, setShowForm}: InvoiceFormProps) {
           <input type="text"
             className='w-full outline-none mb-6 font-bold text-[#0C0E16] border-[#DFE3FA] border-solid border-2 dark:border-none dark:bg-[#1E2139] dark:text-white  rounded-[1px]  text-[15px] px-4 py-2'   
             defaultValue={invoice?.clientName}
-            placeholder='Alex Grim' />
+             />
 
           <label className='text-[13px] text-[#7E88C3] mb-4 font-medium dark:text-[#DFE3FA]'>
             Client's Email
           </label>
           <input type="email" 
             className='w-full outline-none mb-6 font-bold text-[#0C0E16] border-[#DFE3FA] border-solid border-2 dark:border-none dark:bg-[#1E2139] dark:text-white  rounded-[1px]  text-[15px] px-4 py-2' 
+            placeholder='e.g. email@example.com'
             defaultValue={invoice?.clientEmail}
-            placeholder='alexgrim@mail.com' />
+            />
 
           <label  className='text-[13px] text-[#7E88C3] mb-4 font-medium dark:text-[#DFE3FA]'>
             Street Address
@@ -99,7 +94,7 @@ function InvoiceForm({invoice, setShowForm}: InvoiceFormProps) {
           <input type='text' 
             className='w-full outline-none mb-6 font-bold text-[#0C0E16] border-[#DFE3FA] border-solid border-2 dark:border-none dark:bg-[#1E2139] dark:text-white  rounded-[1px]  text-[15px] px-4 py-2' 
             defaultValue={invoice?.clientAddress.street}
-            placeholder='84 Church Way' />
+             />
         </div>
 
         <div>
@@ -112,18 +107,18 @@ function InvoiceForm({invoice, setShowForm}: InvoiceFormProps) {
           <div className='grid grid-cols-3 gap-4 mb-8'>
             <input type="text" 
               className='w-full outline-none mb-6 font-bold text-[#0C0E16] border-[#DFE3FA] border-solid border-2 dark:border-none dark:bg-[#1E2139] dark:text-white  rounded-[1px]  text-[15px] px-4 py-2' 
-              defaultValue={invoice?.clientAddress.city || ''}
-              placeholder='BradFord' />
+              defaultValue={invoice?.clientAddress.city}
+               />
 
             <input type="text" 
               className='w-full outline-none mb-6 font-bold text-[#0C0E16] border-[#DFE3FA] border-solid border-2 dark:border-none dark:bg-[#1E2139] dark:text-white  rounded-[1px]  text-[15px] px-4 py-2' 
-              defaultValue={invoice?.clientAddress.country || ''}
-              placeholder='United Kingdom' />
+              defaultValue={invoice?.clientAddress.postCode}
+              />
 
             <input type="text" 
               className='w-full outline-none mb-6 font-bold text-[#0C0E16] border-[#DFE3FA] border-solid border-2 dark:border-none dark:bg-[#1E2139] dark:text-white  rounded-[1px]  text-[15px] px-4 py-2' 
-              defaultValue={invoice?.clientAddress.postCode || ''}
-              placeholder='BD1 9PB' />
+              defaultValue={invoice?.clientAddress.country}
+               />
           </div>
            
            <div className='flex gap-4 '>
@@ -135,7 +130,7 @@ function InvoiceForm({invoice, setShowForm}: InvoiceFormProps) {
 
               <button
                 className='border border-[#DFE3FA] dark:border-none dark:bg-[#1E2139] dark:text-white   rounded-[4px]  outline-none border-solid flex text-[15px] font-bold text-[#0C0E16] justify-between px-5 py-2 items-center  '>
-                  {formatDate(invoice?.createdAt || '')}
+                  {formatDate(invoice?.createdAt || 'Aug 21 2021')}
                 <i className="fa-solid fa-calendar text-[#7C5DFA] dark:text-[#7E88C3]"></i>
               </button>
             </div>
@@ -146,7 +141,7 @@ function InvoiceForm({invoice, setShowForm}: InvoiceFormProps) {
               </p>
               <button 
                 className='border border-[#DFE3FA] dark:border-none dark:bg-[#1E2139] dark:text-white rounded-[4px] border-solid flex text-[15px] font-bold text-[#0C0E16] justify-between px-5 py-2 items-center  '>
-                Net {invoice?.paymentTerms || ''} Days
+                Net {invoice?.paymentTerms || '30'} Days
               <i className="fa-solid fa-angle-down text-[17px] text-[#7C5DFA]"></i>
               </button>
             </div>
@@ -158,8 +153,8 @@ function InvoiceForm({invoice, setShowForm}: InvoiceFormProps) {
             </p>
             <input type='text'
               className='w-full outline-none mb-6 font-bold text-[#0C0E16] border-[#DFE3FA] border-solid border-2 dark:border-none dark:bg-[#1E2139] dark:text-white  rounded-[1px]  text-[15px] px-4 py-2'  
-              defaultValue={invoice?.description || ''} 
-              placeholder='Graphic Design' />
+              placeholder='e.g. Graphic Design Service'
+              />
           </div>
 
           <div className='mb-6 relative'>
@@ -175,20 +170,16 @@ function InvoiceForm({invoice, setShowForm}: InvoiceFormProps) {
           <div key={item.name} className='grid grid-cols-[200px_50px_100px_80px_10px] gap-5 mb-5 items-center'>
               <input type='text' 
                 className='w-full outline-none  font-bold text-[#0C0E16] border-[#DFE3FA] border-solid border-2 dark:border-none dark:bg-[#1E2139] dark:text-white  rounded-[1px]  text-[15px] px-4 py-2'  
-                defaultValue={item.name}
-                placeholder='Banner Design' />
+                />
               
               <input type='text' 
                 className='w-full outline-none  font-bold text-[#0C0E16] border-[#DFE3FA] border-solid border-2 dark:border-none dark:bg-[#1E2139] dark:text-white  rounded-[1px]  text-[15px] px-4 py-2'  
-                defaultValue={item.quantity}
-                placeholder='1' />
+               />
 
               <input type='text' 
                 className='w-full outline-none  font-bold text-[#0C0E16] border-[#DFE3FA] border-solid border-2 dark:border-none dark:bg-[#1E2139] dark:text-white  rounded-[1px]  text-[15px] px-4 py-2'  
-                defaultValue={item.price} 
-                placeholder='156.00' 
               />
-              <p className='font-bold text-[15px] text-[#888EB0]'>{item.total || '156.000'}</p>
+              <p className='font-bold text-[15px] text-[#888EB0]'>{item.total || ''}</p>
               <i className="fa-solid fa-trash text-[#888EB0] "></i>
             </div>
          ))}
