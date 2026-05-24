@@ -1,5 +1,6 @@
 import { formatDate } from '../utils/helpers';
 import { Invoice } from '../types/invoice';
+import { useState } from 'react';
 
 
 type InvoiceFormProps = {
@@ -12,6 +13,11 @@ function InvoiceForm({invoice, setShowForm}: InvoiceFormProps) {
   const isEditing = !!invoice
 
   const items = invoice?.items 
+  const [formData, setFormData] = useState(invoice)
+
+  function handleChange(e: React.ChangeEvent<HTMLInputElement>) {
+    setFormData((prev) => ({...prev!, clientName: e.target.value, }))
+  }
   
   
   return (
@@ -71,13 +77,14 @@ function InvoiceForm({invoice, setShowForm}: InvoiceFormProps) {
         <div>
           <h1 className='text-[#7C5DFA] text-[15px] font-bold mb-6 '>Bill To</h1>
 
-          <label  className='text-[13px] text-[#7E88C3] mb-4 font-medium dark:text-[#DFE3FA]'>
+          <label  className={`text-[13px] text-[#7E88C3] mb-4 font-medium dark:text-[#DFE3FA] ${formData?.clientName ? "text-[blue]" : "text-red-600"}`}>
             Client's Name
           </label>
           <input type="text"
             className='w-full outline-none mb-6 font-bold text-[#0C0E16] border-[#DFE3FA] border-solid border-2 dark:border-none dark:bg-[#1E2139] dark:text-white  rounded-[1px]  text-[15px] px-4 py-2'   
-            defaultValue={invoice?.clientName}
-             />
+            // defaultValue={invoice?.clientName}
+            defaultValue={formData?.senderAddress?.street}
+            onChange={handleChange}/>
 
           <label className='text-[13px] text-[#7E88C3] mb-4 font-medium dark:text-[#DFE3FA]'>
             Client's Email
@@ -154,6 +161,7 @@ function InvoiceForm({invoice, setShowForm}: InvoiceFormProps) {
             <input type='text'
               className='w-full outline-none mb-6 font-bold text-[#0C0E16] border-[#DFE3FA] border-solid border-2 dark:border-none dark:bg-[#1E2139] dark:text-white  rounded-[1px]  text-[15px] px-4 py-2'  
               placeholder='e.g. Graphic Design Service'
+              defaultValue={invoice?.description}
               />
           </div>
 
@@ -170,14 +178,17 @@ function InvoiceForm({invoice, setShowForm}: InvoiceFormProps) {
           <div key={item.name} className='grid grid-cols-[200px_50px_100px_80px_10px] gap-5 mb-5 items-center'>
               <input type='text' 
                 className='w-full outline-none  font-bold text-[#0C0E16] border-[#DFE3FA] border-solid border-2 dark:border-none dark:bg-[#1E2139] dark:text-white  rounded-[1px]  text-[15px] px-4 py-2'  
+                defaultValue={item.name}
                 />
               
               <input type='text' 
                 className='w-full outline-none  font-bold text-[#0C0E16] border-[#DFE3FA] border-solid border-2 dark:border-none dark:bg-[#1E2139] dark:text-white  rounded-[1px]  text-[15px] px-4 py-2'  
+                defaultValue={item.quantity}
                />
 
               <input type='text' 
                 className='w-full outline-none  font-bold text-[#0C0E16] border-[#DFE3FA] border-solid border-2 dark:border-none dark:bg-[#1E2139] dark:text-white  rounded-[1px]  text-[15px] px-4 py-2'  
+                defaultValue={item.price}
               />
               <p className='font-bold text-[15px] text-[#888EB0]'>{item.total || ''}</p>
               <i className="fa-solid fa-trash text-[#888EB0] "></i>
