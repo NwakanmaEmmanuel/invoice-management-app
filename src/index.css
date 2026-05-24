@@ -35,3 +35,13 @@
   background: #373b53;
   background-clip: content-box;
 }
+
+input:hover{
+  border: 1px solid #9277FF;
+  cursor: pointer;
+}
+
+input:active{
+  border: 1px solid #9277FF;
+  cursor: pointer;
+}

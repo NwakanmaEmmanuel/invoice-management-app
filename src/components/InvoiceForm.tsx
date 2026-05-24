@@ -1,6 +1,6 @@
 import { formatDate } from '../utils/helpers';
 import { Invoice } from '../types/invoice';
-import { useState } from 'react';
+import {  useState } from 'react';
 
 
 type InvoiceFormProps = {
@@ -14,11 +14,12 @@ function InvoiceForm({invoice, setShowForm}: InvoiceFormProps) {
 
   const items = invoice?.items 
   const [formData, setFormData] = useState(invoice)
+  const [selectPaymentTerm, setSelectPaymentTerm] = useState(true)
 
   function handleChange(e: React.ChangeEvent<HTMLInputElement>) {
     setFormData((prev) => ({...prev!, clientName: e.target.value, }))
   }
-  
+
   
   return (
     <div className='fixed bottom-0 left-[1px] right-0 top-0 bg-black/50 z-50' onClick={() => setShowForm(false)}>
@@ -77,13 +78,15 @@ function InvoiceForm({invoice, setShowForm}: InvoiceFormProps) {
         <div>
           <h1 className='text-[#7C5DFA] text-[15px] font-bold mb-6 '>Bill To</h1>
 
-          <label  className={`text-[13px] text-[#7E88C3] mb-4 font-medium dark:text-[#DFE3FA] ${formData?.clientName ? "text-[blue]" : "text-red-600"}`}>
+          <label  className={`text-[13px] mb-4 font-medium dark:text-[#DFE3FA] ${formData?.clientName ? "text-[#7E88C3]" : "text-red-600 flex justify-between"}`}>
             Client's Name
+             {!formData?.clientName && <span>can’t be empty</span>} 
           </label>
+
           <input type="text"
-            className='w-full outline-none mb-6 font-bold text-[#0C0E16] border-[#DFE3FA] border-solid border-2 dark:border-none dark:bg-[#1E2139] dark:text-white  rounded-[1px]  text-[15px] px-4 py-2'   
+            className={`w-full outline-none mb-6 font-bold text-[#0C0E16] border-[#DFE3FA] border-solid border-2 dark:border-none dark:bg-[#1E2139] dark:text-white  rounded-[1px]  text-[15px] px-4 py-2 ${formData?.clientName ? "border-[#7E88C3]" : "border-[red] hover:border-[red]"} `}  
             // defaultValue={invoice?.clientName}
-            defaultValue={formData?.senderAddress?.street}
+            value={formData?.clientName || ""}
             onChange={handleChange}/>
 
           <label className='text-[13px] text-[#7E88C3] mb-4 font-medium dark:text-[#DFE3FA]'>
@@ -142,14 +145,14 @@ function InvoiceForm({invoice, setShowForm}: InvoiceFormProps) {
               </button>
             </div>
 
-            <div className='flex flex-col  gap-4  border w-[100%]'>
+            <div className='flex flex-col  gap-4  border w-[100%]' onClick={() => setSelectPaymentTerm((prev) => !prev)}>
               <p className='text-[13px] font-medium text-[#7E88C3] dark:text-[#DFE3FA]'>
                 Payment Terms
               </p>
               <button 
                 className='border border-[#DFE3FA] dark:border-none dark:bg-[#1E2139] dark:text-white rounded-[4px] border-solid flex text-[15px] font-bold text-[#0C0E16] justify-between px-5 py-2 items-center  '>
                 Net {invoice?.paymentTerms || '30'} Days
-              <i className="fa-solid fa-angle-down text-[17px] text-[#7C5DFA]"></i>
+              {selectPaymentTerm ? <i className="fa-solid fa-angle-down text-[17px] text-[#7C5DFA]"></i> : <i className="fa-solid fa-angle-up text-[17px] text-[#7C5DFA]"></i> }
               </button>
             </div>
           </div>
@@ -203,7 +206,7 @@ function InvoiceForm({invoice, setShowForm}: InvoiceFormProps) {
 
           {isEditing ? ( 
             <div className='fixed bottom-0 left-[88px] w-[40rem] '>
-              <div className='flex py-[31px] px-[50px]  w-[655px] justify-end  bg-[#FFFFFF] dark:bg-[#1E2139] p-4 gap-3 rounded-br-[20px] rounded-tr-[20px] '>
+              <div className='flex py-[31px] px-[50px]  w-full justify-end  bg-[#FFFFFF] dark:bg-[#1E2139] p-4 gap-3 rounded-br-[20px] rounded-tr-[20px] '>
                 <button className='text-[15px] bg-[#F9FAFE] text-[#7E88C3] dark:text-[#DFE3FA] dark:bg-[#252945] rounded-3xl py-3 px-5 font-bold'>Cancel</button>
                 <button className='text-[15px] text-[#F9FAFE] bg-[#7E88C3] dark:bg-[#7C5DFA] dark:text-white rounded-3xl py-3 px-5 font-bold'>Save Changes</button>
               </div>
