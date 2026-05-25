@@ -14,17 +14,19 @@ function InvoiceForm({invoice, setShowForm}: InvoiceFormProps) {
 
   const items = invoice?.items 
   const [formData, setFormData] = useState(invoice)
-  const [selectPaymentTerm, setSelectPaymentTerm] = useState(true)
+  const [selectPaymentTerm, setSelectPaymentTerm] = useState(false)
+  const [showDatePicker, setShowDatePicker] = useState(false)
 
   function handleChange(e: React.ChangeEvent<HTMLInputElement>) {
     setFormData((prev) => ({...prev!, clientName: e.target.value, }))
   }
 
+
   
   return (
     <div className='fixed bottom-0 left-[1px] right-0 top-0 bg-black/50 z-50' onClick={() => setShowForm(false)}>
-      <div className='bg-[#F8F8FB]  custom-scrollbar dark:bg-[#141625] absolute top-0 left-[6.4rem] h-screen rounded-tr-[20px] rounded-br-[20px] w-[40rem] z-10 p-11 overflow-y-auto text-black '   
-      onClick={(e) => e.stopPropagation()} >
+      <form className='bg-[#F8F8FB]  custom-scrollbar dark:bg-[#141625] absolute top-0 left-[6.4rem] h-screen rounded-tr-[12px] rounded-br-[20px] w-[40rem] z-10 p-11 overflow-y-auto text-black '   
+      onClick={(e) => e.stopPropagation()}  >
         <div className='flex gap-2 mb-11'>
 
           {isEditing ? (
@@ -139,21 +141,63 @@ function InvoiceForm({invoice, setShowForm}: InvoiceFormProps) {
               </p>
 
               <button
-                className='border border-[#DFE3FA] dark:border-none dark:bg-[#1E2139] dark:text-white   rounded-[4px]  outline-none border-solid flex text-[15px] font-bold text-[#0C0E16] justify-between px-5 py-2 items-center  '>
+              disabled={isEditing}
+              type='button'
+              onClick={(e) => {
+                e.preventDefault();
+                setShowDatePicker((prev) => !prev);
+              }}
+              className='border border-[#DFE3FA] dark:border-none dark:bg-[#1E2139] dark:text-white   rounded-[4px]  outline-none border-solid flex text-[15px] font-bold text-[#0C0E16] justify-between px-5 py-2 items-center disabled:opacity-50 disabled:cursor-not-allowed ' >
                   {formatDate(invoice?.createdAt || 'Aug 21 2021')}
                 <i className="fa-solid fa-calendar text-[#7C5DFA] dark:text-[#7E88C3]"></i>
               </button>
+              {showDatePicker && ( <div>
+                <input
+  type="date"
+  className="
+    w-full
+    px-4 py-3
+    rounded-lg
+    border
+    border-[#DFE3FA]
+    dark:border-none
+    bg-white
+    dark:bg-[#1E2139]
+    text-[#0C0E16]
+    dark:text-white
+    font-bold
+    outline-none
+  "
+/>
+              </div> )}
             </div>
 
-            <div className='flex flex-col  gap-4  border w-[100%]' onClick={() => setSelectPaymentTerm((prev) => !prev)}>
+            <div className='flex flex-col  gap-4  border w-[100%] relative'>
               <p className='text-[13px] font-medium text-[#7E88C3] dark:text-[#DFE3FA]'>
                 Payment Terms
               </p>
               <button 
-                className='border border-[#DFE3FA] dark:border-none dark:bg-[#1E2139] dark:text-white rounded-[4px] border-solid flex text-[15px] font-bold text-[#0C0E16] justify-between px-5 py-2 items-center  '>
+                 onClick={(e) => {
+                   e.preventDefault();
+                   setSelectPaymentTerm((prev) => !prev);
+                 }}
+                className='border border-[#DFE3FA]  hover:border-[#7C5DFA] active:border-[#7C5DFA] dark:border-none dark:bg-[#1E2139] dark:text-white rounded-[4px] border-solid flex text-[15px] font-bold text-[#0C0E16] justify-between px-5 py-2 items-center  '>
                 Net {invoice?.paymentTerms || '30'} Days
-              {selectPaymentTerm ? <i className="fa-solid fa-angle-down text-[17px] text-[#7C5DFA]"></i> : <i className="fa-solid fa-angle-up text-[17px] text-[#7C5DFA]"></i> }
+               {selectPaymentTerm ? (
+                 <i className="fa-solid fa-angle-up text-[17px] text-[#7C5DFA]"></i>
+
+                 ) : ( 
+                <i className="fa-solid fa-angle-down text-[17px] text-[#7C5DFA]"></i>
+                ) }
               </button>
+              {selectPaymentTerm && (
+                <div className='absolute bg-[#ffff] dark:bg-[#1E2139] w-full top-20 rounded-md shadow-[0px_10px_20px_0px_#48549F40] justify-start flex flex-col gap-1 z-10 border border-[#DFE3FA] dark:border-none '>
+                  <button type='button' className='text-left text-[15px] text-[#0C0E16] hover:text-[#7C5DFA] p-3 border-b-2 border-solid border-[#DFE3FA]  dark:text-white font-bold'>Net 1 Day</button>
+                  <button type='button' className='text-left text-[15px] text-[#0C0E16] hover:text-[#7C5DFA] p-3  border-b-2 border-solid border-[#DFE3FA] dark:text-white font-bold'>Net 7 Days</button>
+                  <button type='button' className='text-left text-[15px] text-[#0C0E16] hover:text-[#7C5DFA] p-3  border-b-2 border-solid border-[#DFE3FA] dark:text-white font-bold'>Net 14 Days</button>
+                  <button type='button' className='text-left text-[15px] text-[#0C0E16] hover:text-[#7C5DFA] p-3 dark:text-white font-bold'>Net 30 Days</button>
+                </div>
+              )}
             </div>
           </div>
 
@@ -199,21 +243,22 @@ function InvoiceForm({invoice, setShowForm}: InvoiceFormProps) {
          ))}
 
          <div className='mb-20'>
-          <button className='bg-[#F9FAFE] text-[#7E88C3] rounded-3xl w-full text-[15px] font-bold py-3 hover:bg-[#DFE3FA] dark:text-[#DFE3FA] dark:bg-[#252945] '>
+          <button type='button'
+           className='bg-[#F9FAFE]  text-[#7E88C3] rounded-3xl w-full text-[15px] font-bold py-3 hover:bg-[#DFE3FA] dark:text-[#DFE3FA] dark:bg-[#252945] '>
             + Add New Item
           </button>
          </div>
 
           {isEditing ? ( 
-            <div className='fixed bottom-0 left-[88px] w-[40rem] '>
-              <div className='flex py-[31px] px-[50px]  w-full justify-end  bg-[#FFFFFF] dark:bg-[#1E2139] p-4 gap-3 rounded-br-[20px] rounded-tr-[20px] '>
-                <button className='text-[15px] bg-[#F9FAFE] text-[#7E88C3] dark:text-[#DFE3FA] dark:bg-[#252945] rounded-3xl py-3 px-5 font-bold'>Cancel</button>
-                <button className='text-[15px] text-[#F9FAFE] bg-[#7E88C3] dark:bg-[#7C5DFA] dark:text-white rounded-3xl py-3 px-5 font-bold'>Save Changes</button>
+            <div className='fixed bottom-0 left-[103px] w-[40rem] shadow-[-1px_-9px_20px_0px_#48549F40]'>
+              <div className='flex py-[31px] px-[50px]  w-full justify-end  bg-[#FFFFFF] dark:bg-[#1E2139] p-4 gap-3 rounded-br-[12px] rounded-tr-[20px] '>
+                <button type='button' className='text-[15px] bg-[#F9FAFE] text-[#7E88C3] dark:text-[#DFE3FA] dark:bg-[#252945] rounded-3xl py-3 px-5 font-bold'>Cancel</button>
+                <button type='button' className='text-[15px] text-[#F9FAFE] bg-[#7E88C3] dark:bg-[#7C5DFA] dark:text-white rounded-3xl py-3 px-5 font-bold'>Save Changes</button>
               </div>
             </div>
             ) : (
-              <div className='fixed bottom-0 left-[88px] w-[40rem]   '>
-                <div className='flex py-[31px] px-[50px]  w-[655px] justify-between bg-[#FFFFFF] dark:bg-[#1E2139] p-4   rounded-br-[20px] rounded-tr-[20px] gap-[9rem] '>
+              <div className='fixed bottom-0 left-[88px] w-[40rem]  shadow-[-1px_-9px_20px_0px_#48549F40] '>
+                <div className='flex py-[31px] px-[50px]  w-[655px] justify-between bg-[#FFFFFF] dark:bg-[#1E2139] p-4   rounded-br-[12px] rounded-tr-[20px] gap-[9rem] '>
                   <button className='text-[15px] bg-[#F9FAFE] text-[#7E88C3] dark:bg-[#F9FAFE] dark:text-[#7E88C3] rounded-3xl py-3 px-5 font-bold'>Discard</button>
                   <div>
                     <button className='bg-[#373B53] dark:bg-[#373B53] dark:text-[#DFE3FA] rounded-3xl py-3 px-5 font-bold text-[15px] text-[#888EB0]'>Save as Draft</button>
@@ -229,7 +274,7 @@ function InvoiceForm({invoice, setShowForm}: InvoiceFormProps) {
         </div>
 
 
-      </div>
+      </form>
     </div>
   )
 }
