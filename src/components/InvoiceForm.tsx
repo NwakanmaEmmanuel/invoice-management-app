@@ -1,9 +1,12 @@
 import { formatDate } from '../utils/helpers';
 import { Invoice } from '../types/invoice';
 import {  useState } from 'react';
+import { DayPicker } from "react-day-picker";
+import "react-day-picker/dist/style.css";
 
 
 type InvoiceFormProps = {
+
   setShowForm: React.Dispatch<React.SetStateAction<boolean>>;
   invoice: Invoice | null;
 };
@@ -16,6 +19,7 @@ function InvoiceForm({invoice, setShowForm}: InvoiceFormProps) {
   const [formData, setFormData] = useState(invoice)
   const [selectPaymentTerm, setSelectPaymentTerm] = useState(false)
   const [showDatePicker, setShowDatePicker] = useState(false)
+  const [selectedDate, setSelectedDate] = useState<Date>();
 
   function handleChange(e: React.ChangeEvent<HTMLInputElement>) {
     setFormData((prev) => ({...prev!, clientName: e.target.value, }))
@@ -135,8 +139,8 @@ function InvoiceForm({invoice, setShowForm}: InvoiceFormProps) {
            
            <div className='flex gap-4 '>
 
-            <div className='flex flex-col  gap-4 border w-[100%] opacity-50'>
-              <p className='text-[13px]  font-medium text-[#7E88C3] dark:text-[#DFE3FA] '>
+            <div className={`flex flex-col  gap-4 border w-[100%] relative ${isEditing ? 'opacity-50' : ''}`}>
+              <p className='text-[13px]  font-medium text-[#7E88C3] dark:text-[#DFE3FA] ' >
                 Invoice Date
               </p>
 
@@ -147,29 +151,29 @@ function InvoiceForm({invoice, setShowForm}: InvoiceFormProps) {
                 e.preventDefault();
                 setShowDatePicker((prev) => !prev);
               }}
-              className='border border-[#DFE3FA] dark:border-none dark:bg-[#1E2139] dark:text-white   rounded-[4px]  outline-none border-solid flex text-[15px] font-bold text-[#0C0E16] justify-between px-5 py-2 items-center disabled:opacity-50 disabled:cursor-not-allowed ' >
-                  {formatDate(invoice?.createdAt || 'Aug 21 2021')}
+              className='border border-[#DFE3FA] dark:border-none hover:border-[#7E88C3] active:border-[#7E88C3] dark:bg-[#1E2139] dark:text-white   rounded-[4px]  outline-none border-solid flex text-[15px] font-bold text-[#0C0E16] justify-between px-5 py-2 items-center disabled:opacity-50 disabled:cursor-not-allowed ' >
+                  {isEditing ? formatDate(invoice?.createdAt) : selectedDate
+                    ? formatDate(selectedDate.toDateString())
+                    : formatDate(new Date().toDateString())}
                 <i className="fa-solid fa-calendar text-[#7C5DFA] dark:text-[#7E88C3]"></i>
               </button>
-              {showDatePicker && ( <div>
-                <input
-  type="date"
-  className="
-    w-full
-    px-4 py-3
-    rounded-lg
-    border
-    border-[#DFE3FA]
-    dark:border-none
-    bg-white
-    dark:bg-[#1E2139]
-    text-[#0C0E16]
-    dark:text-white
-    font-bold
-    outline-none
-  "
-/>
-              </div> )}
+
+              {showDatePicker && ( 
+                <div className="absolute top-20 z-50 bg-white dark:bg-[#1E2139] p-4 rounded-lg shadow-[0px_10px_20px_0px_#48549F40]">
+                   <DayPicker
+                      mode="single"
+                      selected={selectedDate}
+                      onSelect={(date) => {
+                        setSelectedDate(date);
+                        setShowDatePicker(false);
+                      }}
+                      captionLayout="dropdown"
+                      startMonth={new Date(2020, 0)}
+                      endMonth={new Date(2035, 11)}
+                      className="custom-calendar"
+                    />
+                </div>
+              )}
             </div>
 
             <div className='flex flex-col  gap-4  border w-[100%] relative'>

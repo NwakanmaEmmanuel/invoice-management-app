@@ -45,3 +45,69 @@ input:active{
   border: 1px solid #9277FF;
   cursor: pointer;
 }
+
+.custom-calendar select {
+  background-color: transparent;
+  border: none;
+  font-weight: 700;
+  cursor: pointer;
+  outline: none;
+}
+
+.dark .custom-calendar select {
+  color: white;
+}
+
+.custom-calendar {
+  --rdp-accent-color: #7c5dfa;
+  --rdp-background-color: #f1edff;
+  margin: 0;
+}
+
+.custom-calendar .rdp-day_selected {
+  background-color: #7c5dfa;
+  color: white;
+  border-radius: 999px;
+}
+
+.custom-calendar .rdp-day:hover {
+  background-color: #f1edff;
+  border-radius: 999px;
+}
+
+.custom-calendar .rdp-button:hover:not([disabled]):not(.rdp-day_selected) {
+  background-color: #f1edff;
+}
+
+.custom-calendar .rdp-caption_label {
+  font-weight: 700;
+  font-size: 16px;
+}
+
+.custom-calendar .rdp-chevron {
+  fill: #7c5dfa;
+}
+
+.custom-calendar .rdp-day {
+  font-weight: 700;
+  width: 40px;
+  height: 40px;
+}
+
+.custom-calendar .rdp-head_cell {
+  color: #7e88c3;
+  font-size: 12px;
+}
+
+.dark .custom-calendar {
+  background-color: #1e2139;
+  color: white;
+}
+
+.dark .custom-calendar .rdp-day:hover {
+  background-color: #252945;
+}
+
+.dark .custom-calendar .rdp-button:hover:not([disabled]):not(.rdp-day_selected) {
+  background-color: #252945;
+}
