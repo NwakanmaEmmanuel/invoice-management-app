@@ -14,13 +14,41 @@ type InvoiceFormProps = {
 function InvoiceForm({invoice, setShowForm}: InvoiceFormProps) {
 
   const isEditing = !!invoice
+  const emptyInvoice: Invoice = {
+    id: "",
+    createdAt: "",
+    paymentDue: "",
+    description: "",
+    paymentTerms: 30,
+    clientName: "",
+    clientEmail: "",
+    status: "Draft",
+    senderAddress: {
+      street: "",
+      city: "",
+      postCode: "",
+      country: "",
+    },
+    clientAddress: {
+      street: "",
+      city: "",
+      postCode: "",
+      country: "",
+    },
+    items: [],
+    total: 0,
+  };
 
-  const [formData, setFormData] = useState(invoice)
+  const [formData, setFormData] = useState<Invoice>(
+  invoice || emptyInvoice
+  )
   const [selectPaymentTerm, setSelectPaymentTerm] = useState(false)
   const [showDatePicker, setShowDatePicker] = useState(false)
   const [selectedDate, setSelectedDate] = useState<Date>();
   const [paymentTerm, setPaymentTerm] = useState(invoice?.paymentTerms || 30)
   const items = formData?.items 
+
+ 
 
   // function handleChange(e: React.ChangeEvent<HTMLInputElement>) {
   //   setFormData((prev) => ({...prev!, name: e.target.value, }))
@@ -30,7 +58,7 @@ function InvoiceForm({invoice, setShowForm}: InvoiceFormProps) {
   const { name, value } = e.target;
 
   setFormData((prev) => ({
-    ...prev!,
+    ...prev,
     [name]: value,
   }));
 }
@@ -41,7 +69,7 @@ function InvoiceForm({invoice, setShowForm}: InvoiceFormProps) {
     const { name, value } = e.target;
 
     setFormData((prev) => ({
-      ...prev!,
+      ...prev,
       clientAddress: {
         ...prev!.clientAddress,
         [name]: value,
@@ -55,9 +83,9 @@ function InvoiceForm({invoice, setShowForm}: InvoiceFormProps) {
     const { name, value } = e.target;
 
     setFormData((prev) => ({
-      ...prev!,
+      ...prev,
       senderAddress: {
-        ...prev!.senderAddress,
+        ...prev.senderAddress,
         [name]: value,
       },
     }));
@@ -71,7 +99,7 @@ function InvoiceForm({invoice, setShowForm}: InvoiceFormProps) {
   value: string
 ) {
   setFormData((prev) => {
-    const updatedItems = [...prev!.items];
+    const updatedItems = [...prev.items];
 
     updatedItems[index] = {
       ...updatedItems[index],
@@ -82,7 +110,7 @@ function InvoiceForm({invoice, setShowForm}: InvoiceFormProps) {
     };
 
     return {
-      ...prev!,
+      ...prev,
       items: updatedItems,
     };
   });
@@ -116,7 +144,7 @@ function InvoiceForm({invoice, setShowForm}: InvoiceFormProps) {
           </p>
           <input type="text" 
             className='w-full outline-none mb-6  dark:bg-[#1E2139] dark:text-white border-[#DFE3FA] border-solid border-2 dark:border-none   rounded-[1px] font-bold text-[15px] px-4 py-2' 
-            value={formData?.senderAddress.street || ''}  
+            value={formData.senderAddress.street || ''}  
             name='street'
             onChange={handleSenderAddressChange}
           />
@@ -130,21 +158,21 @@ function InvoiceForm({invoice, setShowForm}: InvoiceFormProps) {
           <div className='grid grid-cols-3 gap-4 mb-8'>
             <input type="text" 
               className='w-full outline-none mb-6 font-bold text-[#0C0E16] dark:bg-[#1E2139] dark:text-white border-[#DFE3FA] border-solid border-2 dark:border-none   rounded-[1px]  text-[15px] px-4 py-2' 
-              value={formData?.senderAddress.city || ''}
+              value={formData.senderAddress.city || ''}
               name='city'
               onChange={handleSenderAddressChange}
                />
 
             <input type="text" 
               className='w-full outline-none mb-6 font-bold text-[#0C0E16] border-[#DFE3FA] border-solid border-2 dark:border-none dark:bg-[#1E2139] dark:text-white  rounded-[1px]  text-[15px] px-4 py-2' 
-              value={formData?.senderAddress.postCode}
+              value={formData.senderAddress.postCode}
               name='postCode'
               onChange={handleSenderAddressChange}
                /> 
 
             <input type="text" 
               className='w-full outline-none mb-6 font-bold text-[#0C0E16] border-[#DFE3FA] border-solid border-2 dark:border-none dark:bg-[#1E2139] dark:text-white  rounded-[1px]  text-[15px] px-4 py-2' 
-              value={formData?.senderAddress.country}
+              value={formData.senderAddress.country}
               name='country'
               onChange={handleSenderAddressChange}
                />
@@ -154,16 +182,16 @@ function InvoiceForm({invoice, setShowForm}: InvoiceFormProps) {
         <div>
           <h1 className='text-[#7C5DFA] text-[15px] font-bold mb-6 '>Bill To</h1>
 
-          <label  className={`text-[13px] mb-4 font-medium dark:text-[#DFE3FA] ${formData?.clientName ? "text-[#7E88C3]" : "text-red-600 flex justify-between"}`}>
+          <label  className={`text-[13px] mb-4 font-medium dark:text-[#DFE3FA] ${formData.clientName ? "text-[#7E88C3]" : "text-red-600 flex justify-between"}`}>
             Client's Name
-             {!formData?.clientName && <span>can’t be empty</span>} 
+             {!formData.clientName && <span>can’t be empty</span>} 
           </label>
 
           <input type="text"
             className={`w-full outline-none mb-6 font-bold text-[#0C0E16] border-[#DFE3FA] border-solid border-2 dark:border-none dark:bg-[#1E2139] dark:text-white  rounded-[1px]  text-[15px] px-4 py-2 ${formData?.clientName ? "border-[#7E88C3]" : "border-[red] hover:border-[red]"} `}  
             // value={invoice?.clientName}
             name='clientName'
-            value={formData?.clientName || ""}
+            value={formData.clientName || ""}
             onChange={handleChange}/>
 
           <label className='text-[13px] text-[#7E88C3] mb-4 font-medium dark:text-[#DFE3FA]'>
@@ -173,7 +201,7 @@ function InvoiceForm({invoice, setShowForm}: InvoiceFormProps) {
             className='w-full outline-none mb-6 font-bold text-[#0C0E16] border-[#DFE3FA] border-solid border-2 dark:border-none dark:bg-[#1E2139] dark:text-white  rounded-[1px]  text-[15px] px-4 py-2' 
             placeholder='e.g. email@example.com'
             name='clientEmail'
-            value={formData?.clientEmail || ""}
+            value={formData.clientEmail || ""}
             onChange={handleChange}
             />
 
@@ -183,7 +211,7 @@ function InvoiceForm({invoice, setShowForm}: InvoiceFormProps) {
           <input type='text' 
             className='w-full outline-none mb-6 font-bold text-[#0C0E16] border-[#DFE3FA] border-solid border-2 dark:border-none dark:bg-[#1E2139] dark:text-white  rounded-[1px]  text-[15px] px-4 py-2' 
             name='street'
-            value={formData?.clientAddress.street || ""}
+            value={formData.clientAddress.street || ""}
             onChange={handleClientAddressChange}
              />
         </div>
@@ -200,21 +228,21 @@ function InvoiceForm({invoice, setShowForm}: InvoiceFormProps) {
               className='w-full outline-none mb-6 font-bold text-[#0C0E16] border-[#DFE3FA] border-solid border-2 dark:border-none dark:bg-[#1E2139] dark:text-white  rounded-[1px]  text-[15px] px-4 py-2' 
               name='city'
               onChange={handleClientAddressChange}
-              value={formData?.clientAddress.city}
+              value={formData.clientAddress.city}
                />
 
             <input type="text" 
               className='w-full outline-none mb-6 font-bold text-[#0C0E16] border-[#DFE3FA] border-solid border-2 dark:border-none dark:bg-[#1E2139] dark:text-white  rounded-[1px]  text-[15px] px-4 py-2' 
               name='postCode'
               onChange={handleClientAddressChange}
-              value={formData?.clientAddress.postCode}
+              value={formData.clientAddress.postCode}
               />
 
             <input type="text" 
               className='w-full outline-none mb-6 font-bold text-[#0C0E16] border-[#DFE3FA] border-solid border-2 dark:border-none dark:bg-[#1E2139] dark:text-white  rounded-[1px]  text-[15px] px-4 py-2' 
               name='country'
               onChange={handleClientAddressChange}  
-              value={formData?.clientAddress.country}
+              value={formData.clientAddress.country}
                />
           </div>
            
@@ -233,7 +261,7 @@ function InvoiceForm({invoice, setShowForm}: InvoiceFormProps) {
                 setShowDatePicker((prev) => !prev);
               }}
               className='border border-[#DFE3FA] dark:border-none hover:border-[#7E88C3] active:border-[#7E88C3] dark:bg-[#1E2139] dark:text-white   rounded-[4px]  outline-none border-solid flex text-[15px] font-bold text-[#0C0E16] justify-between px-5 py-2 items-center disabled:opacity-50 disabled:cursor-not-allowed ' >
-                  {isEditing ? formatDate(invoice?.createdAt) : selectedDate
+                  {isEditing ? formatDate(invoice.createdAt) : selectedDate
                     ? formatDate(selectedDate.toDateString())
                     : formatDate(new Date().toDateString())}
                 <i className="fa-solid fa-calendar text-[#7C5DFA] dark:text-[#7E88C3]"></i>
@@ -318,7 +346,7 @@ function InvoiceForm({invoice, setShowForm}: InvoiceFormProps) {
               className='w-full outline-none mb-6 font-bold text-[#0C0E16] border-[#DFE3FA] border-solid border-2 dark:border-none dark:bg-[#1E2139] dark:text-white  rounded-[1px]  text-[15px] px-4 py-2'  
               placeholder='e.g. Graphic Design Service'
               name='description'
-              value={formData?.description || ""}
+              value={formData.description || ""}
               onChange={handleChange}
               />
           </div>
