@@ -71,7 +71,7 @@ function InvoiceForm({invoice, setShowForm}: InvoiceFormProps) {
     setFormData((prev) => ({
       ...prev,
       clientAddress: {
-        ...prev!.clientAddress,
+        ...prev.clientAddress,
         [name]: value,
       },
     }));
@@ -361,26 +361,26 @@ function InvoiceForm({invoice, setShowForm}: InvoiceFormProps) {
             </div>
 
          {items?.map((item, index) => (
-          <div key={index} className='grid grid-cols-[200px_50px_100px_80px_10px] gap-5 mb-5 items-center'>
+          <div key={index} className='grid grid-cols-[200px_60px_100px_80px_10px] gap-5 mb-5 items-center'>
               <input type='text' 
                 className='w-full outline-none  font-bold text-[#0C0E16] border-[#DFE3FA] border-solid border-2 dark:border-none dark:bg-[#1E2139] dark:text-white  rounded-[1px]  text-[15px] px-4 py-2'  
-                value={item.name}
+                value={item.name || ""}
                 onChange={(e) => handleItemChange(index, "name", e.target.value)}
               />
               
-              <input type='text' 
+              <input type='number' 
                 className='w-full outline-none  font-bold text-[#0C0E16] border-[#DFE3FA] border-solid border-2 dark:border-none dark:bg-[#1E2139] dark:text-white  rounded-[1px]  text-[15px] px-4 py-2'  
-                value={item.quantity}
+                value={item.quantity || ""}
                 onChange={(e) => handleItemChange(index, "quantity", e.target.value)}
               />
 
               <input type='number' 
                 className='w-full outline-none  font-bold text-[#0C0E16] border-[#DFE3FA] border-solid border-2 dark:border-none dark:bg-[#1E2139] dark:text-white  rounded-[1px]  text-[15px] px-4 py-2'  
-                value={item.price}
+                value={item.price || ""}
                 onChange={(e) => handleItemChange(index, "price", e.target.value)}
               />
               <p className='font-bold text-[15px] text-[#888EB0]'>{item.total || ''}</p>
-              <i className="fa-solid fa-trash text-[#888EB0] "></i>
+              <i className="fa-solid fa-trash text-[#888EB0] hover:text-[#EC5757] cursor-pointer "></i>
             </div>
          ))}
 
