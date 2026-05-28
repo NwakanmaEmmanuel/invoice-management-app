@@ -14,9 +14,10 @@ type InvoiceListProps = {
     React.SetStateAction<Invoice | null>
   >;
   invoiceData: Invoice[];
+  handleAddList: (data: Invoice) => void;
 };
 
-export default function InvoiceList( {showForm ,invoiceData, setShowForm, selectedInvoice, setSelectedInvoice}: InvoiceListProps ) {
+export default function InvoiceList( {showForm, handleAddList ,invoiceData, setShowForm, selectedInvoice, setSelectedInvoice}: InvoiceListProps ) {
     
     const [showStatus, setShowStatus] = useState(false)
     const [selectedStatus, setSelectedStatus] = useState<string[]>([]);    
@@ -174,7 +175,7 @@ export default function InvoiceList( {showForm ,invoiceData, setShowForm, select
             </div>
         </div>
 
-        {showForm && <InvoiceForm   setShowForm={setShowForm} invoice={selectedInvoice} />}
+        {showForm && <InvoiceForm   setShowForm={setShowForm} invoice={selectedInvoice} handleAddList={handleAddList} />}
 
         {invoiceData.length > 0  ? (
 

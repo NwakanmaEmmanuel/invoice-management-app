@@ -1,4 +1,4 @@
-import { formatDate } from '../utils/helpers';
+import { formatDate, generateId } from '../utils/helpers';
 import { Invoice } from '../types/invoice';
 import {  useState } from 'react';
 import { DayPicker } from "react-day-picker";
@@ -9,13 +9,14 @@ type InvoiceFormProps = {
 
   setShowForm: React.Dispatch<React.SetStateAction<boolean>>;
   invoice: Invoice | null;
+  handleAddList: (data: Invoice) => void
 };
 
-function InvoiceForm({invoice, setShowForm}: InvoiceFormProps) {
+function InvoiceForm({invoice, handleAddList, setShowForm}: InvoiceFormProps) {
 
   const isEditing = !!invoice
   const emptyInvoice: Invoice = {
-    id: "",
+    id: generateId(),
     createdAt: "",
     paymentDue: "",
     description: "",
@@ -46,6 +47,7 @@ function InvoiceForm({invoice, setShowForm}: InvoiceFormProps) {
   const [showDatePicker, setShowDatePicker] = useState(false)
   const [selectedDate, setSelectedDate] = useState<Date>();
   const [paymentTerm, setPaymentTerm] = useState(invoice?.paymentTerms || 30)
+  const [addItem, setAddItem] = useState(true)
   const items = formData?.items 
 
  
@@ -116,12 +118,31 @@ function InvoiceForm({invoice, setShowForm}: InvoiceFormProps) {
   });
 }
 
+  function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
+    e.preventDefault();
+    handleAddList(formData)
+    setShowForm(false)
+  }
 
-  
+  function handleAddItem() {
+    const newItem = {
+      name: "",
+      quantity: 0,
+      price: 0,
+      total: 0.00,
+    };
+    setFormData((prev) => ({
+      ...prev,
+      items: [...prev.items, newItem]
+    }));
+  }
+
   return (
     <div className='fixed bottom-0 left-[1px] right-0 top-0 bg-black/50 z-50' onClick={() => setShowForm(false)}>
       <form className='bg-[#F8F8FB]  custom-scrollbar dark:bg-[#141625] absolute top-0 left-[6.4rem] h-screen rounded-tr-[12px] rounded-br-[20px] w-[40rem] z-10 p-11 overflow-y-auto text-black '   
-      onClick={(e) => e.stopPropagation()}  >
+      onClick={(e) => e.stopPropagation()} 
+      onSubmit={handleSubmit}
+      >
         <div className='flex gap-2 mb-11'>
 
           {isEditing ? (
@@ -360,7 +381,7 @@ function InvoiceForm({invoice, setShowForm}: InvoiceFormProps) {
               <p className='text-[13px] font-medium text-[#7E88C3] dark:text-[#DFE3FA]'>Total</p>
             </div>
 
-         {items?.map((item, index) => (
+         {items.map((item, index) => (
           <div key={index} className='grid grid-cols-[200px_60px_100px_80px_10px] gap-5 mb-5 items-center'>
               <input type='text' 
                 className='w-full outline-none  font-bold text-[#0C0E16] border-[#DFE3FA] border-solid border-2 dark:border-none dark:bg-[#1E2139] dark:text-white  rounded-[1px]  text-[15px] px-4 py-2'  
@@ -384,9 +405,13 @@ function InvoiceForm({invoice, setShowForm}: InvoiceFormProps) {
             </div>
          ))}
 
+
          <div className='mb-20'>
-          <button type='button'
-           className='bg-[#F9FAFE]  text-[#7E88C3] rounded-3xl w-full text-[15px] font-bold py-3 hover:bg-[#DFE3FA] dark:text-[#DFE3FA] dark:bg-[#252945] '>
+          <button 
+            onClick={handleAddItem}
+            type='button'
+            className='bg-[#F9FAFE]  text-[#7E88C3] rounded-3xl w-full text-[15px] font-bold py-3 hover:bg-[#DFE3FA] dark:text-[#DFE3FA] dark:bg-[#252945] '
+          >
             + Add New Item
           </button>
          </div>
@@ -403,8 +428,8 @@ function InvoiceForm({invoice, setShowForm}: InvoiceFormProps) {
                 <div className='flex py-[31px] px-[50px]  w-[655px] justify-between bg-[#FFFFFF] dark:bg-[#1E2139] p-4   rounded-br-[12px] rounded-tr-[20px] gap-[9rem] '>
                   <button className='text-[15px] bg-[#F9FAFE] text-[#7E88C3] dark:bg-[#F9FAFE] dark:text-[#7E88C3] rounded-3xl py-3 px-5 font-bold'>Discard</button>
                   <div>
-                    <button className='bg-[#373B53] dark:bg-[#373B53] dark:text-[#DFE3FA] rounded-3xl py-3 px-5 font-bold text-[15px] text-[#888EB0]'>Save as Draft</button>
-                    <button className='text-[15px] text-[#F9FAFE] bg-[#7E88C3] dark:bg-[#7C5DFA] dark:text-white rounded-3xl py-3 px-5 font-bold ml-[10px]'>Save and Send</button>
+                    <button type='button' className='bg-[#373B53] dark:bg-[#373B53] dark:text-[#DFE3FA] rounded-3xl py-3 px-5 font-bold text-[15px] text-[#888EB0]'>Save as Draft</button>
+                    <button type='button' className='text-[15px] text-[#F9FAFE] bg-[#7E88C3] dark:bg-[#7C5DFA] dark:text-white rounded-3xl py-3 px-5 font-bold ml-[10px]'>Save and Send</button>
                   </div>
               </div>
              </div>
