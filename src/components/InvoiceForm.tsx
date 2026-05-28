@@ -111,6 +111,9 @@ function InvoiceForm({invoice, handleAddList, setShowForm}: InvoiceFormProps) {
           : value,
     };
 
+    updatedItems[index].total =
+  updatedItems[index].quantity * updatedItems[index].price;
+
     return {
       ...prev,
       items: updatedItems,
@@ -390,7 +393,7 @@ function InvoiceForm({invoice, handleAddList, setShowForm}: InvoiceFormProps) {
               />
               
               <input type='number' 
-                className='w-full outline-none  font-bold text-[#0C0E16] border-[#DFE3FA] border-solid border-2 dark:border-none dark:bg-[#1E2139] dark:text-white  rounded-[1px]  text-[15px] px-4 py-2'  
+                className='w-full outline-none  font-bold text-[#0C0E16] border-[#DFE3FA] border-solid border-2 dark:border-none dark:bg-[#1E2139] dark:text-white  rounded-[1px]  text-[15px] px-2 py-2'  
                 value={item.quantity || ""}
                 onChange={(e) => handleItemChange(index, "quantity", e.target.value)}
               />
@@ -398,7 +401,7 @@ function InvoiceForm({invoice, handleAddList, setShowForm}: InvoiceFormProps) {
               <input type='number' 
                 className='w-full outline-none  font-bold text-[#0C0E16] border-[#DFE3FA] border-solid border-2 dark:border-none dark:bg-[#1E2139] dark:text-white  rounded-[1px]  text-[15px] px-4 py-2'  
                 value={item.price || ""}
-                onChange={(e) => handleItemChange(index, "price", e.target.value)}
+                onChange={(e) => {handleItemChange(index, "price", e.target.value)}}
               />
               <p className='font-bold text-[15px] text-[#888EB0]'>{item.total || ''}</p>
               <i className="fa-solid fa-trash text-[#888EB0] hover:text-[#EC5757] cursor-pointer "></i>
