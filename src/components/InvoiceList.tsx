@@ -165,6 +165,7 @@ export default function InvoiceList( {showForm, handleAddList ,invoiceData, setS
                     onClick={() => {
                         setShowForm(true)  
                         setSelectedInvoice(null)
+                        setShowStatus(false)
                     }}
                     className="bg-[#7C5DFA] hover:bg-[#9277FF] text-[15px] font-bold text-white px-[15px] py-[10px] rounded-[50px] ">
                     <span className="text-[#7C5DFA] bg-white px-[9px] py-[2px] font-extrabold text-[20px] rounded-[50%] inline-flex items-center mr-[11px] ">

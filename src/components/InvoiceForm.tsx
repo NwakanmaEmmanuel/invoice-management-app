@@ -9,7 +9,7 @@ type InvoiceFormProps = {
 
   setShowForm: React.Dispatch<React.SetStateAction<boolean>>;
   invoice: Invoice | null;
-  handleAddList: (data: Invoice) => void
+  handleAddList: (data: Invoice) => void;
 };
 
 function InvoiceForm({invoice, handleAddList, setShowForm}: InvoiceFormProps) {
@@ -46,8 +46,7 @@ function InvoiceForm({invoice, handleAddList, setShowForm}: InvoiceFormProps) {
   const [selectPaymentTerm, setSelectPaymentTerm] = useState(false)
   const [showDatePicker, setShowDatePicker] = useState(false)
   const [selectedDate, setSelectedDate] = useState<Date>();
-  const [paymentTerm, setPaymentTerm] = useState(invoice?.paymentTerms || 30)
-  const [addItem, setAddItem] = useState(true)
+  // const [paymentTerm, setPaymentTerm] = useState(invoice?.paymentTerms || 30)
   const items = formData?.items 
 
  
@@ -55,6 +54,10 @@ function InvoiceForm({invoice, handleAddList, setShowForm}: InvoiceFormProps) {
   // function handleChange(e: React.ChangeEvent<HTMLInputElement>) {
   //   setFormData((prev) => ({...prev!, name: e.target.value, }))
   // }
+
+  function handlePaymentTerm(days: number) {
+    setFormData((prev) => ({...prev, paymentTerms: days}))
+  }
 
   function handleChange(e: React.ChangeEvent<HTMLInputElement>) {
   const { name, value } = e.target;
@@ -141,7 +144,7 @@ function InvoiceForm({invoice, handleAddList, setShowForm}: InvoiceFormProps) {
   }
 
   return (
-    <div className='fixed bottom-0 left-[1px] right-0 top-0 bg-black/50 z-50' onClick={() => setShowForm(false)}>
+    <div className='fixed bottom-0 left-[1px] right-0 top-0 bg-black/50 z-50' onClick={() => {  setShowForm(false)}}>
       <form className='bg-[#F8F8FB]  custom-scrollbar dark:bg-[#141625] absolute top-0 left-[6.4rem] h-screen rounded-tr-[12px] rounded-br-[20px] w-[40rem] z-10 p-11 overflow-y-auto text-black '   
       onClick={(e) => e.stopPropagation()} 
       onSubmit={handleSubmit}
@@ -323,7 +326,7 @@ function InvoiceForm({invoice, handleAddList, setShowForm}: InvoiceFormProps) {
                 className='border border-[#DFE3FA]  hover:border-[#7C5DFA] active:border-[#7C5DFA] dark:border-none dark:bg-[#1E2139] dark:text-white rounded-[4px] border-solid flex text-[15px] font-bold text-[#0C0E16] justify-between px-5 py-2 items-center  '
               >
               
-                Net {paymentTerm} Days
+                Net {formData.paymentTerms} Days
 
                {selectPaymentTerm ? (
                  <i className="fa-solid fa-angle-up text-[17px] text-[#7C5DFA]"></i>
@@ -335,25 +338,25 @@ function InvoiceForm({invoice, handleAddList, setShowForm}: InvoiceFormProps) {
                 <div className='absolute bg-[#ffff] dark:bg-[#1E2139] w-full top-20 rounded-md shadow-[0px_10px_20px_0px_#48549F40] justify-start flex flex-col gap-1 z-10 border border-[#DFE3FA] dark:border-none '>
                   <button type='button' 
                     onClick={() => {
-                      setPaymentTerm(1);
+                      handlePaymentTerm(1);
                       setSelectPaymentTerm(false);
                     }}
                     className='text-left text-[15px] text-[#0C0E16] hover:text-[#7C5DFA] p-3 border-b-2 border-solid border-[#DFE3FA]  dark:text-white font-bold'>Net 1 Day</button>
                   <button type='button' 
                     onClick={() => {
-                      setPaymentTerm(7);
+                      handlePaymentTerm(7);
                       setSelectPaymentTerm(false);
                     }}
                     className='text-left text-[15px] text-[#0C0E16] hover:text-[#7C5DFA] p-3  border-b-2 border-solid border-[#DFE3FA] dark:text-white font-bold'>Net 7 Days</button>
                   <button type='button' 
                     onClick={() => {
-                      setPaymentTerm(14);
+                      handlePaymentTerm(14);
                       setSelectPaymentTerm(false);
                     }}
                     className='text-left text-[15px] text-[#0C0E16] hover:text-[#7C5DFA] p-3  border-b-2 border-solid border-[#DFE3FA] dark:text-white font-bold'>Net 14 Days</button>
                   <button type='button' 
                     onClick={() => {
-                      setPaymentTerm(30);
+                      handlePaymentTerm(30);
                       setSelectPaymentTerm(false);
                     }}
                     className='text-left text-[15px] text-[#0C0E16] hover:text-[#7C5DFA] p-3  border-b-2 border-solid border-[#DFE3FA] dark:text-white font-bold'>Net 30 Days</button>
@@ -393,13 +396,13 @@ function InvoiceForm({invoice, handleAddList, setShowForm}: InvoiceFormProps) {
               />
               
               <input type='number' 
-                className='w-full outline-none  font-bold text-[#0C0E16] border-[#DFE3FA] border-solid border-2 dark:border-none dark:bg-[#1E2139] dark:text-white  rounded-[1px]  text-[15px] px-2 py-2'  
+                className='w-full outline-none  font-bold text-[#0C0E16] border-[#DFE3FA] border-solid border-2 dark:border-none dark:bg-[#1E2139] dark:text-white cursor-not-allowed  rounded-[1px]  text-[15px] px-2 py-2'  
                 value={item.quantity || ""}
                 onChange={(e) => handleItemChange(index, "quantity", e.target.value)}
               />
 
               <input type='number' 
-                className='w-full outline-none  font-bold text-[#0C0E16] border-[#DFE3FA] border-solid border-2 dark:border-none dark:bg-[#1E2139] dark:text-white  rounded-[1px]  text-[15px] px-4 py-2'  
+                className='w-full outline-none  font-bold text-[#0C0E16] border-[#DFE3FA] border-solid border-2 dark:border-none dark:bg-[#1E2139] dark:text-white cursor-not-allowed  rounded-[1px]  text-[15px] px-4 py-2'  
                 value={item.price || ""}
                 onChange={(e) => {handleItemChange(index, "price", e.target.value)}}
               />
