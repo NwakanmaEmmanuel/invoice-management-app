@@ -48,9 +48,16 @@ function InvoiceForm({invoice, handleAddList, setShowForm}: InvoiceFormProps) {
   const [errors, setErrors] = useState({
     clientName: "",
     clientEmail: "",
+    clientStreet: '',
     items: "",
   });
+  const [submitted, setSubmitted] = useState(false)
   const items = formData?.items 
+
+  
+
+
+
   const deleteItem = (index: number) => {
     setFormData((prev) => {
       const updatedItems = [...prev.items];
@@ -131,6 +138,7 @@ function InvoiceForm({invoice, handleAddList, setShowForm}: InvoiceFormProps) {
 
   function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
+    setSubmitted(true)
     
     const isValid = validateForm()
     if(!isValid) return;
@@ -156,6 +164,7 @@ function InvoiceForm({invoice, handleAddList, setShowForm}: InvoiceFormProps) {
     const newErrors = {
       clientName: "",
       clientEmail: "",
+      clientStreet: "",
       items: ""
     }
 
@@ -172,6 +181,11 @@ function InvoiceForm({invoice, handleAddList, setShowForm}: InvoiceFormProps) {
     } else if (!emailRegex.test(formData.clientEmail)) {
       newErrors.clientEmail = "Invalid email format"
     }
+
+    //ClientStreet
+    if(!formData.clientAddress.street.trim() ) {
+      newErrors.clientStreet = "required"
+    } 
 
     // Items Validation
     if (formData.items.length === 0){
@@ -267,40 +281,36 @@ function InvoiceForm({invoice, handleAddList, setShowForm}: InvoiceFormProps) {
         <div>
           <h1 className='text-[#7C5DFA] text-[15px] font-bold mb-6 '>Bill To</h1>
 
-          <label  className={`text-[13px] mb-4 font-medium dark:text-[#DFE3FA] text-[#7E88C3]`}>
+          <label  className={`text-[13px] mb-4 font-medium dark:text-[#DFE3FA] ${submitted  && errors.clientName ? 'text-red-600 flex justify justify-between' : 'text-[#7E88C3]'} `}>
             Client's Name
-             {!formData.clientName && <span>can’t be empty</span>} 
+             {submitted  && errors.clientName &&  (<span>can’ t be empty</span>)} 
           </label>
-          {/* {errors.clientName && (
-  <p className="text-red-500 text-sm mt-1">
-    {errors.clientName}
-    "text-red-600 flex justify-between
-  </p>
-)} */}
-
           <input type="text"
-            className={`w-full outline-none mb-6 font-bold text-[#0C0E16] border-[#DFE3FA] border-solid border-2 dark:border-none dark:bg-[#1E2139] dark:text-white  rounded-[1px]  text-[15px] px-4 py-2 ${errors.clientName ? "border-[#7E88C3]" : "border-[red] hover:border-[red]"} `}  
+            className={`w-full outline-none mb-6 font-bold ${submitted && errors.clientName ? "border-[red] hover:border-[red]" : "border-[#7E88C3] "} text-[#0C0E16] border-[#DFE3FA] border-solid border-2 dark:border-none dark:bg-[#1E2139] dark:text-white  rounded-[1px]  text-[15px] px-4 py-2 `}  
             // value={invoice?.clientName}
             name='clientName'
             value={formData.clientName || ""}
             onChange={handleChange}/>
 
-          <label className='text-[13px] text-[#7E88C3] mb-4 font-medium dark:text-[#DFE3FA]'>
+
+          <label className={`text-[13px] text-[#7E88C3] ${submitted  && errors.clientName ? 'text-red-600 flex justify justify-between' : 'text-[#7E88C3]'} mb-4 font-medium dark:text-[#DFE3FA]`}>
             Client's Email
+             {submitted  && errors.clientName &&  (<span>can’ t be empty</span>)} 
           </label>
           <input type="email" 
-            className='w-full outline-none mb-6 font-bold text-[#0C0E16] border-[#DFE3FA] border-solid border-2 dark:border-none dark:bg-[#1E2139] dark:text-white  rounded-[1px]  text-[15px] px-4 py-2' 
+            className={`w-full outline-none mb-6 font-bold  ${submitted && errors.clientName ? "border-[red] hover:border-[red]" : "border-[#7E88C3] "} text-[#0C0E16] border-[#DFE3FA] border-solid border-2 dark:border-none dark:bg-[#1E2139] dark:text-white  rounded-[1px]  text-[15px] px-4 py-2 `}
             placeholder='e.g. email@example.com'
             name='clientEmail'
             value={formData.clientEmail || ""}
             onChange={handleChange}
             />
 
-          <label  className='text-[13px] text-[#7E88C3] mb-4 font-medium dark:text-[#DFE3FA]'>
+          <label  className={`text-[13px] ${submitted  && errors.clientStreet ? 'text-red-600 flex justify justify-between' : 'text-[#7E88C3]'} text-[#7E88C3] mb-4 font-medium dark:text-[#DFE3FA]`}>
             Street Address
+             {submitted  && errors.clientStreet &&  (<span>can’ t be empty</span>)} 
           </label>
           <input type='text' 
-            className='w-full outline-none mb-6 font-bold text-[#0C0E16] border-[#DFE3FA] border-solid border-2 dark:border-none dark:bg-[#1E2139] dark:text-white  rounded-[1px]  text-[15px] px-4 py-2' 
+            className={`w-full outline-none mb-6 font-bold  ${submitted && errors.clientStreet ? "border-[red] hover:border-[red]" : "border-[#7E88C3] "} text-[#0C0E16] border-[#DFE3FA] border-solid border-2 dark:border-none dark:bg-[#1E2139] dark:text-white  rounded-[1px]  text-[15px] px-4 py-2`}
             name='street'
             value={formData.clientAddress.street || ""}
             onChange={handleClientAddressChange}
@@ -316,7 +326,7 @@ function InvoiceForm({invoice, handleAddList, setShowForm}: InvoiceFormProps) {
 
           <div className='grid grid-cols-3 gap-4 mb-8'>
             <input type="text" 
-              className='w-full outline-none mb-6 font-bold text-[#0C0E16] border-[#DFE3FA] border-solid border-2 dark:border-none dark:bg-[#1E2139] dark:text-white  rounded-[1px]  text-[15px] px-4 py-2' 
+              className={`w-full outline-none mb-6 font-bold  ${!submitted ? "border-[#7E88C3]" : "border-[red] hover:border-[red]"} text-[#0C0E16] border-[#DFE3FA] border-solid border-2 dark:border-none dark:bg-[#1E2139] dark:text-white  rounded-[1px]  text-[15px] px-4 py-2`}
               name='city'
               onChange={handleClientAddressChange}
               value={formData.clientAddress.city}
@@ -466,7 +476,7 @@ function InvoiceForm({invoice, handleAddList, setShowForm}: InvoiceFormProps) {
               />
 
               <input type='number' 
-                className='w-full outline-none  font-bold text-[#0C0E16] border-[#DFE3FA] border-solid border-2 dark:border-none dark:bg-[#1E2139] dark:text-white cursor-auto rounded-[1px]  text-[15px] px-4 py-2'  
+                className='w-full outline-none  font-bold text-[#0C0E16] border-[#DFE3FA] border-solid border-2 dark:border-none dark:bg-[#1E2139] dark:text-white cursor-auto rounded-[1px]  text-[15px] px-2 py-2'  
                 value={item.price || ""}
                 onChange={(e) => {handleItemChange(index, "price", e.target.value)}}
               />
@@ -487,11 +497,7 @@ function InvoiceForm({invoice, handleAddList, setShowForm}: InvoiceFormProps) {
          </div>
 
          <div >
-            {errors.clientName && (
-              <p className="text-red-500 text-sm mt-1">
-                {errors.clientName}
-              </p>
-            )}
+            
 
             {errors.clientEmail && (
               <p className="text-red-500 text-sm mt-1">
