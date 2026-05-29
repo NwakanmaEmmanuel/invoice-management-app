@@ -201,10 +201,12 @@ function InvoiceForm({invoice, handleAddList, setShowForm}: InvoiceFormProps) {
 
   return (
     <div className='fixed bottom-0 left-[1px] right-0 top-0 bg-black/50 z-50' onClick={() => {  setShowForm(false)}}>
-      <form className='bg-[#FFFFFF]  custom-scrollbar dark:bg-[#141625] absolute top-0 left-[6.4rem] h-screen rounded-tr-[12px] rounded-br-[20px] w-[40rem] z-10 p-11 overflow-y-auto text-black '   
+      <form className='bg-[#FFFFFF]  custom-scrollbar dark:bg-[#141625] flex flex-col absolute top-0 left-[6.4rem] h-screen rounded-tr-[12px] rounded-br-[20px] w-[40rem] z-10  text-black '   
       onClick={(e) => e.stopPropagation()} 
       onSubmit={handleSubmit}
       >
+        <div className='flex-1 overflow-y-auto p-11 custom-scrollbar'>
+          
         <div className='flex gap-2 mb-11'>
 
           {isEditing ? (
@@ -265,18 +267,19 @@ function InvoiceForm({invoice, handleAddList, setShowForm}: InvoiceFormProps) {
         <div>
           <h1 className='text-[#7C5DFA] text-[15px] font-bold mb-6 '>Bill To</h1>
 
-          <label  className={`text-[13px] mb-4 font-medium dark:text-[#DFE3FA] ${formData.clientName ? "text-[#7E88C3]" : "text-red-600 flex justify-between"}`}>
+          <label  className={`text-[13px] mb-4 font-medium dark:text-[#DFE3FA] text-[#7E88C3]`}>
             Client's Name
              {!formData.clientName && <span>can’t be empty</span>} 
           </label>
           {/* {errors.clientName && (
   <p className="text-red-500 text-sm mt-1">
     {errors.clientName}
+    "text-red-600 flex justify-between
   </p>
 )} */}
 
           <input type="text"
-            className={`w-full outline-none mb-6 font-bold text-[#0C0E16] border-[#DFE3FA] border-solid border-2 dark:border-none dark:bg-[#1E2139] dark:text-white  rounded-[1px]  text-[15px] px-4 py-2 ${formData?.clientName ? "border-[#7E88C3]" : "border-[red] hover:border-[red]"} `}  
+            className={`w-full outline-none mb-6 font-bold text-[#0C0E16] border-[#DFE3FA] border-solid border-2 dark:border-none dark:bg-[#1E2139] dark:text-white  rounded-[1px]  text-[15px] px-4 py-2 ${errors.clientName ? "border-[#7E88C3]" : "border-[red] hover:border-[red]"} `}  
             // value={invoice?.clientName}
             name='clientName'
             value={formData.clientName || ""}
@@ -473,7 +476,7 @@ function InvoiceForm({invoice, handleAddList, setShowForm}: InvoiceFormProps) {
          ))}
 
 
-         <div className='mb-20'>
+         <div >
           <button 
             onClick={handleAddItem}
             type='button'
@@ -483,7 +486,7 @@ function InvoiceForm({invoice, handleAddList, setShowForm}: InvoiceFormProps) {
           </button>
          </div>
 
-         <div className='mb-8'>
+         <div >
             {errors.clientName && (
               <p className="text-red-500 text-sm mt-1">
                 {errors.clientName}
@@ -502,11 +505,15 @@ function InvoiceForm({invoice, handleAddList, setShowForm}: InvoiceFormProps) {
               </p>
             )}
          </div>
+         </div>
+         </div>
+         </div>
+
                   
          
-
+        <div>
           {isEditing ? ( 
-            <div className='fixed bottom-0 left-[103px] w-[40rem] shadow-[-1px_-9px_20px_0px_#48549F40]'>
+            <div className='mt-auto left-[103px] w-[40rem] shadow-[-1px_-9px_20px_0px_#48549F40]'>
               <div className='flex py-[31px] px-[50px]  w-full justify-end  bg-[#FFFFFF] dark:bg-[#1E2139] p-4 gap-3 rounded-br-[12px] rounded-tr-[20px] '>
                 <button 
                   onClick={() => setShowForm(false)} 
@@ -526,8 +533,8 @@ function InvoiceForm({invoice, handleAddList, setShowForm}: InvoiceFormProps) {
 
             ) : (
               
-              <div className='fixed bottom-0 left-[88px] w-[40rem]  shadow-[-1px_-9px_20px_0px_#48549F40] '>
-                <div className='flex py-[31px] px-[50px]  w-[655px] justify-between bg-[#FFFFFF] dark:bg-[#1E2139] p-4   rounded-br-[12px] rounded-tr-[20px] gap-[9rem] '>
+              <div className='mt-auto left-[88px] w-[full]  shadow-[-1px_-9px_20px_0px_#48549F40] '>
+                <div className='flex py-[31px] px-[50px]  w-full justify-between bg-[#FFFFFF] dark:bg-[#1E2139] p-4   rounded-br-[12px] rounded-tr-[20px] gap-[9rem] '>
                   <button 
                     onClick={() => setShowForm(false)}
                     className='text-[15px] bg-[#F9FAFE] text-[#7E88C3] dark:bg-[#F9FAFE] dark:text-[#7E88C3] rounded-3xl py-3 px-5 font-bold'>Discard</button>
@@ -539,10 +546,9 @@ function InvoiceForm({invoice, handleAddList, setShowForm}: InvoiceFormProps) {
              </div>
             )
         }
+        </div>
 
             
-          </div>
-        </div>
 
 
       </form>
