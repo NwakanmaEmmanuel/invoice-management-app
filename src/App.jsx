@@ -26,7 +26,7 @@ export default function App() {
 
       <Routes>
         <Route path='/' element={<InvoiceList showForm={showForm} invoiceData={invoiceData} setShowForm={setShowForm} selectedInvoice={selectedInvoice} setSelectedInvoice={setSelectedInvoice} handleAddList={handleAddList}/>} />
-        <Route path='invoice/:id' element={<InvoiceDetails invoiceData={invoiceData} setInvoiceData={setInvoiceData} showForm={showForm} setShowForm={setShowForm} selectedInvoice={selectedInvoice} setSelectedInvoice={setSelectedInvoice}  />} />
+        <Route path='invoice/:id' element={<InvoiceDetails invoiceData={invoiceData} setInvoiceData={setInvoiceData} showForm={showForm} setShowForm={setShowForm} selectedInvoice={selectedInvoice} handleAddList={handleAddList} setSelectedInvoice={setSelectedInvoice}  />} />
       </Routes>
       </div>
     </div>

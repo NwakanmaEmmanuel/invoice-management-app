@@ -18,9 +18,10 @@ type InvoiceDetailsProps = {
   setInvoiceData: React.Dispatch<
     React.SetStateAction<Invoice[]>
   >;
+  handleAddList: (data: Invoice) => void;
 };
 
-function InvoiceDetails( {showForm ,invoiceData, setInvoiceData, setShowForm, selectedInvoice, setSelectedInvoice}: InvoiceDetailsProps) {
+function InvoiceDetails( {showForm ,invoiceData, setInvoiceData, handleAddList, setShowForm, selectedInvoice, setSelectedInvoice}: InvoiceDetailsProps) {
 
   const {id} = useParams()
 
@@ -191,7 +192,7 @@ function InvoiceDetails( {showForm ,invoiceData, setInvoiceData, setShowForm, se
           </div>
         </div>
       </div>
-            {showForm && <InvoiceForm  invoice={selectedInvoice} setShowForm={setShowForm}/> }
+            {showForm && <InvoiceForm  invoice={selectedInvoice}   handleAddList={handleAddList} setShowForm={setShowForm}/> }
 
     </div>
 

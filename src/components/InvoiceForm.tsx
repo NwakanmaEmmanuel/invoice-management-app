@@ -4,7 +4,6 @@ import {  useState } from 'react';
 import { DayPicker } from "react-day-picker";
 import "react-day-picker/dist/style.css";
 
-
 type InvoiceFormProps = {
 
   setShowForm: React.Dispatch<React.SetStateAction<boolean>>;
@@ -46,14 +45,20 @@ function InvoiceForm({invoice, handleAddList, setShowForm}: InvoiceFormProps) {
   const [selectPaymentTerm, setSelectPaymentTerm] = useState(false)
   const [showDatePicker, setShowDatePicker] = useState(false)
   const [selectedDate, setSelectedDate] = useState<Date>();
-  // const [paymentTerm, setPaymentTerm] = useState(invoice?.paymentTerms || 30)
+  const [errors, setErrors] = useState({
+    clientName: "",
+    clientEmail: "",
+    items: "",
+  });
   const items = formData?.items 
+  const deleteItem = (index: number) => {
+    setFormData((prev) => {
+      const updatedItems = [...prev.items];
+      updatedItems.splice(index, 1);
 
- 
-
-  // function handleChange(e: React.ChangeEvent<HTMLInputElement>) {
-  //   setFormData((prev) => ({...prev!, name: e.target.value, }))
-  // }
+      return { ...prev, items: updatedItems };
+    });
+  };
 
   function handlePaymentTerm(days: number) {
     setFormData((prev) => ({...prev, paymentTerms: days}))
@@ -99,10 +104,10 @@ function InvoiceForm({invoice, handleAddList, setShowForm}: InvoiceFormProps) {
   }
   
   function handleItemChange(
-  index: number,
-  field: string,
-  value: string
-) {
+    index: number,
+    field: string,
+    value: string
+  ) {
   setFormData((prev) => {
     const updatedItems = [...prev.items];
 
@@ -126,6 +131,10 @@ function InvoiceForm({invoice, handleAddList, setShowForm}: InvoiceFormProps) {
 
   function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
+    
+    const isValid = validateForm()
+    if(!isValid) return;
+    
     handleAddList(formData)
     setShowForm(false)
   }
@@ -143,9 +152,56 @@ function InvoiceForm({invoice, handleAddList, setShowForm}: InvoiceFormProps) {
     }));
   }
 
+  function validateForm() {
+    const newErrors = {
+      clientName: "",
+      clientEmail: "",
+      items: ""
+    }
+
+    // ClientName
+    if(!formData.clientName.trim()) {
+      newErrors.clientName = "required"
+    } 
+
+    // Email Validation
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+    if (!formData.clientEmail.trim()) {
+    newErrors.clientEmail = "Email is required";
+    } else if (!emailRegex.test(formData.clientEmail)) {
+      newErrors.clientEmail = "Invalid email format"
+    }
+
+    // Items Validation
+    if (formData.items.length === 0){
+      newErrors.items = "- An item must be added"
+    }
+
+    // Quantity + Price Validation
+    const invalidItems = formData.items.some((item) => 
+       item.quantity <= 0 || item.price <= 0   
+    )
+
+    if (invalidItems){
+      newErrors.items = "Quantity and Price must be greather than 0"
+
+    }
+
+    setErrors(newErrors)
+
+      return Object.values(newErrors).every((value) => value === "");
+
+
+  }
+
+
+
+
+
   return (
     <div className='fixed bottom-0 left-[1px] right-0 top-0 bg-black/50 z-50' onClick={() => {  setShowForm(false)}}>
-      <form className='bg-[#F8F8FB]  custom-scrollbar dark:bg-[#141625] absolute top-0 left-[6.4rem] h-screen rounded-tr-[12px] rounded-br-[20px] w-[40rem] z-10 p-11 overflow-y-auto text-black '   
+      <form className='bg-[#FFFFFF]  custom-scrollbar dark:bg-[#141625] absolute top-0 left-[6.4rem] h-screen rounded-tr-[12px] rounded-br-[20px] w-[40rem] z-10 p-11 overflow-y-auto text-black '   
       onClick={(e) => e.stopPropagation()} 
       onSubmit={handleSubmit}
       >
@@ -213,6 +269,11 @@ function InvoiceForm({invoice, handleAddList, setShowForm}: InvoiceFormProps) {
             Client's Name
              {!formData.clientName && <span>can’t be empty</span>} 
           </label>
+          {/* {errors.clientName && (
+  <p className="text-red-500 text-sm mt-1">
+    {errors.clientName}
+  </p>
+)} */}
 
           <input type="text"
             className={`w-full outline-none mb-6 font-bold text-[#0C0E16] border-[#DFE3FA] border-solid border-2 dark:border-none dark:bg-[#1E2139] dark:text-white  rounded-[1px]  text-[15px] px-4 py-2 ${formData?.clientName ? "border-[#7E88C3]" : "border-[red] hover:border-[red]"} `}  
@@ -396,18 +457,18 @@ function InvoiceForm({invoice, handleAddList, setShowForm}: InvoiceFormProps) {
               />
               
               <input type='number' 
-                className='w-full outline-none  font-bold text-[#0C0E16] border-[#DFE3FA] border-solid border-2 dark:border-none dark:bg-[#1E2139] dark:text-white cursor-not-allowed  rounded-[1px]  text-[15px] px-2 py-2'  
+                className='w-full outline-none  font-bold text-[#0C0E16] border-[#DFE3FA] border-solid border-2 dark:border-none dark:bg-[#1E2139] dark:text-white cursor-auto rounded-[1px]  text-[15px] px-2 py-2'  
                 value={item.quantity || ""}
                 onChange={(e) => handleItemChange(index, "quantity", e.target.value)}
               />
 
               <input type='number' 
-                className='w-full outline-none  font-bold text-[#0C0E16] border-[#DFE3FA] border-solid border-2 dark:border-none dark:bg-[#1E2139] dark:text-white cursor-not-allowed  rounded-[1px]  text-[15px] px-4 py-2'  
+                className='w-full outline-none  font-bold text-[#0C0E16] border-[#DFE3FA] border-solid border-2 dark:border-none dark:bg-[#1E2139] dark:text-white cursor-auto rounded-[1px]  text-[15px] px-4 py-2'  
                 value={item.price || ""}
                 onChange={(e) => {handleItemChange(index, "price", e.target.value)}}
               />
               <p className='font-bold text-[15px] text-[#888EB0]'>{item.total || ''}</p>
-              <i className="fa-solid fa-trash text-[#888EB0] hover:text-[#EC5757] cursor-pointer "></i>
+              <i onClick={() => deleteItem(index)} className="fa-solid fa-trash text-[#888EB0] hover:text-[#EC5757] cursor-pointer "></i>
             </div>
          ))}
 
@@ -422,20 +483,57 @@ function InvoiceForm({invoice, handleAddList, setShowForm}: InvoiceFormProps) {
           </button>
          </div>
 
+         <div className='mb-8'>
+            {errors.clientName && (
+              <p className="text-red-500 text-sm mt-1">
+                {errors.clientName}
+              </p>
+            )}
+
+            {errors.clientEmail && (
+              <p className="text-red-500 text-sm mt-1">
+                {errors.clientEmail}
+              </p>
+            )}
+
+            {errors.items && (
+              <p className="text-red-500 text-sm mt-4">
+                {errors.items}
+              </p>
+            )}
+         </div>
+                  
+         
+
           {isEditing ? ( 
             <div className='fixed bottom-0 left-[103px] w-[40rem] shadow-[-1px_-9px_20px_0px_#48549F40]'>
               <div className='flex py-[31px] px-[50px]  w-full justify-end  bg-[#FFFFFF] dark:bg-[#1E2139] p-4 gap-3 rounded-br-[12px] rounded-tr-[20px] '>
-                <button type='button' className='text-[15px] bg-[#F9FAFE] text-[#7E88C3] dark:text-[#DFE3FA] dark:bg-[#252945] rounded-3xl py-3 px-5 font-bold'>Cancel</button>
-                <button type='button' className='text-[15px] text-[#F9FAFE] bg-[#7E88C3] dark:bg-[#7C5DFA] dark:text-white rounded-3xl py-3 px-5 font-bold'>Save Changes</button>
+                <button 
+                  onClick={() => setShowForm(false)} 
+                  className='text-[15px] bg-[#F9FAFE] text-[#7E88C3] dark:text-[#DFE3FA] dark:bg-[#252945] rounded-3xl py-3 px-5 font-bold'
+                >
+                  Cancel
+                </button>
+
+                <button 
+                  type='submit' 
+                  className='text-[15px] text-[#F9FAFE] bg-[#7E88C3] dark:bg-[#7C5DFA] dark:text-white rounded-3xl py-3 px-5 font-bold'
+                  >
+                    Save Changes
+                </button>
               </div>
             </div>
+
             ) : (
+              
               <div className='fixed bottom-0 left-[88px] w-[40rem]  shadow-[-1px_-9px_20px_0px_#48549F40] '>
                 <div className='flex py-[31px] px-[50px]  w-[655px] justify-between bg-[#FFFFFF] dark:bg-[#1E2139] p-4   rounded-br-[12px] rounded-tr-[20px] gap-[9rem] '>
-                  <button className='text-[15px] bg-[#F9FAFE] text-[#7E88C3] dark:bg-[#F9FAFE] dark:text-[#7E88C3] rounded-3xl py-3 px-5 font-bold'>Discard</button>
+                  <button 
+                    onClick={() => setShowForm(false)}
+                    className='text-[15px] bg-[#F9FAFE] text-[#7E88C3] dark:bg-[#F9FAFE] dark:text-[#7E88C3] rounded-3xl py-3 px-5 font-bold'>Discard</button>
                   <div>
-                    <button type='button' className='bg-[#373B53] dark:bg-[#373B53] dark:text-[#DFE3FA] rounded-3xl py-3 px-5 font-bold text-[15px] text-[#888EB0]'>Save as Draft</button>
-                    <button type='button' className='text-[15px] text-[#F9FAFE] bg-[#7E88C3] dark:bg-[#7C5DFA] dark:text-white rounded-3xl py-3 px-5 font-bold ml-[10px]'>Save and Send</button>
+                    <button type='submit' className='bg-[#373B53] dark:bg-[#373B53] dark:text-[#DFE3FA] rounded-3xl py-3 px-5 font-bold text-[15px] text-[#888EB0]'>Save as Draft</button>
+                    <button type='submit' className='text-[15px] text-[#F9FAFE] bg-[#7E88C3] dark:bg-[#7C5DFA] dark:text-white rounded-3xl py-3 px-5 font-bold ml-[10px]'>Save and Send</button>
                   </div>
               </div>
              </div>
