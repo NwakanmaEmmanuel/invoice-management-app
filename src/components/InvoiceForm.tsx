@@ -46,9 +46,11 @@ function InvoiceForm({invoice, handleAddList, setShowForm}: InvoiceFormProps) {
   const [showDatePicker, setShowDatePicker] = useState(false)
   const [selectedDate, setSelectedDate] = useState<Date>();
   const [errors, setErrors] = useState({
+    senderStreet: "",
     clientName: "",
     clientEmail: "",
     clientStreet: '',
+    description: "",
     items: "",
   });
   const [submitted, setSubmitted] = useState(false)
@@ -162,11 +164,18 @@ function InvoiceForm({invoice, handleAddList, setShowForm}: InvoiceFormProps) {
 
   function validateForm() {
     const newErrors = {
+      senderStreet: "",
       clientName: "",
       clientEmail: "",
       clientStreet: "",
+      description: "",
       items: ""
     }
+
+    //senderStreet
+    if(!formData.senderAddress.street.trim() ) {
+      newErrors.senderStreet = "required"
+    } 
 
     // ClientName
     if(!formData.clientName.trim()) {
@@ -187,19 +196,31 @@ function InvoiceForm({invoice, handleAddList, setShowForm}: InvoiceFormProps) {
       newErrors.clientStreet = "required"
     } 
 
+    //projectDesc
+    if(!formData.description.trim() ) {
+      newErrors.description = "required"
+    } 
+
     // Items Validation
     if (formData.items.length === 0){
       newErrors.items = "- An item must be added"
     }
 
+    
+    // Quantity + Price Validation
+    const invalidItemName = formData.items.some((item) => 
+      item.name.length <= 0   
+    )
     // Quantity + Price Validation
     const invalidItems = formData.items.some((item) => 
-       item.quantity <= 0 || item.price <= 0   
+      item.quantity <= 0 || item.price <= 0   
     )
-
-    if (invalidItems){
+    
+    if (invalidItemName){
+      newErrors.items = "Not item name" 
+    }
+    else if (invalidItems){
       newErrors.items = "Quantity and Price must be greather than 0"
-
     }
 
     setErrors(newErrors)
@@ -238,11 +259,11 @@ function InvoiceForm({invoice, handleAddList, setShowForm}: InvoiceFormProps) {
           <p className='text-[#7C5DFA] text-[15px] font-bold mb-6 ' >
             Bill From
           </p>
-          <p className='text-[13px] text-[#7E88C3] dark:text-[#DFE3FA] mb-4 font-medium' >
+          <label className={`text-[13px] ${submitted  && errors.senderStreet ? 'text-red-600 flex justify justify-between' : 'text-[#7E88C3]'} text-[#7E88C3] dark:text-[#DFE3FA] mb-4 font-medium'`}>
             Street Address
-          </p>
+          </label>
           <input type="text" 
-            className='w-full outline-none mb-6  dark:bg-[#1E2139] dark:text-white border-[#DFE3FA] border-solid border-2 dark:border-none   rounded-[1px] font-bold text-[15px] px-4 py-2' 
+            className={`w-full outline-none mb-6 ${submitted && errors.senderStreet ? "border-[red] hover:border-[red]" : "border-[#7E88C3] "} dark:bg-[#1E2139] dark:text-white border-[#DFE3FA] border-solid border-2 dark:border-none   rounded-[1px] font-bold text-[15px] px-4 py-2`}
             value={formData.senderAddress.street || ''}  
             name='street'
             onChange={handleSenderAddressChange}
@@ -293,12 +314,12 @@ function InvoiceForm({invoice, handleAddList, setShowForm}: InvoiceFormProps) {
             onChange={handleChange}/>
 
 
-          <label className={`text-[13px] text-[#7E88C3] ${submitted  && errors.clientName ? 'text-red-600 flex justify justify-between' : 'text-[#7E88C3]'} mb-4 font-medium dark:text-[#DFE3FA]`}>
+          <label className={`text-[13px] text-[#7E88C3] ${submitted  && errors.clientEmail ? 'text-red-600 flex justify justify-between' : 'text-[#7E88C3]'} mb-4 font-medium dark:text-[#DFE3FA]`}>
             Client's Email
-             {submitted  && errors.clientName &&  (<span>can’ t be empty</span>)} 
+             {/* {submitted  && errors.clientEmail &&  (<span>can’ t be empty</span>)}  */}
           </label>
           <input type="email" 
-            className={`w-full outline-none mb-6 font-bold  ${submitted && errors.clientName ? "border-[red] hover:border-[red]" : "border-[#7E88C3] "} text-[#0C0E16] border-[#DFE3FA] border-solid border-2 dark:border-none dark:bg-[#1E2139] dark:text-white  rounded-[1px]  text-[15px] px-4 py-2 `}
+            className={`w-full outline-none mb-6 font-bold  ${submitted && errors.clientEmail ? "border-[red] hover:border-[red]" : "border-[#7E88C3] "} text-[#0C0E16] border-[#DFE3FA] border-solid border-2 dark:border-none dark:bg-[#1E2139] dark:text-white  rounded-[1px]  text-[15px] px-4 py-2 `}
             placeholder='e.g. email@example.com'
             name='clientEmail'
             value={formData.clientEmail || ""}
@@ -307,7 +328,7 @@ function InvoiceForm({invoice, handleAddList, setShowForm}: InvoiceFormProps) {
 
           <label  className={`text-[13px] ${submitted  && errors.clientStreet ? 'text-red-600 flex justify justify-between' : 'text-[#7E88C3]'} text-[#7E88C3] mb-4 font-medium dark:text-[#DFE3FA]`}>
             Street Address
-             {submitted  && errors.clientStreet &&  (<span>can’ t be empty</span>)} 
+             {/* {submitted  && errors.clientStreet &&  (<span>can’ t be empty</span>)}  */}
           </label>
           <input type='text' 
             className={`w-full outline-none mb-6 font-bold  ${submitted && errors.clientStreet ? "border-[red] hover:border-[red]" : "border-[#7E88C3] "} text-[#0C0E16] border-[#DFE3FA] border-solid border-2 dark:border-none dark:bg-[#1E2139] dark:text-white  rounded-[1px]  text-[15px] px-4 py-2`}
@@ -326,7 +347,7 @@ function InvoiceForm({invoice, handleAddList, setShowForm}: InvoiceFormProps) {
 
           <div className='grid grid-cols-3 gap-4 mb-8'>
             <input type="text" 
-              className={`w-full outline-none mb-6 font-bold  ${!submitted ? "border-[#7E88C3]" : "border-[red] hover:border-[red]"} text-[#0C0E16] border-[#DFE3FA] border-solid border-2 dark:border-none dark:bg-[#1E2139] dark:text-white  rounded-[1px]  text-[15px] px-4 py-2`}
+              className={`w-full outline-none mb-6 font-bold text-[#0C0E16] border-[#DFE3FA] border-solid border-2 dark:border-none dark:bg-[#1E2139] dark:text-white  rounded-[1px]  text-[15px] px-4 py-2`}
               name='city'
               onChange={handleClientAddressChange}
               value={formData.clientAddress.city}
@@ -440,11 +461,11 @@ function InvoiceForm({invoice, handleAddList, setShowForm}: InvoiceFormProps) {
           </div>
 
           <div className='mt-8'>
-            <p  className='text-[13px] text-[#7E88C3] mb-3 font-medium dark:text-[#DFE3FA]'>
+            <label  className={`text-[13px] ${submitted  && errors.description ? 'text-red-600 flex justify justify-between' : 'text-[#7E88C3]'} text-[#7E88C3] mb-3 font-medium dark:text-[#DFE3FA]`}>
               Project Description
-            </p>
+            </label>
             <input type='text'
-              className='w-full outline-none mb-6 font-bold text-[#0C0E16] border-[#DFE3FA] border-solid border-2 dark:border-none dark:bg-[#1E2139] dark:text-white  rounded-[1px]  text-[15px] px-4 py-2'  
+              className={`w-full ${submitted && errors.description ? "border-[red] hover:border-[red]" : "border-[#7E88C3] "} outline-none mb-6 font-bold text-[#0C0E16] border-[#DFE3FA] border-solid border-2 dark:border-none dark:bg-[#1E2139] dark:text-white  rounded-[1px]  text-[15px] px-4 py-2`} 
               placeholder='e.g. Graphic Design Service'
               name='description'
               value={formData.description || ""}
@@ -499,9 +520,9 @@ function InvoiceForm({invoice, handleAddList, setShowForm}: InvoiceFormProps) {
          <div >
             
 
-            {errors.clientEmail && (
+            {errors && (
               <p className="text-red-500 text-sm mt-1">
-                {errors.clientEmail}
+                - All fields must be added
               </p>
             )}
 
