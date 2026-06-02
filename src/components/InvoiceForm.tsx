@@ -61,13 +61,22 @@ function InvoiceForm({invoice, handleAddList, setShowForm}: InvoiceFormProps) {
 
 
   const deleteItem = (index: number) => {
-    setFormData((prev) => {
-      const updatedItems = [...prev.items];
-      updatedItems.splice(index, 1);
+  setFormData((prev) => {
+    const updatedItems = [...prev.items];
+    updatedItems.splice(index, 1);
 
-      return { ...prev, items: updatedItems };
-    });
-  };
+    const total = updatedItems.reduce(
+      (sum, item) => sum + item.total,
+      0
+    );
+
+    return {
+      ...prev,
+      items: updatedItems,
+      total,
+    };
+  });
+};
 
   function handlePaymentTerm(days: number) {
     setFormData((prev) => ({...prev, paymentTerms: days}))
@@ -138,26 +147,25 @@ function InvoiceForm({invoice, handleAddList, setShowForm}: InvoiceFormProps) {
   });
 }
 
-//trying to implement total
-
-// const total = formData.items.reduce(
-//   (sum, item) => sum + item.total,
-//   0
-// );
-
-// const invoiceData = {
-//   ...formData,
-//   total
-// }
-
   function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
     setSubmitted(true)
     
     const isValid = validateForm()
     if(!isValid) return;
-    
-    handleAddList(formData)
+
+    const total = formData.items.reduce(
+    (sum, item) => sum + item.total,
+    0
+  );
+
+  const invoiceData = {
+    ...formData,
+    total,
+  };
+
+    handleAddList(invoiceData);
+    // handleAddList(formData)
     setShowForm(false)
   }
 
@@ -539,13 +547,13 @@ function InvoiceForm({invoice, handleAddList, setShowForm}: InvoiceFormProps) {
             
 
             {submitted && hasErrors && (
-              <p className="text-red-500 text-sm mt-1">
+              <p className="text-[#EC5757] text-[10px] mt-10 font-bold">
                 - All fields must be added
               </p>
             )}
 
             {errors.items && (
-              <p className="text-red-500 text-sm mt-4">
+              <p className="text-[#EC5757] text-[10px] mt-1 font-bold">
                 {errors.items}
               </p>
             )}
