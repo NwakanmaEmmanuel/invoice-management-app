@@ -78,9 +78,9 @@ function InvoiceForm({invoice, handleAddList, setShowForm}: InvoiceFormProps) {
   });
 };
 
-  function handlePaymentTerm(days: number) {
-    setFormData((prev) => ({...prev, paymentTerms: days}))
-  }
+  // function handlePaymentTerm(days: number) {
+  //   setFormData((prev) => ({...prev, paymentTerms: days}))
+  // }
 
   function handleChange(e: React.ChangeEvent<HTMLInputElement>) {
   const { name, value } = e.target;
@@ -251,6 +251,25 @@ function InvoiceForm({invoice, handleAddList, setShowForm}: InvoiceFormProps) {
     const hasErrors = Object.values(errors).some(
     error => error !== ""
   );
+
+  function handlePaymentTerm(days: number) {
+  const createdDate =
+    selectedDate || new Date();
+
+  const dueDate = new Date(createdDate);
+
+  dueDate.setDate(
+    dueDate.getDate() + days
+  );
+
+  setFormData(prev => ({
+    ...prev,
+    paymentTerms: days,
+    paymentDue: dueDate.toISOString(),
+  }));
+}
+
+
 
 
 
