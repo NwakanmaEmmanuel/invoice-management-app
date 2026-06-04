@@ -9,9 +9,10 @@ type InvoiceFormProps = {
   setShowForm: React.Dispatch<React.SetStateAction<boolean>>;
   invoice: Invoice | null;
   handleAddList: (data: Invoice) => void;
+  handleUpdateInvoice: (data: Invoice) => void;
 };
 
-function InvoiceForm({invoice, handleAddList, setShowForm}: InvoiceFormProps) {
+function InvoiceForm({invoice, handleUpdateInvoice, handleAddList, setShowForm}: InvoiceFormProps) {
 
   const today = new Date();
 
@@ -173,10 +174,19 @@ function InvoiceForm({invoice, handleAddList, setShowForm}: InvoiceFormProps) {
 
   const invoiceData = {
     ...formData,
+    paymentDue: dueDate.toISOString(),
     total,
   };
 
+    if (isEditing) {
+    handleUpdateInvoice(invoiceData);
+  } else {
     handleAddList(invoiceData);
+  }
+
+  
+
+    // handleAddList(invoiceData);
     // handleAddList(formData)
     setShowForm(false)
   }
@@ -287,7 +297,8 @@ function InvoiceForm({invoice, handleAddList, setShowForm}: InvoiceFormProps) {
 
   // function handleSaveChanges(data: Invoice) {
   //   // Update the invoice in the list with the new data
-  //   handleAddList(data);}
+  //   handleAddList(data);
+  // }
 
 
 
@@ -623,7 +634,6 @@ function InvoiceForm({invoice, handleAddList, setShowForm}: InvoiceFormProps) {
                 </button>
 
                 <button 
-                  onChange={() => handleSaveChanges(formData)}
                   type='submit' 
                   className='text-[15px] text-[#F9FAFE] bg-[#7E88C3] dark:bg-[#7C5DFA] dark:text-white rounded-3xl py-3 px-5 font-bold'
                   >

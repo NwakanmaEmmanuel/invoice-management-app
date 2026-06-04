@@ -18,9 +18,11 @@ type InvoiceDetailsProps = {
     React.SetStateAction<Invoice[]>
   >;
   handleAddList: (data: Invoice) => void;
+  handleUpdateInvoice: (data: Invoice) => void;
+
 };
 
-function InvoiceDetails( {showForm ,invoiceData, setInvoiceData, handleAddList, setShowForm, selectedInvoice, setSelectedInvoice}: InvoiceDetailsProps) {
+function InvoiceDetails( {showForm ,invoiceData,handleUpdateInvoice, setInvoiceData, handleAddList, setShowForm, selectedInvoice, setSelectedInvoice}: InvoiceDetailsProps) {
 
   const {id} = useParams()
 
@@ -200,7 +202,7 @@ function InvoiceDetails( {showForm ,invoiceData, setInvoiceData, handleAddList, 
           </div>
         </div>
       </div>
-            {showForm && <InvoiceForm  invoice={selectedInvoice}   handleAddList={handleAddList} setShowForm={setShowForm}/> }
+            {showForm && <InvoiceForm  invoice={selectedInvoice} handleUpdateInvoice={handleUpdateInvoice}  handleAddList={handleAddList} setShowForm={setShowForm}/> }
 
     </div>
 

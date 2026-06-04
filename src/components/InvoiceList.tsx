@@ -14,9 +14,11 @@ type InvoiceListProps = {
   >;
   invoiceData: Invoice[];
   handleAddList: (data: Invoice) => void;
+  handleUpdateInvoice: (data: Invoice) => void;
+
 };
 
-export default function InvoiceList( {showForm, handleAddList ,invoiceData, setShowForm, selectedInvoice, setSelectedInvoice}: InvoiceListProps ) {
+export default function InvoiceList( {showForm, handleUpdateInvoice, handleAddList ,invoiceData, setShowForm, selectedInvoice, setSelectedInvoice}: InvoiceListProps ) {
     
     const [showStatus, setShowStatus] = useState(false)
     const [selectedStatus, setSelectedStatus] = useState<string[]>([]);    
@@ -175,7 +177,7 @@ export default function InvoiceList( {showForm, handleAddList ,invoiceData, setS
             </div>
         </div>
 
-        {showForm && <InvoiceForm   setShowForm={setShowForm} invoice={selectedInvoice} handleAddList={handleAddList} />}
+        {showForm && <InvoiceForm   setShowForm={setShowForm} invoice={selectedInvoice} handleUpdateInvoice={handleUpdateInvoice} handleAddList={handleAddList} />}
 
         {invoiceData.length > 0  ? (
 
