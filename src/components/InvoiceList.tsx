@@ -1,4 +1,3 @@
-import invoices from "../data/invoice";
 import { formatDate } from "../utils/helpers";
 import EmptyInvoice from "./EmptyInvoice"
 import { Link } from "react-router-dom";

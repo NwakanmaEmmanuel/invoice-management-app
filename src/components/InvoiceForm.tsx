@@ -15,8 +15,8 @@ function InvoiceForm({invoice, handleAddList, setShowForm}: InvoiceFormProps) {
 
   const today = new Date();
 
-const dueDate = new Date(today);
-dueDate.setDate(today.getDate() + 30);
+  const dueDate = new Date(today);
+  dueDate.setDate(today.getDate() + 30);
 
   const isEditing = !!invoice
   const emptyInvoice: Invoice = {
@@ -27,7 +27,7 @@ dueDate.setDate(today.getDate() + 30);
     paymentTerms: 30,
     clientName: "",
     clientEmail: "",
-    status: "Draft",
+    status: "Pending",
     senderAddress: {
       street: "",
       city: "",
@@ -280,6 +280,14 @@ dueDate.setDate(today.getDate() + 30);
     paymentDue: dueDate.toISOString(),
   }));
 }
+
+  function handleSaveAsDraft() {
+    setFormData((prev) => ({...prev, status:"Draft"}))
+  }
+
+  // function handleSaveChanges(data: Invoice) {
+  //   // Update the invoice in the list with the new data
+  //   handleAddList(data);}
 
 
 
@@ -615,6 +623,7 @@ dueDate.setDate(today.getDate() + 30);
                 </button>
 
                 <button 
+                  onChange={() => handleSaveChanges(formData)}
                   type='submit' 
                   className='text-[15px] text-[#F9FAFE] bg-[#7E88C3] dark:bg-[#7C5DFA] dark:text-white rounded-3xl py-3 px-5 font-bold'
                   >
@@ -631,7 +640,10 @@ dueDate.setDate(today.getDate() + 30);
                     onClick={() => setShowForm(false)}
                     className='text-[15px] bg-[#F9FAFE] text-[#7E88C3] dark:bg-[#F9FAFE] dark:text-[#7E88C3] rounded-3xl py-3 px-5 font-bold'>Discard</button>
                   <div>
-                    <button type='submit' className='bg-[#373B53] dark:bg-[#373B53] dark:text-[#DFE3FA] rounded-3xl py-3 px-5 font-bold text-[15px] text-[#888EB0]'>Save as Draft</button>
+                    <button 
+                    onClick={() => handleSaveAsDraft()}
+                    type='submit' 
+                    className='bg-[#373B53] dark:bg-[#373B53] dark:text-[#DFE3FA] rounded-3xl py-3 px-5 font-bold text-[15px] text-[#888EB0]'>Save as Draft</button>
                     <button type='submit' className='text-[15px] text-[#F9FAFE] bg-[#7E88C3] dark:bg-[#7C5DFA] dark:text-white rounded-3xl py-3 px-5 font-bold ml-[10px]'>Save and Send</button>
                   </div>
               </div>

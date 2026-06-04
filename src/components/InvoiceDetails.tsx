@@ -1,5 +1,4 @@
 import { useParams } from 'react-router-dom';
-import invoices from '../data/invoice';
 import { formatDate } from '../utils/helpers';
 import { useNavigate } from 'react-router-dom';
 import InvoiceForm from './InvoiceForm.tsx';
@@ -41,6 +40,11 @@ function InvoiceDetails( {showForm ,invoiceData, setInvoiceData, handleAddList, 
     }
 
   const navigate = useNavigate()
+
+
+  function SaveAsPaid() {
+    setInvoiceData((prev) => prev.map(inv => inv.id === id ? {...inv, status:'Paid'} : inv))  
+  }
 
   return (
     <div>
@@ -105,7 +109,11 @@ function InvoiceDetails( {showForm ,invoiceData, setInvoiceData, handleAddList, 
               className='bg-[#EC5757] text-[15px] font-bold px-7 py-3.5 rounded-3xl text-white hover:bg-[#FF9797] '>
                 Delete
             </button>
-            <button className='bg-[#7C5DFA] text-[15px] font-bold px-7 py-3.5 text-white rounded-3xl hover:bg-[#9277FF]'>Mark as Paid</button>
+            {invoice.status !== 'Paid' && (
+              <button 
+                onClick={() => SaveAsPaid()}
+                className='bg-[#7C5DFA] text-[15px] font-bold px-7 py-3.5 text-white rounded-3xl hover:bg-[#9277FF]'>Mark as Paid</button>
+              )}
           </div>
         </div>
 
@@ -119,11 +127,11 @@ function InvoiceDetails( {showForm ,invoiceData, setInvoiceData, handleAddList, 
                   {invoice.id}</h1>
                 <p className='text-[13px] font-medium text-[#7E88C3] dark:text-[#DFE3FA] '>{invoice.description}</p>
               </div>
-              <div className=''>
+              <div>
                 <p className='text-[13px] font-medium text-[#7E88C3] mb-2 dark:text-[#DFE3FA]'>Invoice Date</p>
                 <h1 className='text-[15px] font-bold text-[#0C0E16] dark:text-white  '>{formatDate(invoice.createdAt)}</h1>
               </div>
-              <div className=''>
+              <div>
                 <p className='text-[13px] font-medium text-[#7E88C3] mb-2 dark:text-[#DFE3FA]'>Payment Due</p>
                 <h1 className='text-[15px] font-bold text-[#0C0E16] dark:text-white '>{formatDate(invoice.paymentDue)}</h1>
               </div>
