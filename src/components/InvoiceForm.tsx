@@ -13,11 +13,16 @@ type InvoiceFormProps = {
 
 function InvoiceForm({invoice, handleAddList, setShowForm}: InvoiceFormProps) {
 
+  const today = new Date();
+
+const dueDate = new Date(today);
+dueDate.setDate(today.getDate() + 30);
+
   const isEditing = !!invoice
   const emptyInvoice: Invoice = {
     id: generateId(),
-    createdAt: "",
-    paymentDue: "",
+    createdAt: new Date().toISOString(),
+    paymentDue: dueDate.toISOString(),
     description: "",
     paymentTerms: 30,
     clientName: "",
@@ -153,6 +158,13 @@ function InvoiceForm({invoice, handleAddList, setShowForm}: InvoiceFormProps) {
     
     const isValid = validateForm()
     if(!isValid) return;
+
+    const createdDate = new Date(formData.createdAt);
+
+    const dueDate = new Date(createdDate);
+    dueDate.setDate(
+      dueDate.getDate() + formData.paymentTerms
+    );
 
     const total = formData.items.reduce(
     (sum, item) => sum + item.total,
@@ -438,10 +450,18 @@ function InvoiceForm({invoice, handleAddList, setShowForm}: InvoiceFormProps) {
                       onSelect={(date) => {
                         setSelectedDate(date);
                         setShowDatePicker(false);
+                        if (!date) return;
+
+                        const dueDate = new Date(date);
+                        dueDate.setDate(
+                          dueDate.getDate() + formData.paymentTerms
+                        );
+
                         setFormData(prev => ({
                           ...prev,
-                          createdAt: date?.toISOString() || ""
-                        }))
+                          createdAt: date.toISOString(),
+                          paymentDue: dueDate.toISOString(),
+                        }));
                       }}
                       captionLayout="dropdown"
                       startMonth={new Date(2020, 0)}
