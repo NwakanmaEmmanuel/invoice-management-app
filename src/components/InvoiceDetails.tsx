@@ -120,7 +120,7 @@ function InvoiceDetails( {showForm ,invoiceData,handleUpdateInvoice, setInvoiceD
         </div>
 
         <div className='bg-white mt-6 rounded-lg  px-12 py-14 dark:bg-[#1E2139]'>
-          <div className='grid grid-cols-4'>
+          <div className='grid grid-cols-[200px_200px_200px_200px]'>
 
             <div className='flex flex-col gap-9'>
               <div className='flex flex-col gap-2 mb-8 '>
