@@ -585,7 +585,7 @@ function InvoiceForm({invoice, handleUpdateInvoice, handleAddList, setShowForm}:
                 value={item.price || ""}
                 onChange={(e) => {handleItemChange(index, "price", e.target.value)}}
               />
-              <p className='font-bold text-[15px] text-[#888EB0]'>{item.total || ''}</p>
+              <p className='font-bold text-[15px] text-[#888EB0]'>£ {(item.total || 0).toFixed(2)}</p>
               <i onClick={() => deleteItem(index)} className="fa-solid fa-trash text-[#888EB0] hover:text-[#EC5757] cursor-pointer "></i>
             </div>
          ))}
@@ -610,7 +610,7 @@ function InvoiceForm({invoice, handleUpdateInvoice, handleAddList, setShowForm}:
               </p>
             )}
 
-            {errors.items && (
+            {submitted && errors.items && (
               <p className="text-[#EC5757] text-[10px] mt-1 font-bold">
                 {errors.items}
               </p>

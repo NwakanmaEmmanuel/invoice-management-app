@@ -28,9 +28,9 @@ function InvoiceDetails( {showForm ,invoiceData,handleUpdateInvoice, setInvoiceD
 
   const invoice = invoiceData.find((inv) => inv.id === id);
   
-  if (!invoice) return <div>Not found</div>
-
+  
   const [showDeleteModal, setShowDeleteModal] = useState(false)
+  if (!invoice) return <div>Not found</div>
 
   const filteredInvoices = invoiceData?.filter((inv) => inv.id !== id)
 
