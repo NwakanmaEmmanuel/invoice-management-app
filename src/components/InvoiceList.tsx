@@ -43,12 +43,12 @@ export default function InvoiceList( {showForm, handleUpdateInvoice, handleAddLi
     : invoiceData;
 
   return (
-    <div className="px-[10rem] py-[4rem] ">
+    <div className="lg:px-[10rem] md:px-[3rem] py-[4rem]  md:mt-24 lg:mt-0 ">
         <div className="flex justify-between items-center gap-[20rem]">
 
             <div>
 
-                <h1 className="text-[#0C0E16] dark:text-[white] text-[38px] leading-[100%] mb-3 font-bold">
+                <h1 className="text-[#0C0E16] dark:text-[white] md:text-[36px] lg:text-[38px] leading-[100%] mb-3 font-bold">
                     Invoices
                 </h1>
 

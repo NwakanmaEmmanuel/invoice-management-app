@@ -8,9 +8,9 @@ type SidebarProps = {
 
 function Sidebar( {darkMode, setDarkMode}: SidebarProps) {
   return (
-    <div className="bg-[#373B53]  z-[999] flex flex-col justify-between fixed h-screen w-[103px] left-0 rounded-tr-[20px] rounded-br-[20px]">
+    <div className="bg-[#373B53]  z-[999] flex lg:flex-col justify-between md:bg-red md:flex-row md:w-full md:rounded-none fixed lg:h-screen lg:w-[103px] left-0 lg:rounded-tr-[20px] lg:rounded-br-[20px]">
       <img src={header} alt="header-image" />
-      <div className='flex flex-col items-center mb-3 gap-[32px]'>
+      <div className='flex lg:flex-col lg:p-0 md:flex-row items-center md:mb-0 md:pr-6 mb-3 gap-[32px]'>
         {/* <div className='h-2 w-3 bg-red-400'></div> */}
         {/* <i className="fa-regular fa-moon h-8 w-7"></i> */}
         
@@ -21,7 +21,7 @@ function Sidebar( {darkMode, setDarkMode}: SidebarProps) {
             <i className="fa-solid fa-moon text-[#7E88C3] text-lg hover:text-[#DFE3FA] cursor-pointer"></i>
             )}
         </div>
-        <p className='h-[1px] bg-[#494E6E] w-[103px]'></p>
+        <p className='lg:h-[1px] bg-[#494E6E] md:h-[103px] md:w-[1px] lg:w-[103px]'></p>
         <img className=' ' src={profile} alt="" />
       </div>
     </div>

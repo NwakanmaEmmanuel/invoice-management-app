@@ -49,7 +49,7 @@ function InvoiceDetails( {showForm ,invoiceData,handleUpdateInvoice, setInvoiceD
   }
 
   return (
-    <div>
+    <div className=' md:mt-24 lg:mt-0' >
 
       <div className='mt-12  relative'>
       {showDeleteModal && (
