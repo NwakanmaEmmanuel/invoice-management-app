@@ -5,13 +5,15 @@ import { Routes, Route } from 'react-router-dom'
 import { useState } from 'react'
 import invoices from './data/invoice'
 import { Invoice } from './types/invoice'
+import useLocalStorage from './components/useLocalStorage.tsx'
+
 
 
 export default function App() {
 
   const [showForm, setShowForm] = useState(false)
   const [selectedInvoice, setSelectedInvoice] = useState<Invoice | null>(null);
-  const [invoiceData, setInvoiceData] = useState(invoices)
+  const [invoiceData, setInvoiceData] = useLocalStorage('invoice-app-data', invoices)
   const [darkMode, setDarkMode] = useState(false)
 
   function handleAddList(data: Invoice) {
