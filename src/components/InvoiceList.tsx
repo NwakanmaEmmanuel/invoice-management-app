@@ -43,8 +43,8 @@ export default function InvoiceList( {showForm, handleUpdateInvoice, handleAddLi
     : invoiceData;
 
   return (
-    <div className="lg:px-[10rem] md:px-[3rem] py-[4rem]  md:mt-24 lg:mt-0 ">
-        <div className="flex justify-between items-center gap-[20rem]">
+    <div className="lg:px-[10rem] md:px-4 py-[4rem]  md:mt-24 lg:mt-0 ">
+        <div className="flex justify-between items-center md:gap-[11rem] lg:gap-[20rem]">
 
             <div>
 
@@ -188,7 +188,7 @@ export default function InvoiceList( {showForm, handleUpdateInvoice, handleAddLi
                 <Link
                     to={`invoice/${invoice.id}`}
                     key={invoice.id}
-                    className=" grid grid-cols-[150px_1fr_1fr_150px_100px_40px] shadow-[0px_10px_10px_-10px_#48549F1A] cursor-pointer  items-center  bg-[#FFFFFF] hover:border-[#7C5DFA] border border-transparent border-solid hover:border-solid dark:bg-[#1E2139] rounded-lg px-[32px] py-[15px] ">
+                    className=" grid md:grid-cols-[100px_1fr_1fr_100px_100px_20px] lg:grid-cols-[150px_1fr_1fr_150px_100px_40px] shadow-[0px_10px_10px_-10px_#48549F1A] cursor-pointer  items-center  bg-[#FFFFFF] hover:border-[#7C5DFA] border border-transparent border-solid hover:border-solid dark:bg-[#1E2139] rounded-lg  px-[32px] py-[15px] ">
                     
                     <h1 className="text-[15px] dark:text-white font-bold">
                         <span className="text-[#7E88C3]">#</span>

@@ -308,7 +308,7 @@ function InvoiceForm({invoice, handleUpdateInvoice, handleAddList, setShowForm}:
 
   return (
     <div className='fixed bottom-0 left-[1px] right-0 top-0 bg-black/50 z-50' onClick={() => {  setShowForm(false)}}>
-      <form className='bg-[#FFFFFF]  custom-scrollbar dark:bg-[#141625] flex flex-col absolute top-0 left-[6.4rem] h-screen rounded-tr-[12px] rounded-br-[20px] w-[40rem] z-10  text-black '   
+      <form className='bg-[#FFFFFF]  custom-scrollbar dark:bg-[#141625] flex flex-col absolute top-0 md:left-0 lg:left-[6.4rem] h-screen rounded-tr-[12px] rounded-br-[20px] w-[40rem] z-10  text-black '   
       onClick={(e) => e.stopPropagation()} 
       onSubmit={handleSubmit}
       >
@@ -651,10 +651,18 @@ function InvoiceForm({invoice, handleUpdateInvoice, handleAddList, setShowForm}:
                     className='text-[15px] bg-[#F9FAFE] text-[#7E88C3] dark:bg-[#F9FAFE] dark:text-[#7E88C3] rounded-3xl py-3 px-5 font-bold'>Discard</button>
                   <div>
                     <button 
-                    onClick={() => handleSaveAsDraft()}
-                    type='submit' 
-                    className='bg-[#373B53] dark:bg-[#373B53] dark:text-[#DFE3FA] rounded-3xl py-3 px-5 font-bold text-[15px] text-[#888EB0]'>Save as Draft</button>
-                    <button type='submit' className='text-[15px] text-[#F9FAFE] bg-[#7E88C3] dark:bg-[#7C5DFA] dark:text-white rounded-3xl py-3 px-5 font-bold ml-[10px]'>Save and Send</button>
+                      onClick={() => handleSaveAsDraft()}
+                      type='submit' 
+                      className='bg-[#373B53] dark:bg-[#373B53] dark:text-[#DFE3FA] hover:bg-[#0C0E16] dark:hover:bg-[#1E2139] dark:hover:text-[#DFE3FA] rounded-3xl py-3 px-5 font-bold text-[15px] text-[#888EB0]'
+                    >
+                      Save as Draft
+                    </button>
+                    <button 
+                      type='submit' 
+                      className='text-[15px] text-[#F9FAFE] bg-[#7E88C3] dark:bg-[#7C5DFA] hover:bg-[#9277FF] dark:text-white rounded-3xl py-3 px-5 font-bold ml-[10px]'
+                    >
+                      Save and Send
+                    </button>
                   </div>
               </div>
              </div>

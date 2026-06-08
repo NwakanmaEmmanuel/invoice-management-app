@@ -8,7 +8,7 @@ type SidebarProps = {
 
 function Sidebar( {darkMode, setDarkMode}: SidebarProps) {
   return (
-    <div className="bg-[#373B53]  z-[999] flex lg:flex-col justify-between md:bg-red md:flex-row md:w-full md:rounded-none fixed lg:h-screen lg:w-[103px] left-0 lg:rounded-tr-[20px] lg:rounded-br-[20px]">
+    <div className="bg-[#373B53]   z-[999] flex lg:flex-col justify-between md:bg-red md:flex-row md:w-full md:rounded-none fixed lg:h-screen lg:w-[103px] left-0 lg:rounded-tr-[20px] lg:rounded-br-[20px]">
       <img src={header} alt="header-image" />
       <div className='flex lg:flex-col lg:p-0 md:flex-row items-center md:mb-0 md:pr-6 mb-3 gap-[32px]'>
         {/* <div className='h-2 w-3 bg-red-400'></div> */}
@@ -16,7 +16,7 @@ function Sidebar( {darkMode, setDarkMode}: SidebarProps) {
         
         <div onClick={() => setDarkMode(!darkMode)}>
           {darkMode ? (
-            <span className='block w-[13px] h-[11px] mb-[9px]  bg-[#858BB2] cursor-pointer rounded-full'></span>
+            <span className='block w-[13px] h-[13px] mb-[9px]  bg-[#858BB2] cursor-pointer rounded-full'></span>
             ) : ( 
             <i className="fa-solid fa-moon text-[#7E88C3] text-lg hover:text-[#DFE3FA] cursor-pointer"></i>
             )}
