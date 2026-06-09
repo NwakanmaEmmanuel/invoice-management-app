@@ -43,18 +43,18 @@ export default function InvoiceList( {showForm, handleUpdateInvoice, handleAddLi
     : invoiceData;
 
   return (
-    <div className="lg:px-[10rem] md:px-4 py-[4rem]  md:mt-24 lg:mt-0 ">
-        <div className="flex justify-between items-center md:gap-[11rem] lg:gap-[20rem]">
+    <div className="lg:px-[10rem] md:px-4 py-[4rem] mt-16  md:mt-24 lg:mt-0 ">
+        <div className="flex justify-between items-center gap-[72px] md:gap-[11rem] lg:gap-[20rem]">
 
             <div>
 
-                <h1 className="text-[#0C0E16] dark:text-[white] md:text-[36px] lg:text-[38px] leading-[100%] mb-3 font-bold">
+                <h1 className="text-[#0C0E16] dark:text-[white] text-2xl md:text-[36px] lg:text-[38px] leading-[100%] mb-3 font-bold">
                     Invoices
                 </h1>
 
                 {invoiceData.length > 0 ? (
                     <p className="text-[#888EB0] font-medium dark:text-[#DFE3FA] text-[13px]">
-                        There are {invoiceData.length} total invoices
+                        <span className="hidden lg:inline md:inline">There are </span> {filteredInvoices.length} <span className="hidden lg:inline md:inline">{selectedStatus.join(" & ") || "total"}</span> invoices
                     </p>
                     ) : (
                     <p className="text-[#888EB0] font-medium dark:text-[#DFE3FA] text-[13px]">
@@ -64,13 +64,13 @@ export default function InvoiceList( {showForm, handleUpdateInvoice, handleAddLi
 
             </div>
 
-            <div className="flex gap-[44px] relative">
+            <div className="flex md:gap-[44px] lg:gap-[44px] gap-4 relative">
                 <button 
                     onClick={() => setShowStatus(!showStatus)}
                     // onMouseOver={() => setShowStatus(true)}
                     className="text-[#0C0E16] dark:text-[white]  text-[15px] font-bold"
                 >
-                    Filter by Status 
+                    Filter <span className="hidden md:inline lg:inline">by Status </span>
                     {showStatus ? (
                         <i className="fa-solid fa-angle-up text-[#7C5DFA] dark:text-[#7C5DFA] ml-[10px] "></i>  
                     ) : (
@@ -169,10 +169,10 @@ export default function InvoiceList( {showForm, handleUpdateInvoice, handleAddLi
                         setShowStatus(false)
                     }}
                     className="bg-[#7C5DFA] hover:bg-[#9277FF] text-[15px] font-bold text-white px-[15px] py-[10px] rounded-[50px] ">
-                    <span className="text-[#7C5DFA] bg-white px-[9px] py-[2px] font-extrabold text-[20px] rounded-[50%] inline-flex items-center mr-[11px] ">
+                    <span className="text-[#7C5DFA] bg-white px-[11px] py-[1px] font-extrabold text-[20px] rounded-[50%] inline-flex items-center mr-[11px] ">
                         +
                     </span>
-                    New Invoice
+                    New <span className="hidden lg:inline md:inline">Invoice</span>
                 </button>
             </div>
         </div>
@@ -188,30 +188,56 @@ export default function InvoiceList( {showForm, handleUpdateInvoice, handleAddLi
                 <Link
                     to={`invoice/${invoice.id}`}
                     key={invoice.id}
-                    className=" grid md:grid-cols-[100px_1fr_1fr_100px_100px_20px] lg:grid-cols-[150px_1fr_1fr_150px_100px_40px] shadow-[0px_10px_10px_-10px_#48549F1A] cursor-pointer  items-center  bg-[#FFFFFF] hover:border-[#7C5DFA] border border-transparent border-solid hover:border-solid dark:bg-[#1E2139] rounded-lg  px-[32px] py-[15px] ">
+                    className=" grid grid-cols-[1fr] md:grid-cols-[100px_1fr_1fr_100px_100px_20px] lg:grid-cols-[150px_1fr_1fr_150px_100px_40px] shadow-[0px_10px_10px_-10px_#48549F1A] cursor-pointer  items-center  bg-[#FFFFFF] hover:border-[#7C5DFA] border border-transparent border-solid hover:border-solid dark:bg-[#1E2139] rounded-lg  px-[32px] py-[15px] ">
                     
-                    <h1 className="text-[15px] dark:text-white font-bold">
-                        <span className="text-[#7E88C3]">#</span>
+                    
+                     <div className="md:hidden lg:hidden flex gap-12 justify-between items-center">
+                        <h1 className="text-[15px]  dark:text-white font-bold">
+                            <span className="text-[#7E88C3]">#</span>
+                            {invoice.id}
+                        </h1>
+                        <p className="text-[#858BB2] dark:text-white font-medium text-[13px]">
+                            {invoice.clientName}
+                        </p>
+                    </div>
+                    <div className="md:hidden lg:hidden mt-5 flex gap-2 justify-between items-center">
+                        <div>
+                            <p className="text-[13px] mb-2 text-[#888EB0] dark:text-[#DFE3FA] font-medium">
+                                Due {formatDate(invoice.paymentDue)}
+                            </p>
+                            <h1 className="text-[#0C0E16] dark:text-white text-[15px] font-bold">
+                                £ {invoice.total}
+                            </h1>
+                        </div>
+                        <div>
+                            <button className={`${statusStyles[invoice.status]} outline-none  text-[15px] font-bold px-2 py-2 rounded-md `}>
+                                <span className=" h-[8px] bg-current w-[8px] rounded-md inline-block border-solid border mr-1.5"></span>{invoice.status}
+                            </button>
+                        </div>
+                    </div>
+
+                    <h1 className="md:inline-block hidden lg:inline-block text-[15px] dark:text-white font-bold">
+                        <span className=" text-[#7E88C3]">#</span>
                         {invoice.id}
                     </h1>
 
-                    <p className="text-[13px] text-[#888EB0] dark:text-[#DFE3FA] font-medium">
+                    <p className="md:inline-block hidden lg:inline-block text-[13px] text-[#888EB0] dark:text-[#DFE3FA] font-medium">
                         Due {formatDate(invoice.paymentDue)}
                     </p>
 
-                    <p className="text-[#858BB2] dark:text-white font-medium text-[13px]">
+                    <p className="md:inline-block hidden lg:inline-block text-[#858BB2] dark:text-white font-medium text-[13px]">
                         {invoice.clientName}
                     </p>
 
-                    <h1 className="text-[#0C0E16] dark:text-white text-[15px] font-bold">
+                    <h1 className="md:inline-block hidden lg:inline-block text-[#0C0E16] dark:text-white text-[15px] font-bold">
                         £ {invoice.total}
                     </h1>
 
-                    <button className={`${statusStyles[invoice.status]} outline-none  text-[15px] font-bold px-2 py-2 rounded-md `}>
+                    <button className={`${statusStyles[invoice.status]} md:inline-block hidden lg:inline-block outline-none  text-[15px] font-bold px-2 py-2 rounded-md `}>
                         <span className=" h-[8px] bg-current w-[8px] rounded-md inline-block border-solid border mr-1.5"></span>{invoice.status}
                     </button>
 
-                    <i className="fa-solid fa-angle-right text-[#7C5DFA] text-lg flex justify-center items-center"></i>
+                    <i className="fa-solid fa-angle-right hidden  text-[#7C5DFA] text-lg md:flex lg:flex justify-center items-center"></i>
                 </Link>
                 )}
             </div>
