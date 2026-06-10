@@ -51,7 +51,7 @@ function InvoiceDetails( {showForm ,invoiceData,handleUpdateInvoice, setInvoiceD
   return (
     <div className=' md:mt-24 lg:mt-0' >
 
-      <div className='mt-12  relative'>
+      <div className='md:mt-12 mt-32  relative'>
       {showDeleteModal && (
         <div 
           className='fixed inset-0 bg-black/50 z-[999] flex items-center justify-center' 
@@ -88,58 +88,89 @@ function InvoiceDetails( {showForm ,invoiceData,handleUpdateInvoice, setInvoiceD
           <h1 className='text-[15px] text-[#0C0E16] hover:text-[#7E88C3] dark:text-white font-bold'>Go back</h1>
         </div>
 
-        <div className='bg-[#FFFFFF] shadow-[0px_10px_10px_-10px_#48549F1A] dark:bg-[#1E2139] flex items-center justify-between rounded-lg px-7 py-7 mt-10'>
-          <div className="flex items-center gap-5">
+        <div className='bg-[#FFFFFF] shadow-[0px_10px_10px_-10px_#48549F1A] dark:bg-[#1E2139] flex items-center  md:justify-between rounded-lg px-7 py-7 mt-10'>
+          <div className="flex items-center md:gap-5 gap-[10.25rem]">
             <p className='text-[#858BB2] dark:text-[#DFE3FA] font-medium'>Status</p>
             <button className={`${statusStyles[invoice.status]}   text-[15px] font-bold px-2 py-2 rounded-md `}>
               <span className=" h-[8px] bg-current w-[8px] rounded-full inline-block border-solid border mr-1.5"></span>{invoice.status}
             </button>
           </div>
 
-          <div className='flex gap-2'>
+          <div className='md:flex lg:flex hidden gap-2'>
             <button 
               onClick={() => {
               setShowForm(true);
               setSelectedInvoice(invoice);}}
-              className='bg-[#7E88C3]/10 font-bold text-[15px] rounded-3xl px-5 py-3 text-[#7E88C3] dark:text-[#DFE3FA] hover:bg-[#DFE3FA] '
+              className='bg-[#7E88C3]/10  md:inline-block lg:inline-block font-bold text-[15px] rounded-3xl px-5 py-3 text-[#7E88C3] dark:text-[#DFE3FA] hover:bg-[#DFE3FA] '
             >
               Edit
             </button>
             <button 
               onClick={() => {
               setShowDeleteModal(true)}}
-              className='bg-[#EC5757] text-[15px] font-bold px-7 py-3.5 rounded-3xl text-white hover:bg-[#FF9797] '>
+              className='bg-[#EC5757]  md:inline-block lg:inline-block text-[15px] font-bold px-7 py-3.5 rounded-3xl text-white hover:bg-[#FF9797] '>
                 Delete
             </button>
             {invoice.status !== 'Paid' && (
               <button 
                 onClick={() => SaveAsPaid()}
-                className='bg-[#7C5DFA] text-[15px] font-bold px-7 py-3.5 text-white rounded-3xl hover:bg-[#9277FF]'>Mark as Paid</button>
+                className='bg-[#7C5DFA]  md:inline-block lg:inline-block text-[15px] font-bold px-7 py-3.5 text-white rounded-3xl hover:bg-[#9277FF]'>Mark as Paid</button>
               )}
           </div>
         </div>
 
-        <div className='bg-white mt-6 rounded-lg  px-6 py-14 dark:bg-[#1E2139]'>
+        <div className='bg-white mt-6 rounded-lg px-4 md:px-6 py-14 dark:bg-[#1E2139]'>
           <div className='grid lg:grid-cols-[200px_200px_200px_200px] md:grid-cols-[150px_200px_150px_150px]'>
 
-            <div className='flex flex-col gap-9'>
+            <div className='flex flex-col gap-2 md:gap-9 lg:gap-9'>
               <div className='flex flex-col gap-2 mb-8 '>
                 <h1 className='text-[15px] font-bold text-[#0C0E16] dark:text-white '>
                   <span className='text-[#888EB0]'>#</span>
                   {invoice.id}</h1>
                 <p className='text-[13px] font-medium text-[#7E88C3] dark:text-[#DFE3FA] '>{invoice.description}</p>
               </div>
-              <div>
+
+              <div className='inline md:hidden lg:hidden mb-7'>
+                <p className='text-[13px] font-medium text-[#7E88C3] dark:text-[#DFE3FA] mb-[2px]'>{invoice.senderAddress.street}</p>
+                <p className='text-[13px] font-medium text-[#7E88C3] dark:text-[#DFE3FA] mb-[2px]'>{invoice.senderAddress.city}</p>
+                <p className='text-[13px] font-medium text-[#7E88C3] dark:text-[#DFE3FA] mb-[2px]'>{invoice.senderAddress.postCode}</p>
+                <p className='text-[13px] font-medium text-[#7E88C3] dark:text-[#DFE3FA] mb-[2px]'>{invoice.senderAddress.country}</p>
+              </div>
+              
+              <div className='flex gap-16 md:hidden lg:hidden mb-8'>
+
+                <div>
+                  <div  className='mb-[40px]'>
+                    <p className='text-[13px] font-medium text-[#7E88C3] mb-3 dark:text-[#DFE3FA]'>Invoice Date</p>
+                    <h1 className='text-[15px] font-bold text-[#0C0E16] dark:text-white  '>{formatDate(invoice.createdAt)}</h1>
+                  </div>
+                  <div>
+                    <p className='text-[13px] font-medium text-[#7E88C3] mb-3 dark:text-[#DFE3FA]'>Payment Due</p>
+                    <h1 className='text-[15px] font-bold text-[#0C0E16] dark:text-white '>{formatDate(invoice.paymentDue)}</h1>
+                  </div>
+                </div>
+
+                <div className=' flex flex-col justify-end'>
+                  <p className='text-[13px] font-medium text-[#7E88C3] mb-3 dark:text-[#DFE3FA]'>Bill To</p>
+                  <h1 className='text-[15px] font-bold text-[#0C0E16] mb-2.5 dark:text-white '>{invoice.clientName}</h1>
+                  <p className='text-[13px] dark:text-[#DFE3FA] font-medium text-[#7E88C3] mb-[2px]'>{invoice.clientAddress.street}</p>
+                  <p className='text-[13px] dark:text-[#DFE3FA] font-medium text-[#7E88C3] mb-[2px]'>{invoice.clientAddress.city}</p>
+                  <p className='text-[13px] dark:text-[#DFE3FA] font-medium text-[#7E88C3] mb-[2px]'>{invoice.clientAddress.postCode}</p>
+                  <p className='text-[13px] dark:text-[#DFE3FA] font-medium text-[#7E88C3]'>{invoice.clientAddress.country}</p>
+                </div>
+              </div>
+
+              <div className='hidden md:inline lg:inline'>
                 <p className='text-[13px] font-medium text-[#7E88C3] mb-2 dark:text-[#DFE3FA]'>Invoice Date</p>
                 <h1 className='text-[15px] font-bold text-[#0C0E16] dark:text-white  '>{formatDate(invoice.createdAt)}</h1>
               </div>
-              <div>
+              <div className='md:inline lg:inline hidden'>
                 <p className='text-[13px] font-medium text-[#7E88C3] mb-2 dark:text-[#DFE3FA]'>Payment Due</p>
                 <h1 className='text-[15px] font-bold text-[#0C0E16] dark:text-white '>{formatDate(invoice.paymentDue)}</h1>
               </div>
             </div>
 
-            <div className='mr-24 flex flex-col justify-end'>
+            <div className='mr-24 md:flex lg:flex flex-col justify-end hidden'>
               <p className='text-[13px] font-medium text-[#7E88C3] mb-3 dark:text-[#DFE3FA]'>Bill To</p>
               <h1 className='text-[15px] font-bold text-[#0C0E16] mb-2.5 dark:text-white '>{invoice.clientName}</h1>
               <p className='text-[13px] dark:text-[#DFE3FA] font-medium text-[#7E88C3] mb-[2px]'>{invoice.clientAddress.street}</p>
@@ -151,7 +182,7 @@ function InvoiceDetails( {showForm ,invoiceData,handleUpdateInvoice, setInvoiceD
               <p className='text-[13px] font-medium text-[#7E88C3] mb-3 dark:text-[#DFE3FA]'>Sent to</p>
               <h1  className='text-[15px] font-bold text-[#0C0E16] dark:text-white '>{invoice.clientEmail}</h1>
             </div>
-            <div>
+            <div className='hidden md:inline lg:inline'>
               <p className='text-[13px] font-medium text-[#7E88C3] dark:text-[#DFE3FA] mb-[2px]'>{invoice.senderAddress.street}</p>
               <p className='text-[13px] font-medium text-[#7E88C3] dark:text-[#DFE3FA] mb-[2px]'>{invoice.senderAddress.city}</p>
               <p className='text-[13px] font-medium text-[#7E88C3] dark:text-[#DFE3FA] mb-[2px]'>{invoice.senderAddress.postCode}</p>
@@ -159,32 +190,61 @@ function InvoiceDetails( {showForm ,invoiceData,handleUpdateInvoice, setInvoiceD
             </div>
           </div>
 
-          <div className='bg-[#F9FAFE] dark:bg-[#252945] mt-12 rounded-tl-[8px] rounded-tr-[8px] pt-10'>   
+          <div className='bg-[#F9FAFE] dark:bg-[#252945] mb-[50px] md:mb-0 lg:mb-0 mt-12 rounded-tl-[8px] rounded-tr-[8px] pt-0 md:pt-10 lg:pt-10 '>   
             <div className='grid grid-cols-4 px-6 mb-8'>
-              <p className='text-[13px] font-medium text-[#7E88C3] dark:text-[#DFE3FA]'>Item Name</p>
-              <p className='text-[13px] font-medium text-[#7E88C3] dark:text-[#DFE3FA]'>QTY.</p>
-              <p className='text-[13px] font-medium text-[#7E88C3] dark:text-[#DFE3FA]'>Price</p>
-              <p className='text-[13px] font-medium text-[#7E88C3] dark:text-[#DFE3FA]'>Total</p>
+              <p className='text-[13px] hidden md:inline-block lg:inline-block font-medium text-[#7E88C3] dark:text-[#DFE3FA]'>Item Name</p>
+              <p className='text-[13px] hidden md:inline-block lg:inline-block font-medium text-[#7E88C3] dark:text-[#DFE3FA]'>QTY.</p>
+              <p className='text-[13px] hidden md:inline-block lg:inline-block font-medium text-[#7E88C3] dark:text-[#DFE3FA]'>Price</p>
+              <p className='text-[13px] hidden md:inline-block lg:inline-block font-medium text-[#7E88C3] dark:text-[#DFE3FA]'>Total</p>
             </div>
 
             {invoice.items.map((item, index) => (
               <div
                 key={index}
-                className='grid grid-cols-4 px-6 items-center mb-8'
+                className='grid grid-cols-2  md:gap-0 lg:gap-0 lg:grid-cols-4 md:grid-cols-4 px-6 items-center mb-8'
               >
-                <h1 className='text-[15px] font-bold text-[#0C0E16] dark:text-white'>
+
+                {/* Mobile view spacing fix */}
+                {/* <div className='lg:hidden md:hidden flex  flex-row'> */}
+                  <div className='lg:hidden md:hidden flex flex-col '>
+                    <h1 className='text-[15px] lg:hidden md:hidden inline-block  font-bold text-[#0C0E16] dark:text-white'>
+                    {item.name}
+                    </h1>
+
+                    <div>
+                      <span className='text-[15px] lg:hidden md:hidden inline font-bold text-[#7E88C3] dark:text-[#DFE3FA]'>
+                        {item.quantity}
+                      </span>
+                        <p className='text-[10px] lg:hidden md:hidden inline  font-bold text-[#7E88C3] dark:text-[#DFE3FA]'>  ✖  </p>
+                      <span className='text-[15px] lg:hidden md:hidden inline  font-bold text-[#7E88C3] dark:text-[#DFE3FA]'>
+                        £ {item.price}
+                      </span>
+
+                    </div>
+
+                  </div>
+                  <div className='lg:hidden md:hidden block text-right'>
+                    <p className='text-[15px] lg:hidden md:hidden inline-block font-bold text-[#0C0E16] dark:text-white'>
+                      £ {item.total}
+                    </p>
+                  </div>
+                {/* </div> */}
+
+
+
+                <h1 className='text-[15px] hidden md:block lg:block font-bold text-[#0C0E16] dark:text-white'>
                   {item.name}
                 </h1>
 
-                <p className='text-[15px] font-bold text-[#7E88C3] dark:text-[#DFE3FA]'>
+                <p className='text-[15px] hidden md:block lg:block font-bold text-[#7E88C3] dark:text-[#DFE3FA]'>
                   {item.quantity}
                 </p>
 
-                <p className='text-[15px] font-bold text-[#7E88C3] dark:text-[#DFE3FA]'>
+                <p className='text-[15px] hidden md:block lg:block font-bold text-[#7E88C3] dark:text-[#DFE3FA]'>
                   £ {item.price}
                 </p>
 
-                <p className='text-[15px] font-bold text-[#0C0E16] dark:text-white'>
+                <p className='text-[15px] hidden md:block lg:block font-bold text-[#0C0E16] dark:text-white'>
                   £ {item.total}
                 </p>
               </div>
@@ -200,8 +260,31 @@ function InvoiceDetails( {showForm ,invoiceData,handleUpdateInvoice, setInvoiceD
               </h1>
             </div>
           </div>
-        </div>
+
       </div>
+        </div>
+            {/* For mobile */}
+          <div className='fixed bg-[#F9FAFE] bottom-0 left-0 w-full dark:bg-[#252945] mt-12 px-4 items-center justify-center py-5 flex md:hidden lg:hidden gap-2 shadow-[-1px_-9px_20px_0px_#48549F40]'>
+            <button 
+              onClick={() => {
+              setShowForm(true);
+              setSelectedInvoice(invoice);}}
+              className='bg-[#7E88C3]/10  font-bold text-[15px] rounded-3xl px-5 py-3 text-[#7E88C3] dark:text-[#DFE3FA] hover:bg-[#DFE3FA] '
+            >
+              Edit
+            </button>
+            <button 
+              onClick={() => {
+              setShowDeleteModal(true)}}
+              className='bg-[#EC5757]  text-[15px] font-bold px-7 py-3.5 rounded-3xl text-white hover:bg-[#FF9797] '>
+                Delete
+            </button>
+            {invoice.status !== 'Paid' && (
+              <button 
+                onClick={() => SaveAsPaid()}
+                className='bg-[#7C5DFA]  text-[15px] font-bold px-7 py-3.5 text-white rounded-3xl hover:bg-[#9277FF]'>Mark as Paid</button>
+              )}
+          </div>
             {showForm && <InvoiceForm  invoice={selectedInvoice} handleUpdateInvoice={handleUpdateInvoice}  handleAddList={handleAddList} setShowForm={setShowForm}/> }
 
     </div>
