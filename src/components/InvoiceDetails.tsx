@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import InvoiceForm from './InvoiceForm.tsx';
 import { Invoice } from '../types/invoice';
 import { useState } from 'react';
+import EmptyInvoice from './EmptyInvoice.tsx';
 
 
 type InvoiceDetailsProps = {
@@ -30,8 +31,8 @@ function InvoiceDetails( {showForm ,invoiceData,handleUpdateInvoice, setInvoiceD
   
   
   const [showDeleteModal, setShowDeleteModal] = useState(false)
-  if (!invoice) return <div>Not found</div>
-
+  if (!invoice) return <div><EmptyInvoice/></div>
+  
   const filteredInvoices = invoiceData?.filter((inv) => inv.id !== id)
 
 
@@ -67,8 +68,9 @@ function InvoiceDetails( {showForm ,invoiceData,handleUpdateInvoice, setInvoiceD
             </h1>
 
             <p className='text-[#888EB0] text-[13px] dark:text-[#DFE3FA] font-medium mb-7 leading-6'>
-              Are you sure you want to delete invoice {invoice.id}? This action cannot be <br/> undone.
+              Are you sure you want to delete invoice <br className='inline-block md:hidden'/> {invoice.id}? This action cannot be <br className='hidden md:block'/> undone.
             </p>
+
             <div className='flex gap-4 justify-end'>
               <button className='bg-[#7E88C3]/10 font-bold text-[15px] rounded-3xl px-5 py-3 text-[#7E88C3] hover:bg-[#DFE3FA] dark:bg-[#252945] dark:text-[#DFE3FA] '>Cancel</button>
               <button 
@@ -77,7 +79,6 @@ function InvoiceDetails( {showForm ,invoiceData,handleUpdateInvoice, setInvoiceD
                   Delete
               </button>
             </div>
-
           </div>
         </div>
       )}

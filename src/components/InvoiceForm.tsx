@@ -4,8 +4,9 @@ import {  useState } from 'react';
 import { DayPicker } from "react-day-picker";
 import "react-day-picker/dist/style.css";
 
-type InvoiceFormProps = {
 
+type InvoiceFormProps = {
+  
   setShowForm: React.Dispatch<React.SetStateAction<boolean>>;
   invoice: Invoice | null;
   handleAddList: (data: Invoice) => void;
@@ -101,7 +102,7 @@ function InvoiceForm({invoice, handleUpdateInvoice, handleAddList, setShowForm}:
     e: React.ChangeEvent<HTMLInputElement>
   ) {
     const { name, value } = e.target;
-
+    
     setFormData((prev) => ({
       ...prev,
       clientAddress: {
@@ -134,7 +135,7 @@ function InvoiceForm({invoice, handleUpdateInvoice, handleAddList, setShowForm}:
   ) {
   setFormData((prev) => {
     const updatedItems = [...prev.items];
-
+    
     updatedItems[index] = {
       ...updatedItems[index],
       [field]:
@@ -299,20 +300,27 @@ function InvoiceForm({invoice, handleUpdateInvoice, handleAddList, setShowForm}:
   //   // Update the invoice in the list with the new data
   //   handleAddList(data);
   // }
+  
+  
 
 
 
 
-
-
-
+  
   return (
     <div className='fixed bottom-0 left-[1px] right-0 top-0 bg-black/50 z-50' onClick={() => {  setShowForm(false)}}>
-      <form className='bg-[#FFFFFF]  custom-scrollbar dark:bg-[#141625] flex flex-col absolute top-0 md:left-0 lg:left-[6.4rem] h-screen rounded-tr-[12px] rounded-br-[20px] w-[40rem] z-10  text-black '   
+      <form className='bg-[#FFFFFF]  custom-scrollbar dark:bg-[#141625] flex flex-col absolute top-0 md:left-0 lg:left-[6.4rem] h-screen rounded-tr-[12px] rounded-br-[20px] w-full md:w-[38rem] lg:w-[40rem] z-10  text-black '   
       onClick={(e) => e.stopPropagation()} 
       onSubmit={handleSubmit}
       >
-        <div className='flex-1 overflow-y-auto p-11 custom-scrollbar'>
+        <div className='flex-1 overflow-y-auto p-6 md:p-11 mt-24 md:mt-[100px] lg:mt-0 custom-scrollbar'>
+
+          <div className='flex items-center md:hidden gap-3 mb-5 md:mb-0 cursor-pointer ' 
+            onClick={ () => setShowForm(false)}
+          >
+            <i className="fa-solid fa-angle-left font-extrabold  text-[#7C5DFA] hover:text-[#9277FF] "></i>
+            <h1 className='text-[15px] text-[#0C0E16] hover:text-[#7E88C3] dark:text-white font-bold'>Go back</h1>
+          </div>
           
         <div className='flex gap-2 mb-11'>
 
@@ -341,13 +349,13 @@ function InvoiceForm({invoice, handleUpdateInvoice, handleAddList, setShowForm}:
             onChange={handleSenderAddressChange}
           />
 
-          <div className='grid grid-cols-3 gap-4 mb-[-1px]'>
+          <div className='grid grid-cols-2 md:grid-cols-3 gap-4 mb-[-1px]'>
             <p className='text-[13px] text-[#7E88C3] mb-4 font-medium dark:text-[#DFE3FA]' >City</p>
             <p className='text-[13px] text-[#7E88C3] mb-4 font-medium dark:text-[#DFE3FA]' >Post Code</p>
-            <p className='text-[13px] text-[#7E88C3] mb-4 font-medium dark:text-[#DFE3FA]' >Country</p>
+            <p className='text-[13px] text-[#7E88C3] mb-4 font-medium dark:text-[#DFE3FA] hidden md:block' >Country</p>
           </div>
 
-          <div className='grid grid-cols-3 gap-4 mb-8'>
+          <div className='grid grid-cols-2 md:grid-cols-3  gap-4 mb-8'>
             <input type="text" 
               className='w-full outline-none mb-6 font-bold text-[#0C0E16] dark:bg-[#1E2139] dark:text-white border-[#DFE3FA] border-solid border-2 dark:border-none   rounded-[1px]  text-[15px] px-4 py-2' 
               value={formData.senderAddress.city || ''}
@@ -363,10 +371,20 @@ function InvoiceForm({invoice, handleUpdateInvoice, handleAddList, setShowForm}:
                /> 
 
             <input type="text" 
-              className='w-full outline-none mb-6 font-bold text-[#0C0E16] border-[#DFE3FA] border-solid border-2 dark:border-none dark:bg-[#1E2139] dark:text-white  rounded-[1px]  text-[15px] px-4 py-2' 
+              className='w-full outline-none hidden md:block mb-6 font-bold text-[#0C0E16] border-[#DFE3FA] border-solid border-2 dark:border-none dark:bg-[#1E2139] dark:text-white  rounded-[1px]  text-[15px] px-4 py-2' 
               value={formData.senderAddress.country}
               name='country'
               onChange={handleSenderAddressChange}
+               />
+          </div>
+
+          <div className='block md:hidden'>
+            <p className='text-[13px] text-[#7E88C3] mb-4 font-medium dark:text-[#DFE3FA]' >Country</p>
+            <input type="text" 
+              className='w-full outline-none mb-6 font-bold text-[#0C0E16] border-[#DFE3FA] border-solid border-2 dark:border-none dark:bg-[#1E2139] dark:text-white  rounded-[1px]  text-[15px] px-4 py-2' 
+              name='country'
+              onChange={handleClientAddressChange}  
+              value={formData.clientAddress.country}
                />
           </div>
         </div>
@@ -411,13 +429,13 @@ function InvoiceForm({invoice, handleUpdateInvoice, handleAddList, setShowForm}:
         </div>
 
         <div>
-           <div className='grid grid-cols-3 gap-4 mb-[-1px]'>
+           <div className='grid grid-cols-2 md:grid-cols-3 gap-4 mb-[-1px]'>
               <p className='text-[13px] text-[#7E88C3] mb-4 font-medium dark:text-[#DFE3FA]' >City</p>
               <p className='text-[13px] text-[#7E88C3] mb-4 font-medium dark:text-[#DFE3FA]' >Post Code</p>
-              <p className='text-[13px] text-[#7E88C3] mb-4 font-medium dark:text-[#DFE3FA]' >Country</p>
+              <p className='text-[13px] text-[#7E88C3] mb-4 font-medium dark:text-[#DFE3FA] hidden md:block' >Country</p>
           </div>
 
-          <div className='grid grid-cols-3 gap-4 mb-8'>
+          <div className='grid grid-cols-2 md:grid-cols-3 gap-4 mb-8'>
             <input type="text" 
               className={`w-full outline-none mb-6 font-bold text-[#0C0E16] border-[#DFE3FA] border-solid border-2 dark:border-none dark:bg-[#1E2139] dark:text-white  rounded-[1px]  text-[15px] px-4 py-2`}
               name='city'
@@ -433,6 +451,16 @@ function InvoiceForm({invoice, handleUpdateInvoice, handleAddList, setShowForm}:
               />
 
             <input type="text" 
+              className='w-full outline-none  hidden md:block mb-6 font-bold text-[#0C0E16] border-[#DFE3FA] border-solid border-2 dark:border-none dark:bg-[#1E2139] dark:text-white  rounded-[1px]  text-[15px] px-4 py-2' 
+              name='country'
+              onChange={handleClientAddressChange}  
+              value={formData.clientAddress.country}
+               />
+          </div>
+
+          <div className='block md:hidden'>
+            <p className='text-[13px] text-[#7E88C3] mb-4 font-medium dark:text-[#DFE3FA]' >Country</p>
+            <input type="text" 
               className='w-full outline-none mb-6 font-bold text-[#0C0E16] border-[#DFE3FA] border-solid border-2 dark:border-none dark:bg-[#1E2139] dark:text-white  rounded-[1px]  text-[15px] px-4 py-2' 
               name='country'
               onChange={handleClientAddressChange}  
@@ -440,7 +468,7 @@ function InvoiceForm({invoice, handleUpdateInvoice, handleAddList, setShowForm}:
                />
           </div>
            
-           <div className='flex gap-4 '>
+           <div className='flex md:flex-row flex-col gap-4 '>
 
             <div className={`flex flex-col  gap-4 border w-[100%] relative ${isEditing ? 'opacity-50' : ''}`}>
               <p className='text-[13px]  font-medium text-[#7E88C3] dark:text-[#DFE3FA] ' >
@@ -559,7 +587,7 @@ function InvoiceForm({invoice, handleUpdateInvoice, handleAddList, setShowForm}:
 
           <div className='mb-6 relative'>
             <h1 className='text-[18px] font-bold mb-4 text-[#777F98]'>Item List</h1>
-            <div className='grid grid-cols-[200px_50px_100px_80px_10px] mb-4 gap-5'>
+            <div className='md:grid hidden  grid-cols-[200px_50px_100px_80px_10px] mb-4 gap-5'>
               <p className='text-[13px] font-medium text-[#7E88C3] dark:text-[#DFE3FA]'>Item Name</p>
               <p className='text-[13px] font-medium text-[#7E88C3] dark:text-[#DFE3FA]'>Qty.</p>
               <p className='text-[13px] font-medium text-[#7E88C3] dark:text-[#DFE3FA]'>Price</p>
@@ -567,26 +595,62 @@ function InvoiceForm({invoice, handleUpdateInvoice, handleAddList, setShowForm}:
             </div>
 
          {items.map((item, index) => (
-          <div key={index} className='grid grid-cols-[200px_60px_100px_80px_10px] gap-5 mb-5 items-center'>
+          <div key={index} className='grid grid-cols-1 md:grid-cols-[200px_60px_100px_80px_10px] gap-5 mb-5 items-center'>
+
+            {/* Mobile */}
+            <div className='block md:hidden' >
+              <p className='text-[13px] font-medium text-[#7E88C3] dark:text-[#DFE3FA]'>Item Name</p>
               <input type='text' 
                 className='w-full outline-none  font-bold text-[#0C0E16] border-[#DFE3FA] border-solid border-2 dark:border-none dark:bg-[#1E2139] dark:text-white  rounded-[1px]  text-[15px] px-4 py-2'  
                 value={item.name || ""}
                 onChange={(e) => handleItemChange(index, "name", e.target.value)}
               />
+            </div>
+
+            <div className='flex md:hidden items-center gap-5 justify-center'>
+
+              <label className='text-[13px] font-medium text-[#7E88C3] dark:text-[#DFE3FA]' htmlFor="">Qty.
+                <input type='number' 
+                  className='w-full outline-none  font-bold text-[#0C0E16] border-[#DFE3FA] border-solid border-2 dark:border-none dark:bg-[#1E2139] dark:text-white cursor-auto rounded-[1px]  text-[15px] px-2 py-2'  
+                  value={item.quantity || ""}
+                  onChange={(e) => handleItemChange(index, "quantity", e.target.value)}
+                />
+              </label>
+
+              <label className='text-[13px] font-medium text-[#7E88C3] dark:text-[#DFE3FA]' htmlFor="">Price
+                <input type='number' 
+                  className='w-full  outline-none  font-bold text-[#0C0E16] border-[#DFE3FA] border-solid border-2 dark:border-none dark:bg-[#1E2139] dark:text-white cursor-auto rounded-[1px]  text-[15px] px-2 py-2'  
+                  value={item.price || ""}
+                  onChange={(e) => {handleItemChange(index, "price", e.target.value)}}
+                />
+              </label>
+
+              <label className='text-[13px] font-medium text-[#7E88C3] dark:text-[#DFE3FA]' htmlFor="">Total
+                <p className='font-bold text-[15px] p-2 text-[#888EB0]'>{(item.total || 0).toFixed(2)}</p>
+              </label>
+
+              <i onClick={() => deleteItem(index)} className="fa-solid fa-trash mt-4 text-[#888EB0] hover:text-[#EC5757] cursor-pointer "></i>
+            </div>
+
+              <input type='text' 
+                className='w-full hidden md:block outline-none  font-bold text-[#0C0E16] border-[#DFE3FA] border-solid border-2 dark:border-none dark:bg-[#1E2139] dark:text-white  rounded-[1px]  text-[15px] px-4 py-2'  
+                value={item.name || ""}
+                onChange={(e) => handleItemChange(index, "name", e.target.value)}
+              />
               
               <input type='number' 
-                className='w-full outline-none  font-bold text-[#0C0E16] border-[#DFE3FA] border-solid border-2 dark:border-none dark:bg-[#1E2139] dark:text-white cursor-auto rounded-[1px]  text-[15px] px-2 py-2'  
+                className='w-full hidden md:block outline-none  font-bold text-[#0C0E16] border-[#DFE3FA] border-solid border-2 dark:border-none dark:bg-[#1E2139] dark:text-white cursor-auto rounded-[1px]  text-[15px] px-2 py-2'  
                 value={item.quantity || ""}
                 onChange={(e) => handleItemChange(index, "quantity", e.target.value)}
               />
 
               <input type='number' 
-                className='w-full outline-none  font-bold text-[#0C0E16] border-[#DFE3FA] border-solid border-2 dark:border-none dark:bg-[#1E2139] dark:text-white cursor-auto rounded-[1px]  text-[15px] px-2 py-2'  
+                className='w-full hidden md:block outline-none  font-bold text-[#0C0E16] border-[#DFE3FA] border-solid border-2 dark:border-none dark:bg-[#1E2139] dark:text-white cursor-auto rounded-[1px]  text-[15px] px-2 py-2'  
                 value={item.price || ""}
                 onChange={(e) => {handleItemChange(index, "price", e.target.value)}}
               />
-              <p className='font-bold text-[15px] text-[#888EB0]'>£ {(item.total || 0).toFixed(2)}</p>
-              <i onClick={() => deleteItem(index)} className="fa-solid fa-trash text-[#888EB0] hover:text-[#EC5757] cursor-pointer "></i>
+              <p className='font-bold hidden md:block text-[15px] text-[#888EB0]'>£ {(item.total || 0).toFixed(2)}</p>
+              <i onClick={() => deleteItem(index)} className="fa-solid fa-trash hidden md:block text-[#888EB0] hover:text-[#EC5757] cursor-pointer "></i>
             </div>
          ))}
 
@@ -624,7 +688,7 @@ function InvoiceForm({invoice, handleUpdateInvoice, handleAddList, setShowForm}:
          
         <div>
           {isEditing ? ( 
-            <div className='mt-auto left-[103px] w-[40rem] shadow-[-1px_-9px_20px_0px_#48549F40]'>
+            <div className='mt-auto left-[103px] w-full md:w-[40rem] shadow-[-1px_-9px_20px_0px_#48549F40]'>
               <div className='flex py-[31px] px-[50px]  w-full justify-end  bg-[#FFFFFF] dark:bg-[#1E2139] p-4 gap-3 rounded-br-[12px] rounded-tr-[20px] '>
                 <button 
                   onClick={() => setShowForm(false)} 
@@ -645,21 +709,21 @@ function InvoiceForm({invoice, handleUpdateInvoice, handleAddList, setShowForm}:
             ) : (
               
               <div className='mt-auto left-[88px] w-[full]  shadow-[-1px_-9px_20px_0px_#48549F40] '>
-                <div className='flex py-[31px] px-[50px]  w-full justify-between bg-[#FFFFFF] dark:bg-[#1E2139] p-4   rounded-br-[12px] rounded-tr-[20px] gap-[9rem] '>
+                <div className='flex px-4 py-5 lg:py-[31px] lg:px-[50px]  w-full justify-between bg-[#FFFFFF] dark:bg-[#1E2139]  rounded-br-[12px] rounded-tr-[20px] gap-0 lg:gap-[9rem] '>
                   <button 
                     onClick={() => setShowForm(false)}
-                    className='text-[15px] bg-[#F9FAFE] text-[#7E88C3] dark:bg-[#F9FAFE] dark:text-[#7E88C3] rounded-3xl py-3 px-5 font-bold'>Discard</button>
-                  <div>
+                    className='text-[15px] bg-[#F9FAFE] text-[#7E88C3] dark:bg-[#F9FAFE] dark:text-[#7E88C3] rounded-3xl py-4 px-[12px] font-bold'>Discard</button>
+                  <div className='flex'>
                     <button 
                       onClick={() => handleSaveAsDraft()}
                       type='submit' 
-                      className='bg-[#373B53] dark:bg-[#373B53] dark:text-[#DFE3FA] hover:bg-[#0C0E16] dark:hover:bg-[#1E2139] dark:hover:text-[#DFE3FA] rounded-3xl py-3 px-5 font-bold text-[15px] text-[#888EB0]'
+                      className='bg-[#373B53] dark:bg-[#373B53] dark:text-[#DFE3FA] hover:bg-[#0C0E16] dark:hover:bg-[#1E2139] dark:hover:text-[#DFE3FA] rounded-3xl py-4 px-[12px] font-bold text-[15px] text-[#888EB0]'
                     >
                       Save as Draft
                     </button>
                     <button 
                       type='submit' 
-                      className='text-[15px] text-[#F9FAFE] bg-[#7E88C3] dark:bg-[#7C5DFA] hover:bg-[#9277FF] dark:text-white rounded-3xl py-3 px-5 font-bold ml-[10px]'
+                      className='text-[15px] text-[#F9FAFE] bg-[#7E88C3] dark:bg-[#7C5DFA] hover:bg-[#9277FF] dark:text-white rounded-3xl py-4 px-[12px] font-bold ml-[10px]'
                     >
                       Save and Send
                     </button>
