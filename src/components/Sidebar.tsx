@@ -1,5 +1,6 @@
 import header from '../assets/header.png'
 import profile from '../assets/Profile.png'
+import { useInvoice } from '../contexts/InvoiceContext'
 
 type SidebarProps = {
   darkMode: boolean;
